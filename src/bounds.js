@@ -1,3 +1,5 @@
+export function min(bounds) { return bounds.slice(0, 3) }
+export function max(bounds) { return bounds.slice(3) }
 export function mid([minx, miny, minz, maxx, maxy, maxz]) {
     return [
         minx + (maxx - minx) / 2,
@@ -42,6 +44,7 @@ export function stepTo(rootBounds, [depth, x, y, z]) {
     return bounds
 }
 
+// Applicable for ECEF bounds only.
 export function boxify(bounds) {
     const [midx, midy, midz] = mid(bounds)
     const radius = midx - bounds[0]
@@ -50,5 +53,17 @@ export function boxify(bounds) {
         radius, 0, 0,
         0, radius, 0,
         0, 0, radius
+    ]
+}
+
+// Applicable for WGS84 bounds only.
+export function regionify([minx, miny, minz, maxx, maxy, maxz]) {
+    return [
+        minx * Math.PI / 180,
+        miny * Math.PI / 180,
+        maxx * Math.PI / 180,
+        maxy * Math.PI / 180,
+        minz,
+        maxz
     ]
 }

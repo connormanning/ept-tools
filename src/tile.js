@@ -2,15 +2,19 @@ import * as Bounds from './bounds'
 import * as Constants from './constants'
 import * as Hierarchy from './hierarchy'
 import * as Key from './key'
+import * as Srs from './srs'
 
 export function translate({ key, hierarchy, ept }) {
+    const { bounds: rootBounds, srs } = ept
     const rootGeometricError =
-        (ept.bounds[3] - ept.bounds[0]) / Constants.geometricErrorDivisor
+        (rootBounds[3] - rootBounds[0]) / Constants.geometricErrorDivisor
     const geometricError = rootGeometricError / Math.pow(2, Key.depth(key))
-    const rootBounds = ept.bounds
     const bounds = Bounds.stepTo(rootBounds, key)
 
+    const srsCodeString = Srs.codeString(srs)
+
     const root = Hierarchy.translate({
+        srsCodeString,
         hierarchy,
         bounds,
         key,

@@ -4,6 +4,7 @@ import * as Bounds from './bounds'
 import * as Key from './key'
 import * as Pnts from './pnts'
 import * as Schema from './schema'
+import * as Srs from './srs'
 import * as Tile from './tile'
 import * as Util from './util'
 
@@ -13,7 +14,11 @@ export async function translate(filename) {
     const [root, extension] = tilename.split('.')
 
     const ept = await Util.getJson(path.join(eptRoot, 'ept.json'))
-    const { bounds: eptBounds, schema, dataType } = ept
+    const { bounds: eptBounds, schema, dataType, srs } = ept
+
+    if (!Srs.codeString(srs)) {
+        throw new Error('EPT `srs` is required for conversion')
+    }
 
     if (dataType !== 'binary') {
         throw new Error('Only EPT dataType of `binary` is currently supported')

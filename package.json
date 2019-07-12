@@ -6,7 +6,7 @@
   "repository": "github:connormanning/ept-tools",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon --exec babel-node --delay 200ms --watch . --ignore test -I server.js",
+    "start": "nodemon --exec babel-node --delay 200ms --watch . --ignore test -I src/server.js",
     "test": "jest"
   },
   "author": "Connor Manning",
@@ -16,6 +16,7 @@
     "babel-loader": "^8.0.6",
     "cors": "^2.8.5",
     "express": "^4.17.1",
+    "proj4": "^2.5.0",
     "yargs": "^13.2.4"
   },
   "devDependencies": {

@@ -3,10 +3,23 @@ import _ from 'lodash'
 import * as Binary from './binary'
 import * as Bounds from './bounds'
 import * as Constants from './constants'
+import * as Proj from './proj'
 import * as Schema from './schema'
+import * as Srs from './srs'
 import * as Util from './util'
 
-export function buildFeatureTableMetadata({ options = { }, bounds, points }) {
+export function buildFeatureTableMetadata({
+    ept,
+    options = { },
+    bounds: nativeBounds,
+    points
+}) {
+    const srsCodeString = Srs.codeString(ept.srs)
+    const toEcef = Proj.ecefConverter(srsCodeString)
+
+    const bounds = toEcef(Bounds.min(nativeBounds))
+        .concat(toEcef(Bounds.max(nativeBounds)))
+
     const table = {
         RTC_CENTER: Bounds.mid(bounds),
         POINTS_LENGTH: points,
@@ -28,15 +41,15 @@ export function buildFeatureTableMetadata({ options = { }, bounds, points }) {
     return table
 }
 
-export function buildFeatureTableString({ options = { }, bounds, points }) {
-    return buildFeatureTableMetadata({ options, bounds, points })
+export function buildFeatureTableString({ ept, options = { }, bounds, points }) {
+    return buildFeatureTableMetadata({ ept, options, bounds, points })
         |> JSON.stringify
         |> (v => Util.padRight(v, 8))
 }
 
-export function buildHeader({ options = { }, bounds, points }) {
+export function buildHeader({ ept, options = { }, bounds, points }) {
     const featureTableString =
-        buildFeatureTableString({ options, bounds,  points })
+        buildFeatureTableString({ ept, options, bounds,  points })
 
     const featureTableStringSize = featureTableString.length
     const featureTableBinarySize = (
@@ -65,20 +78,34 @@ export function buildHeader({ options = { }, bounds, points }) {
     return output
 }
 
-export function buildXyz({ ept, bounds, points, buffer }) {
+export function buildXyz({ ept, options, bounds: nativeBounds, points, buffer }) {
+    const { schema, srs } = ept
+
     const output = Buffer.alloc(points * Constants.pntsXyzSize)
-    const extractors = ['X', 'Y', 'Z']
-        .map(v => Binary.getExtractor(ept.schema, v))
+    const extractors = ['X', 'Y', 'Z'].map(v => Binary.getExtractor(schema, v))
+
+    const srsCodeString = Srs.codeString(srs)
+    const toEcef = Proj.ecefConverter(srsCodeString)
+
+    const bounds = toEcef(Bounds.min(nativeBounds))
+        .concat(toEcef(Bounds.max(nativeBounds)))
     const mid = Bounds.mid(bounds)
 
     let point = 0
+    let xyz = [0, 0, 0]
+
     for (let o = 0; o < output.length; o += Constants.pntsXyzSize) {
-        extractors.forEach((extract, i) => {
-            output.writeFloatLE(
-                extract(buffer, point) - mid[i],
-                o + i * 4
-            )
-        })
+        // TODO: Consolidate.
+        xyz[0] = extractors[0](buffer, point)
+        xyz[1] = extractors[1](buffer, point)
+        xyz[2] = extractors[2](buffer, point)
+
+        xyz = toEcef(xyz)
+
+        output.writeFloatLE(xyz[0] - mid[0], o)
+        output.writeFloatLE(xyz[1] - mid[1], o + 4)
+        output.writeFloatLE(xyz[2] - mid[2], o + 8)
+
         ++point
     }
     return output
@@ -115,9 +142,9 @@ export function translate({ ept, options = { }, bounds, points, buffer }) {
     // TODO: Would be easy to pre-calculate the total size, allocate a single
     // Buffer, and shallowly `slice` it into these builder functions to avoid
     // multiple allocations.
-    const header = buildHeader({ options, bounds, points })
+    const header = buildHeader({ ept, options, bounds, points })
     const featureTableMetadata = Buffer.from(
-        buildFeatureTableString({ options, bounds, points }),
+        buildFeatureTableString({ ept, options, bounds, points }),
         'ascii'
     )
     const featureTable =

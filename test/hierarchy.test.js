@@ -1,6 +1,28 @@
 import * as Bounds from '../src/bounds'
 import * as Hierarchy from '../src/hierarchy'
 
+const srsCodeString = 'EPSG:4978'
+
+test('translates a UTM hierarchy', async () => {
+    const nycUtm = [580735.9001774283, 4504694.970845929, 0]
+    const nycWgs84 = [-74.0444996762243, 40.68919824733844, 0]
+    const nycEcef = [1331340.714375315, -4656583.46257742, 4136313.2510571736]
+
+    const hierarchy = { '0-0-0-0': 1 }
+    const bounds = nycUtm.map(v => v - 1).concat(nycUtm.map(v => v + 1))
+    const key = [0, 0, 0, 0]
+    const geometricError = 100
+    const srsCodeString = 'EPSG:26918'
+
+    const root = Hierarchy.translate({
+        srsCodeString,
+        hierarchy,
+        bounds,
+        key,
+        geometricError
+    })
+})
+
 test('translates a hierarchy', async () => {
     const hierarchy = {
         '0-0-0-0': 999,
@@ -13,6 +35,7 @@ test('translates a hierarchy', async () => {
     const geometricError = 100
 
     const root = Hierarchy.translate({
+        srsCodeString,
         hierarchy,
         bounds,
         key,
@@ -79,6 +102,7 @@ test('translate a non-root hierarchy', () => {
     const geometricError = 100
 
     const node = Hierarchy.translate({
+        srsCodeString,
         hierarchy,
         bounds,
         key,

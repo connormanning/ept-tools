@@ -2,10 +2,13 @@ import * as Bounds from '../src/bounds'
 import * as Constants from '../src/constants'
 import * as Pnts from '../src/pnts'
 import * as Schema from '../src/schema'
+import * as Srs from '../src/srs'
 import * as Util from '../src/util'
 
+const srs = Srs.create('EPSG:4978')
+
 test('feature table metadata', () => {
-    const ept = { schema: [] }
+    const ept = { srs, schema: [] }
     const points = 42
     const bounds = [0, 0, 0, 10, 10, 10]
     expect(Pnts.buildFeatureTableMetadata({ ept, bounds, points })).toEqual({
@@ -16,7 +19,7 @@ test('feature table metadata', () => {
 })
 
 test('basic header', () => {
-    const ept = { schema: [] }
+    const ept = { srs, schema: [] }
     const points = 42
     const bounds = [0, 0, 0, 10, 10, 10]
     const header = Pnts.buildHeader({ ept, bounds, points })
@@ -51,6 +54,7 @@ test('basic header', () => {
 
 test('header with color', () => {
     const ept = {
+        srs,
         schema: [
             { name: 'X', type: 'float', size: 8 },
             { name: 'Y', type: 'float', size: 8 },
@@ -100,6 +104,7 @@ test('header with color', () => {
 
 test('basic feature table', () => {
     const ept = {
+        srs,
         schema: [
             { name: 'X', type: 'float', size: 8 },
             { name: 'Y', type: 'float', size: 8 },
@@ -139,6 +144,7 @@ test('basic feature table', () => {
 
 test('feature table with color', () => {
     const ept = {
+        srs,
         schema: [
             { name: 'X', type: 'float', size: 8 },
             { name: 'Y', type: 'float', size: 8 },

@@ -1,14 +1,16 @@
 import * as Bounds from '../src/bounds'
 import * as Constants from '../src/constants'
 import * as Key from '../src/key'
+import * as Srs from '../src/srs'
 import * as Tile from '../src/tile'
 
 const geometricErrorDivisor = Constants.geometricErrorDivisor
+const srs = Srs.create('EPSG:4978')
 
 test('basic root tile transformation', () => {
     const key = Key.create()
     const hierarchy = { '0-0-0-0': 1000 }
-    const ept = { bounds: [0, 0, 0, 10, 10, 10] }
+    const ept = { srs, bounds: [0, 0, 0, 10, 10, 10] }
 
     const tile = Tile.translate({ key, ept, hierarchy })
     expect(tile).toEqual({
@@ -29,7 +31,7 @@ test('truncated root tile transformation', () => {
         '0-0-0-0': 1000,
         '1-1-1-1': -1
     }
-    const ept = { bounds: [0, 0, 0, 10, 10, 10] }
+    const ept = { srs, bounds: [0, 0, 0, 10, 10, 10] }
     const rootGeometricError = Bounds.width(ept.bounds) / geometricErrorDivisor
 
     const tile = Tile.translate({ key, ept, hierarchy })
@@ -61,7 +63,7 @@ test('subtree tile transformation', () => {
         '2-2-2-2': 2,
         '3-4-4-4': -1
     }
-    const ept = { bounds: [0, 0, 0, 20, 20, 20] }
+    const ept = { srs, bounds: [0, 0, 0, 20, 20, 20] }
     const rootGeometricError = Bounds.width(ept.bounds) / geometricErrorDivisor
 
     const tile = Tile.translate({ key, ept, hierarchy })
