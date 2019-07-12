@@ -23,7 +23,7 @@ function expectCloseArray(a, b, digits) {
     }
 }
 
-test('magnitudes WGS84', () => {
+test('translates Z properly from WGS84', () => {
     const wgs84ToEcef = Proj.ecefConverter(wgs84Code)
     const min = nycWgs84.slice(0, 2).concat(-50)
     const max = nycWgs84.slice(0, 2).concat(50)
@@ -34,7 +34,7 @@ test('magnitudes WGS84', () => {
     expect(magnitude(ecefMax) - magnitude(ecefMin)).toBeCloseTo(100)
 })
 
-test('magnitudes UTM', () => {
+test('translates Z properly from UTM', () => {
     const utmToEcef = Proj.ecefConverter(nycUtmCode)
     const min = nycUtm.slice(0, 2).concat(-50)
     const max = nycUtm.slice(0, 2).concat(50)

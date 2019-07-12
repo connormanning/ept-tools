@@ -7,6 +7,7 @@ import * as Schema from './schema'
 import * as Srs from './srs'
 import * as Tile from './tile'
 import * as Util from './util'
+import * as Zstandard from './zstandard'
 
 export async function translate(filename) {
     const eptRoot = Util.dirname(filename)
@@ -17,11 +18,12 @@ export async function translate(filename) {
     const { bounds: eptBounds, schema, dataType, srs } = ept
 
     if (!Srs.codeString(srs)) {
-        throw new Error('EPT `srs` is required for conversion')
+        throw new Error('EPT SRS code is required for conversion')
     }
 
-    if (dataType !== 'binary') {
-        throw new Error('Only EPT dataType of `binary` is currently supported')
+    const dataExtension = { binary: 'bin', zstandard: 'zst' }[dataType]
+    if (!dataExtension) {
+        throw new Error(`EPT data type ${dataType} is not supported`)
     }
 
     if (root === 'tileset') {
@@ -45,15 +47,22 @@ export async function translate(filename) {
         return Tile.translate({ key, ept, hierarchy })
     }
     else if (extension === 'pnts') {
-        const buffer = await Util.getBuffer(
-            path.join(eptRoot, 'ept-data', Key.stringify(key) + '.bin')
+        let buffer = await Util.getBuffer(
+            path.join(
+                eptRoot,
+                'ept-data',
+                Key.stringify(key) + `.${dataExtension}`
+            )
         )
+
+        if (dataType === 'zstandard') {
+            buffer = await Zstandard.decompress(buffer)
+        }
 
         const options = {
             color: Schema.has(schema, 'Red'),
-            normals: false
             // TODO: Normals are not yet supported.
-            // normals: Schema.has(schema, 'NormalX')
+            normals: false // Schema.has(schema, 'NormalX')
         }
 
         const points = buffer.length / Schema.pointSize(schema)

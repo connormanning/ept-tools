@@ -18,6 +18,14 @@ export function height(bounds) {
     return bounds[5] - bounds[2]
 }
 
+export function contains([minx, miny, minz, maxx, maxy, maxz], [x, y, z]) {
+    return (
+        x >= minx && x < maxx &&
+        y >= miny && y < maxy &&
+        z >= minz && z < maxz
+    )
+}
+
 export function step(bounds, [a, b, c]) {
     const [minx, miny, minz, maxx, maxy, maxz] = bounds
     const [midx, midy, midz] = mid(bounds)

@@ -95,17 +95,8 @@ export function buildXyz({ ept, options, bounds: nativeBounds, points, buffer })
     let xyz = [0, 0, 0]
 
     for (let o = 0; o < output.length; o += Constants.pntsXyzSize) {
-        // TODO: Consolidate.
-        xyz[0] = extractors[0](buffer, point)
-        xyz[1] = extractors[1](buffer, point)
-        xyz[2] = extractors[2](buffer, point)
-
-        xyz = toEcef(xyz)
-
-        output.writeFloatLE(xyz[0] - mid[0], o)
-        output.writeFloatLE(xyz[1] - mid[1], o + 4)
-        output.writeFloatLE(xyz[2] - mid[2], o + 8)
-
+        toEcef(extractors.map(v => v(buffer, point)))
+            .forEach((v, i) => output.writeFloatLE(v - mid[i], o + i * 4))
         ++point
     }
     return output

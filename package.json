@@ -17,7 +17,8 @@
     "cors": "^2.8.5",
     "express": "^4.17.1",
     "proj4": "^2.5.0",
-    "yargs": "^13.2.4"
+    "yargs": "^13.2.4",
+    "zstd-codec": "^0.1.1"
   },
   "devDependencies": {
     "@babel/cli": "^7.5.0",
