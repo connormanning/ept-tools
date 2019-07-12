@@ -1,4 +1,4 @@
-import * as Util from '../util'
+import * as Util from '../src/util'
 
 test('pop slash', () => {
     expect(Util.popSlash('a')).toEqual('a')

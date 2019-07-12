@@ -1,5 +1,5 @@
-import * as Bounds from '../bounds'
-import * as Hierarchy from '../hierarchy'
+import * as Bounds from '../src/bounds'
+import * as Hierarchy from '../src/hierarchy'
 
 test('translates a hierarchy', async () => {
     const hierarchy = {
@@ -12,11 +12,11 @@ test('translates a hierarchy', async () => {
     const key = [0, 0, 0, 0]
     const geometricError = 100
 
-    const root = Hierarchy.translate({ 
+    const root = Hierarchy.translate({
         hierarchy,
         bounds,
         key,
-        geometricError 
+        geometricError
     })
 
     expect(root).toMatchObject({
@@ -34,7 +34,7 @@ test('translates a hierarchy', async () => {
 
     expect(node1000).toMatchObject({
         content: { uri: '1-0-0-0.pnts' },
-        boundingVolume: { 
+        boundingVolume: {
             box: bounds
                 |> (v => Bounds.step(v, [0, 0, 0]))
                 |> Bounds.boxify
@@ -44,7 +44,7 @@ test('translates a hierarchy', async () => {
 
     expect(node1001).toMatchObject({
         content: { uri: '1-0-0-1.pnts' },
-        boundingVolume: { 
+        boundingVolume: {
             box: bounds
                 |> (v => Bounds.step(v, [0, 0, 1]))
                 |> Bounds.boxify
@@ -58,7 +58,7 @@ test('translates a hierarchy', async () => {
 
     expect(leaf).toMatchObject({
         content: { uri: '2-0-0-0.json' },
-        boundingVolume: { 
+        boundingVolume: {
             box: bounds
                 |> (v => Bounds.step(v, [0, 0, 0]))
                 |> (v => Bounds.step(v, [0, 0, 0]))
@@ -78,11 +78,11 @@ test('translate a non-root hierarchy', () => {
     const key = [1, 0, 0, 0]
     const geometricError = 100
 
-    const node = Hierarchy.translate({ 
+    const node = Hierarchy.translate({
         hierarchy,
         bounds,
         key,
-        geometricError 
+        geometricError
     })
 
     expect(node).toEqual({
@@ -92,16 +92,16 @@ test('translate a non-root hierarchy', () => {
         children: [{
             content: { uri: '2-0-0-0.pnts' },
             geometricError: 50,
-            boundingVolume: { 
-                box: bounds 
+            boundingVolume: {
+                box: bounds
                     |> (v => Bounds.step(v, [0, 0, 0]))
                     |> Bounds.boxify
             },
             children: [{
                 content: { uri: '3-0-0-0.json' },
                 geometricError: 25,
-                boundingVolume: { 
-                    box: bounds 
+                boundingVolume: {
+                    box: bounds
                         |> (v => Bounds.step(v, [0, 0, 0]))
                         |> (v => Bounds.step(v, [0, 0, 0]))
                         |> Bounds.boxify

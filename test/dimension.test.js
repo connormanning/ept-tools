@@ -1,4 +1,4 @@
-import * as Dimension from '../dimension'
+import * as Dimension from '../src/dimension'
 
 test('extract type string', () => {
     const ts = Dimension.typeString

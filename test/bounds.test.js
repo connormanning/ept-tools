@@ -1,4 +1,4 @@
-import * as Bounds from '../bounds'
+import * as Bounds from '../src/bounds'
 
 test('calculates a midpoint', () => {
     expect(Bounds.mid([0, 0, 0, 2, 4, 6])).toEqual([1, 2, 3])

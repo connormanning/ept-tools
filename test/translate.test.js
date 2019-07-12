@@ -1,7 +1,7 @@
 import path from 'path'
 
-import * as Constants from '../constants'
-import * as Translate from '../translate'
+import * as Constants from '../src/constants'
+import * as Translate from '../src/translate'
 
 const ellipsoid = path.join(__dirname, 'data/ellipsoid-binary-ecef')
 

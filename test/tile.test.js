@@ -1,7 +1,7 @@
-import * as Bounds from '../bounds'
-import * as Constants from '../constants'
-import * as Key from '../key'
-import * as Tile from '../tile'
+import * as Bounds from '../src/bounds'
+import * as Constants from '../src/constants'
+import * as Key from '../src/key'
+import * as Tile from '../src/tile'
 
 const geometricErrorDivisor = Constants.geometricErrorDivisor
 

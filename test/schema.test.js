@@ -1,4 +1,4 @@
-import * as Schema from '../schema'
+import * as Schema from '../src/schema'
 
 const x = { name: 'X', type: 'double', size: 8 }
 const y = { name: 'Y', type: 'signed', size: 4, scale: 0.01, offset: 100 }

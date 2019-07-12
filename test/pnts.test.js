@@ -1,9 +1,8 @@
-import * as Bounds from '../bounds'
-import * as Constants from '../constants'
-import * as Pnts from '../pnts'
-import * as Schema from '../schema'
-import * as Util from '../util'
-import { fdatasyncSync } from 'fs';
+import * as Bounds from '../src/bounds'
+import * as Constants from '../src/constants'
+import * as Pnts from '../src/pnts'
+import * as Schema from '../src/schema'
+import * as Util from '../src/util'
 
 test('feature table metadata', () => {
     const ept = { schema: [] }
@@ -14,7 +13,6 @@ test('feature table metadata', () => {
         POINTS_LENGTH: points,
         POSITION: { byteOffset: 0 }
     })
-    fdatasyncSync
 })
 
 test('basic header', () => {

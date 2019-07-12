@@ -1,4 +1,4 @@
-import * as Key from '../key'
+import * as Key from '../src/key'
 
 test('sanely constructs keys', () => {
     expect(Key.create()).toEqual([0, 0, 0, 0])

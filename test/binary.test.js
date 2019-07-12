@@ -1,5 +1,5 @@
-import * as Binary from '../binary'
-import * as Schema from '../schema'
+import * as Binary from '../src/binary'
+import * as Schema from '../src/schema'
 
 test('extracts values', () => {
     const points = 10
