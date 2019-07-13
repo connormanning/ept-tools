@@ -9,6 +9,8 @@ import yargs from 'yargs'
 import * as Translate from './translate'
 import * as Util from './util'
 
+process.title = 'ept-tools'
+
 const {
     root = process.env.ROOT,
     port = process.env.PORT || 3000
