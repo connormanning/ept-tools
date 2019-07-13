@@ -2,6 +2,7 @@ import path from 'path'
 
 import * as Bounds from './bounds'
 import * as Key from './key'
+import * as Laszip from './laszip'
 import * as Pnts from './pnts'
 import * as Schema from './schema'
 import * as Srs from './srs'
@@ -21,7 +22,12 @@ export async function translate(filename) {
         throw new Error('EPT SRS code is required for conversion')
     }
 
-    const dataExtension = { binary: 'bin', zstandard: 'zst' }[dataType]
+    const dataExtension = {
+        binary: 'bin',
+        laszip: 'laz',
+        zstandard: 'zst',
+    }[dataType]
+
     if (!dataExtension) {
         throw new Error(`EPT data type ${dataType} is not supported`)
     }
@@ -57,6 +63,9 @@ export async function translate(filename) {
 
         if (dataType === 'zstandard') {
             buffer = await Zstandard.decompress(buffer)
+        }
+        else if (dataType === 'laszip') {
+            buffer = await Laszip.decompress(buffer, ept)
         }
 
         const options = {

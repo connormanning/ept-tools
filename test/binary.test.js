@@ -1,7 +1,7 @@
 import * as Binary from '../src/binary'
 import * as Schema from '../src/schema'
 
-test('extracts values', () => {
+test('writes and extracts values according to a schema', () => {
     const points = 10
     const scaleC = 0.01
     const offsetC = 42
@@ -13,10 +13,14 @@ test('extracts values', () => {
     const pointSize = Schema.pointSize(schema)
     const buffer = Buffer.alloc(points * pointSize)
 
+    const writeA = Binary.getWriter(schema, 'A')
+    const writeB = Binary.getWriter(schema, 'B')
+    const writeC = Binary.getWriter(schema, 'C')
+
     for (let i = 0; i < points; ++i) {
-        buffer.writeDoubleLE(100 + i, i * pointSize)
-        buffer.writeFloatLE(200 + i, i * pointSize + 8)
-        buffer.writeInt16LE(((300 + i) - offsetC) / scaleC, i * pointSize + 12)
+        writeA(buffer, 100 + i, i)
+        writeB(buffer, 200 + i, i)
+        writeC(buffer, 300 + i, i)
     }
 
     const extractA = Binary.getExtractor(schema, 'A')

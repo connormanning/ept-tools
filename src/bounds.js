@@ -66,6 +66,7 @@ export function boxify(bounds) {
 
 // Applicable for WGS84 bounds only.
 export function regionify([minx, miny, minz, maxx, maxy, maxz]) {
+    // https://git.io/fjXUz
     return [
         minx * Math.PI / 180,
         miny * Math.PI / 180,

@@ -1,30 +1,30 @@
 import path from 'path'
-import util from 'util'
 
-import { ZstdCodec } from 'zstd-codec'
+import Module from '../src/lib/laz-perf.asm'
 
 import * as Binary from '../src/binary'
 import * as Bounds from '../src/bounds'
+import * as Laszip from '../src/laszip'
 import * as Schema from '../src/schema'
 import * as Util from '../src/util'
-import * as Zstandard from '../src/zstandard'
 
-const base = path.join(__dirname, 'data/ellipsoid-zstandard-utm')
+const base = path.join(__dirname, 'data/ellipsoid-laszip-utm')
 
-test('can be decompressed', async () => {
+test('laszip', async () => {
     const ept = await Util.getJson(path.join(base, 'ept.json'))
-
-    const root = path.join(base, 'ept-data/0-0-0-0.zst')
-    const buffer = await Zstandard.decompress(await Util.getBuffer(root))
-    expect(buffer).toBeInstanceOf(Buffer)
-
     const { schema, bounds, points } = ept
+
+    const root = path.join(base, 'ept-data/0-0-0-0.laz')
+    const compressed = await Util.getBuffer(root)
+    const buffer = await Laszip.decompress(compressed, ept)
+
     const pointSize = Schema.pointSize(schema)
     expect(buffer.length / pointSize).toBe(points)
 
     const extractors = ['X', 'Y', 'Z'].map(v => Binary.getExtractor(schema, v))
 
     const first = extractors.map(extract => extract(buffer, 0))
+    expect(Bounds.mid(bounds)).not.toEqual(first)
     expect(Bounds.contains(bounds, first)).toBe(true)
 
     const last = extractors.map(extract => extract(buffer, points - 1))
