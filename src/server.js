@@ -6,6 +6,7 @@ import util from 'util'
 import yargs from 'yargs'
 
 import * as Translate from './translate'
+import * as Util from './util'
 
 const {
     root,
@@ -23,7 +24,7 @@ const {
         const { filename } = req.params
 
         try {
-            const fullPath = path.join(root, filename)
+            const fullPath = Util.protojoin(root, filename)
             const body = await Translate.translate(fullPath)
             return res.send(body)
         }

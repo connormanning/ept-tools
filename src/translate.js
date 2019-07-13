@@ -15,7 +15,7 @@ export async function translate(filename) {
     const tilename = Util.basename(filename)
     const [root, extension] = tilename.split('.')
 
-    const ept = await Util.getJson(path.join(eptRoot, 'ept.json'))
+    const ept = await Util.getJson(Util.protojoin(eptRoot, 'ept.json'))
     const { bounds: eptBounds, schema, dataType, srs } = ept
 
     if (!Srs.codeString(srs)) {
@@ -39,7 +39,11 @@ export async function translate(filename) {
 
         const key = Key.create()
         const hierarchy = await Util.getJson(
-            path.join(eptRoot, 'ept-hierarchy', Key.stringify(key) + '.json')
+            Util.protojoin(
+                eptRoot,
+                'ept-hierarchy',
+                Key.stringify(key) + '.json'
+            )
         )
         return Tile.translate({ key, ept, hierarchy })
     }
@@ -48,13 +52,17 @@ export async function translate(filename) {
 
     if (extension === 'json') {
         const hierarchy = await Util.getJson(
-            path.join(eptRoot, 'ept-hierarchy', Key.stringify(key) + '.json')
+            Util.protojoin(
+                eptRoot,
+                'ept-hierarchy',
+                Key.stringify(key) + '.json'
+            )
         )
         return Tile.translate({ key, ept, hierarchy })
     }
     else if (extension === 'pnts') {
         let buffer = await Util.getBuffer(
-            path.join(
+            Util.protojoin(
                 eptRoot,
                 'ept-data',
                 Key.stringify(key) + `.${dataExtension}`

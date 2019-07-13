@@ -67,11 +67,13 @@ export async function decompress(compressed, ept) {
         )
     }, [])
 
-    const readers = ['X', 'Y', 'Z', 'Red', 'Green', 'Blue']
-        .map(name => extractors[name])
+    let dimensions = ['X', 'Y', 'Z']
+    if (Schema.has(schema, 'Red')) {
+        dimensions = dimensions.concat(['Red', 'Green', 'Blue'])
+    }
 
-    const writers = ['X', 'Y', 'Z', 'Red', 'Green', 'Blue']
-        .map(name => Binary.getWriter(schema, name))
+    const readers = dimensions.map(name => extractors[name])
+    const writers = dimensions.map(name => Binary.getWriter(schema, name))
 
     const output = Buffer.alloc(points * Schema.pointSize(schema))
 
@@ -86,6 +88,8 @@ export async function decompress(compressed, ept) {
     }
     Module._free(dataPointer)
     Module._free(filePointer)
+    module.delete()
+    // Module._destroy(module)
 
     return output
 }
