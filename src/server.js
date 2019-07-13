@@ -9,8 +9,8 @@ import * as Translate from './translate'
 import * as Util from './util'
 
 const {
-    root,
-    port = 3000
+    root = process.env.ROOT,
+    port = process.env.PORT || 3000
 } = yargs.argv
 
 ;(async () => {
