@@ -1,6 +1,7 @@
 import cors from 'cors'
 import express from 'express'
 import http from 'http'
+import morgan from 'morgan'
 import path from 'path'
 import util from 'util'
 import yargs from 'yargs'
@@ -19,6 +20,7 @@ const {
 
     const app = express()
     app.use(cors())
+    app.use(morgan('dev'))
 
     app.get('/:filename(*)', async (req, res) => {
         const { filename } = req.params
@@ -29,8 +31,9 @@ const {
             return res.send(body)
         }
         catch (e) {
-            console.log('Caught during', filename, e)
-            return res.status(500).send(e.message)
+            return res
+                .status(e.statusCode || 500)
+                .send(e.message || 'Unknown error')
         }
     })
 
