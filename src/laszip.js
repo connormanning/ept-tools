@@ -50,38 +50,59 @@ function readHeader(buffer) {
 
 export async function decompress(compressed, ept) {
     const header = readHeader(compressed)
-    const { points, pointSize } = header
+    const { points, pointSize, scale, offset } = header
 
     const module = new Module.LASZip()
     const filePointer = Module._malloc(compressed.length)
     Module.HEAPU8.set(compressed, filePointer)
     module.open(filePointer, compressed.byteLength)
 
-    // Leave the XYZ in its scaled form when we write to our binary buffer,
-    // it will be unscaled properly during extraction.
-    const schema = ept.schema.reduce((schema, dimension) => {
+    const xyz = ['X', 'Y', 'Z']
+
+    const { schema } = ept
+    const schemaScale = xyz.map(name => Schema.find(schema, name).scale)
+    const schemaOffset = xyz.map(name => Schema.find(schema, name).offset)
+    const absoluteSchema = schema.reduce((schema, dimension) => {
         return schema.concat(
-            ['X', 'Y', 'Z'].includes(dimension.name)
+            xyz.includes(dimension.name)
                 ? _.omit(dimension, ['scale', 'offset'])
                 : dimension
         )
     }, [])
 
-    let dimensions = ['X', 'Y', 'Z']
+    let dimensions = xyz.slice()
     if (Schema.has(schema, 'Red')) {
         dimensions = dimensions.concat(['Red', 'Green', 'Blue'])
     }
 
-    const readers = dimensions.map(name => extractors[name])
-    const writers = dimensions.map(name => Binary.getWriter(schema, name))
+    const readers = dimensions.map((name, i) => {
+        if (i < 3) {
+            if (
+                _.isEqual(scale, schemaScale) &&
+                _.isEqual(offset, schemaOffset)
+            ) {
+                return extractors[name]
+            }
 
-    const output = Buffer.alloc(points * Schema.pointSize(schema))
+            // If the LAZ scale/offset are different than the schema scale
+            // offset, convert them to match the schema.
+            return v => {
+                const absolute = extractors[name](v) * scale[i] + offset[i]
+                return (absolute - schemaOffset[i]) / scale[i]
+            }
+        }
+        return extractors[name]
+    })
+    const writers = dimensions
+        .map(name => Binary.getWriter(absoluteSchema, name))
+
+    const output = Buffer.allocUnsafe(points * Schema.pointSize(schema))
 
     const dataPointer = Module._malloc(pointSize)
     const point = Buffer.from(Module.HEAPU8.buffer, dataPointer, pointSize)
 
     // For now we're only going to read XYZ and RGB and we'll wastefully leave
-    // the other attributes allocated and zero-filled.
+    // the other attributes allocated.
     for (var p = 0 ; p < points; ++p) {
         module.getPoint(dataPointer)
         readers.forEach((read, i) => writers[i](output, read(point), p))
@@ -89,7 +110,6 @@ export async function decompress(compressed, ept) {
     Module._free(dataPointer)
     Module._free(filePointer)
     module.delete()
-    // Module._destroy(module)
 
     return output
 }

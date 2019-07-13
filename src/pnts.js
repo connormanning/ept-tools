@@ -67,7 +67,7 @@ export function buildHeader({ ept, options = { }, bounds, points }) {
     )
 
     // https://git.io/fjP8k
-    const output = Buffer.alloc(Constants.pntsHeaderSize)
+    const output = Buffer.allocUnsafe(Constants.pntsHeaderSize)
     output.write(Constants.pntsMagic, 0, 'ascii')
     output.writeUInt32LE(Constants.pntsVersion, 4)
     output.writeUInt32LE(totalSize, 8)
@@ -81,7 +81,7 @@ export function buildHeader({ ept, options = { }, bounds, points }) {
 export function buildXyz({ ept, options, bounds: nativeBounds, points, buffer }) {
     const { schema, srs } = ept
 
-    const output = Buffer.alloc(points * Constants.pntsXyzSize)
+    const output = Buffer.allocUnsafe(points * Constants.pntsXyzSize)
     const extractors = ['X', 'Y', 'Z'].map(v => Binary.getExtractor(schema, v))
 
     const srsCodeString = Srs.codeString(srs)
@@ -92,8 +92,6 @@ export function buildXyz({ ept, options, bounds: nativeBounds, points, buffer })
     const mid = Bounds.mid(bounds)
 
     let point = 0
-    let xyz = [0, 0, 0]
-
     for (let o = 0; o < output.length; o += Constants.pntsXyzSize) {
         toEcef(extractors.map(v => v(buffer, point)))
             .forEach((v, i) => output.writeFloatLE(v - mid[i], o + i * 4))
@@ -103,7 +101,7 @@ export function buildXyz({ ept, options, bounds: nativeBounds, points, buffer })
 }
 
 export function buildRgb({ ept, points, buffer }) {
-    const output = Buffer.alloc(points * Constants.pntsRgbSize)
+    const output = Buffer.allocUnsafe(points * Constants.pntsRgbSize)
     const extractors = ['Red', 'Green', 'Blue']
         .map(v => Binary.getExtractor(ept.schema, v))
     let point = 0
