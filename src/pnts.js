@@ -100,7 +100,41 @@ export function buildXyz({ ept, options, bounds: nativeBounds, points, buffer })
     return output
 }
 
-export function buildRgb({ ept, points, buffer }) {
+export function buildRgbFromIntensity({ ept, points, buffer }) {
+    const output = Buffer.allocUnsafe(points * Constants.pntsRgbSize)
+    const extract = Binary.getExtractor(ept.schema, 'Intensity')
+
+    let truncate = false
+    const intensities = new Array(points)
+    for (let point = 0; point < points; ++point) {
+        intensities[point] = extract(buffer, point)
+        if (intensities[point] > 255) truncate = true
+    }
+
+
+    if (truncate) {
+        for (let point = 0; point < points; ++point) {
+            if (intensities[point] > 255) intensities[point] = 255
+        }
+    }
+
+    let point = 0
+    let intensity = 0
+    for (let o = 0; o < output.length; o += Constants.pntsRgbSize) {
+        intensity = intensities[point]
+        output.writeUInt8(intensity, o)
+        output.writeUInt8(intensity, o + 1)
+        output.writeUInt8(intensity, o + 2)
+        ++point
+    }
+    return output
+}
+
+export function buildRgb({ ept, options, points, buffer }) {
+    if (options.color === 'intensity') {
+        return buildRgbFromIntensity({ ept, points, buffer})
+    }
+
     const output = Buffer.allocUnsafe(points * Constants.pntsRgbSize)
     const extractors = ['Red', 'Green', 'Blue']
         .map(v => Binary.getExtractor(ept.schema, v))
@@ -120,7 +154,7 @@ export function buildFeatureTable({ ept, options, bounds, points, buffer }) {
     if (options.color) {
         featureTable = Buffer.concat([
             featureTable,
-            buildRgb({ ept, points, buffer })
+            buildRgb({ ept, options, points, buffer })
         ])
     }
 

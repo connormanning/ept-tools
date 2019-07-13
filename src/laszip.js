@@ -9,6 +9,7 @@ const extractors = {
     X: p => p.readInt32LE(0),
     Y: p => p.readInt32LE(4),
     Z: p => p.readInt32LE(8),
+    Intensity: p => p.readUInt16LE(12),
     Red: p => p.readUInt16LE(28),
     Green: p => p.readUInt16LE(30),
     Blue: p => p.readUInt16LE(32),
@@ -52,6 +53,8 @@ export async function decompress(compressed, ept) {
     const header = readHeader(compressed)
     const { points, pointSize, scale, offset } = header
 
+    // TODO: We should try/catch around the code below so we don't leak this
+    // in case of an exception - we'll run out of memory quickly otherwise.
     const module = new Module.LASZip()
     const filePointer = Module._malloc(compressed.length)
     Module.HEAPU8.set(compressed, filePointer)
@@ -73,6 +76,9 @@ export async function decompress(compressed, ept) {
     let dimensions = xyz.slice()
     if (Schema.has(schema, 'Red')) {
         dimensions = dimensions.concat(['Red', 'Green', 'Blue'])
+    }
+    if (Schema.has(schema, 'Intensity')) {
+        dimensions = dimensions.concat('Intensity')
     }
 
     const readers = dimensions.map((name, i) => {
@@ -101,7 +107,7 @@ export async function decompress(compressed, ept) {
     const dataPointer = Module._malloc(pointSize)
     const point = Buffer.from(Module.HEAPU8.buffer, dataPointer, pointSize)
 
-    // For now we're only going to read XYZ and RGB and we'll wastefully leave
+    // For now we're only going to read XYZ and RGBI and we'll wastefully leave
     // the other attributes allocated.
     for (var p = 0 ; p < points; ++p) {
         module.getPoint(dataPointer)

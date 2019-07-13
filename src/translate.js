@@ -76,12 +76,13 @@ export async function translate(filename) {
             buffer = await Laszip.decompress(buffer, ept)
         }
 
-        const options = {
-            color: Schema.has(schema, 'Red'),
-            // TODO: Normals are not yet supported.
-            normals: false // Schema.has(schema, 'NormalX')
-        }
+        const color = Schema.has(schema, 'Red')
+            ? 'color'
+            : Schema.has(schema, 'Intensity')
+                ? 'intensity'
+                : null
 
+        const options = { color }
         const points = buffer.length / Schema.pointSize(schema)
         const bounds = Bounds.stepTo(eptBounds, key)
         return Pnts.translate({ ept, options, bounds, points, buffer })
