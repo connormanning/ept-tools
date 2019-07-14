@@ -1,90 +1,68 @@
-import path from 'path'
+import Pool from 'p-limit'
+import util from 'util'
+import yargs from 'yargs'
 
-import * as Bounds from './bounds'
-import * as Key from './key'
-import * as Laszip from './laszip'
-import * as Pnts from './pnts'
-import * as Schema from './schema'
-import * as Srs from './srs'
-import * as Tile from './tile'
+import * as Cesium from './cesium'
 import * as Util from './util'
-import * as Zstandard from './zstandard'
 
-export async function translate(filename) {
-    const eptRoot = Util.dirname(filename)
-    const tilename = Util.basename(filename)
-    const [root, extension] = tilename.split('.')
+const { input, threads = 8 } = yargs.argv
+const { output = Util.protojoin(input, 'cesium') } = yargs.argv
 
-    const ept = await Util.getJson(Util.protojoin(eptRoot, 'ept.json'))
-    const { bounds: eptBounds, schema, dataType, srs } = ept
+if (Util.getProtocol(input)) throw new Error('Only local paths supported')
 
-    if (!Srs.codeString(srs)) {
-        throw new Error('EPT SRS code is required for conversion')
-    }
+console.log('Translating to 3D Tiles:', input, '->', output)
 
-    const dataExtension = {
-        binary: 'bin',
-        laszip: 'laz',
-        zstandard: 'zst',
-    }[dataType]
+async function translateMetadata(input, output) {
+    const root = Util.join(input, 'ept-hierarchy')
+    const files = (await Util.readDirAsync(root))
+        .map(v => v == '0-0-0-0.json' ? 'tileset.json' : v)
 
-    if (!dataExtension) {
-        throw new Error(`EPT data type ${dataType} is not supported`)
-    }
-
-    if (root === 'tileset') {
-        if (extension !== 'json') {
-            throw new Error('Invalid filename: ' + filename)
-        }
-
-        const key = Key.create()
-        const hierarchy = await Util.getJson(
-            Util.protojoin(
-                eptRoot,
-                'ept-hierarchy',
-                Key.stringify(key) + '.json'
-            )
+    const pool = Pool(threads)
+    const tasks = files.map(file => pool(async () => {
+        console.log(file)
+        const tileset = await Cesium.translate(Util.join(input, file))
+        await Util.writeFileAsync(
+            Util.join(output, file),
+            JSON.stringify(tileset)
         )
-        return Tile.translate({ key, ept, hierarchy })
-    }
+    }))
 
-    const key = Key.create(...root.split('-').map(v => parseInt(v, 10)))
-
-    if (extension === 'json') {
-        const hierarchy = await Util.getJson(
-            Util.protojoin(
-                eptRoot,
-                'ept-hierarchy',
-                Key.stringify(key) + '.json'
-            )
-        )
-        return Tile.translate({ key, ept, hierarchy })
-    }
-    else if (extension === 'pnts') {
-        let buffer = await Util.getBuffer(
-            Util.protojoin(
-                eptRoot,
-                'ept-data',
-                Key.stringify(key) + `.${dataExtension}`
-            )
-        )
-
-        if (dataType === 'zstandard') {
-            buffer = await Zstandard.decompress(buffer)
-        }
-        else if (dataType === 'laszip') {
-            buffer = await Laszip.decompress(buffer, ept)
-        }
-
-        const color = Schema.has(schema, 'Red')
-            ? 'color'
-            : Schema.has(schema, 'Intensity')
-                ? 'intensity'
-                : null
-
-        const options = { color }
-        const points = buffer.length / Schema.pointSize(schema)
-        const bounds = Bounds.stepTo(eptBounds, key)
-        return Pnts.translate({ ept, options, bounds, points, buffer })
-    }
+    return Promise.all(tasks)
 }
+
+async function translatePoints(input, output) {
+    const root = Util.join(input, 'ept-data')
+    const files = (await Util.readDirAsync(root))
+        .map(v => v.split('.')[0])
+        .map(v => v + '.pnts')
+
+    console.log('Files:', files)
+
+    const pool = Pool(threads)
+    const tasks = files.map(file => pool(async () => {
+        console.log(file)
+        const pnts = await Cesium.translate(Util.join(input, file))
+        await Util.writeFileAsync(Util.join(output, file), pnts)
+    }))
+
+    return Promise.all(tasks)
+}
+
+;(async () => {
+    try {
+        await Util.mkdirpAsync(output)
+
+        console.log('Translating metadata...')
+        console.time('Metadata')
+        await translateMetadata(input, output)
+        console.timeEnd('Metadata')
+
+        console.log('Translating points')
+        console.time('Points')
+        await translatePoints(input, output)
+        console.timeEnd('Points')
+    }
+    catch (e) {
+        console.log('Error:', e)
+    }
+})()

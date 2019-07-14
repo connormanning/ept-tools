@@ -37,5 +37,6 @@ test('writes and extracts values according to a schema', () => {
 
 test('throws for non-existent dimensions', () => {
     const schema = [{ name: 'X', type: 'double', size: 8 }]
+    expect(() => Binary.getWriter(schema, 'Y')).toThrow()
     expect(() => Binary.getExtractor(schema, 'Y')).toThrow()
 })

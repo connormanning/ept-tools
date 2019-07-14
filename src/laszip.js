@@ -64,7 +64,7 @@ export async function decompress(compressed, ept) {
 
     const { schema } = ept
     const schemaScale = xyz.map(name => Schema.find(schema, name).scale)
-    const schemaOffset = xyz.map(name => Schema.find(schema, name).offset)
+    const schemaOffset = xyz.map(name => Schema.find(schema, name).offset || 0)
     const absoluteSchema = schema.reduce((schema, dimension) => {
         return schema.concat(
             xyz.includes(dimension.name)
@@ -108,7 +108,9 @@ export async function decompress(compressed, ept) {
     const point = Buffer.from(Module.HEAPU8.buffer, dataPointer, pointSize)
 
     // For now we're only going to read XYZ and RGBI and we'll wastefully leave
-    // the other attributes allocated.
+    // the other attributes allocated and filled with junk.  For the current
+    // context of converting to 3D Tiles, that's just fine.  For more generic
+    // library purposes in the future, this may need to change.
     for (var p = 0 ; p < points; ++p) {
         module.getPoint(dataPointer)
         readers.forEach((read, i) => writers[i](output, read(point), p))

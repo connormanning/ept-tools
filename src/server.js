@@ -6,7 +6,7 @@ import path from 'path'
 import util from 'util'
 import yargs from 'yargs'
 
-import * as Translate from './translate'
+import * as Cesium from './cesium'
 import * as Util from './util'
 
 process.title = 'ept-tools'
@@ -29,7 +29,7 @@ const {
 
         try {
             const fullPath = Util.protojoin(root, filename)
-            const body = await Translate.translate(fullPath)
+            const body = await Cesium.translate(fullPath)
             return res.send(body)
         }
         catch (e) {

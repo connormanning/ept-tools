@@ -1,11 +1,16 @@
 import fs from 'fs'
+import mkdirpCb from 'mkdirp'
 import path from 'path'
 import util from 'util'
 
 import request from 'request-promise-native'
 
 export const protocolSeparator = '://'
+
+export const mkdirpAsync = util.promisify(mkdirpCb)
 export const readFileAsync = util.promisify(fs.readFile)
+export const readDirAsync = util.promisify(fs.readdir)
+export const writeFileAsync = util.promisify(fs.writeFile)
 
 export function getProtocol(p) {
     const index = p.indexOf(protocolSeparator)
@@ -58,4 +63,8 @@ export function padRight(string, mod) {
     const rem = string.length % mod
     if (!rem) return string
     return string + ' '.repeat(mod - rem)
+}
+
+export function delay(ms) {
+    return new Promise(done => setTimeout(done, ms))
 }

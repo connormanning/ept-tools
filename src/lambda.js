@@ -1,6 +1,6 @@
 import http from 'http'
 
-import * as Translate from './translate'
+import * as Cesium from './cesium'
 import * as Util from './util'
 
 const root = process.env.ROOT
@@ -22,7 +22,7 @@ export async function handler(event, context) {
 
     console.time('translate')
     const start = new Date()
-    const body = await Translate.translate(filename)
+    const body = await Cesium.translate(filename)
     console.timeEnd('translate')
     console.log('Translated:', body)
 
@@ -34,7 +34,8 @@ export async function handler(event, context) {
                 'Access-Control-Allow-Origin': '*',
                 'Content-Type': 'application/octet-stream'
             },
-            body: body.toString('base64')
+            body: body.toString('base64'),
+            isBase64Encoded: true
         }
     }
     else {
