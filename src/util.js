@@ -11,6 +11,7 @@ export const mkdirpAsync = util.promisify(mkdirpCb)
 export const readFileAsync = util.promisify(fs.readFile)
 export const readDirAsync = util.promisify(fs.readdir)
 export const writeFileAsync = util.promisify(fs.writeFile)
+export const fileExistsAsync = util.promisify(fs.access)
 
 export function getProtocol(p) {
     const index = p.indexOf(protocolSeparator)

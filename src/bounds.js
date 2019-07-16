@@ -26,6 +26,19 @@ export function contains([minx, miny, minz, maxx, maxy, maxz], [x, y, z]) {
     )
 }
 
+export function containsBounds(a, b) {
+    const [aminx, aminy, aminz, amaxx, amaxy, amaxz] = a
+    const [bminx, bminy, bminz, bmaxx, bmaxy, bmaxz] = b
+    return (
+        aminx <= bminx &&
+        aminy <= bminy &&
+        aminz <= bminz &&
+        amaxx >= bmaxx &&
+        amaxy >= bmaxy &&
+        amaxz >= bmaxz
+    )
+}
+
 export function step(bounds, [a, b, c]) {
     const [minx, miny, minz, maxx, maxy, maxz] = bounds
     const [midx, midy, midz] = mid(bounds)

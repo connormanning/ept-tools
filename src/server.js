@@ -4,22 +4,11 @@ import http from 'http'
 import morgan from 'morgan'
 import path from 'path'
 import util from 'util'
-import yargs from 'yargs'
 
 import * as Cesium from './cesium'
 import * as Util from './util'
 
-process.title = 'ept-tools'
-
-const {
-    root = process.env.ROOT,
-    port = process.env.PORT || 3000
-} = yargs.argv
-
-;(async () => {
-    console.log('Root:', root)
-    console.log('Port:', port)
-
+export async function serve({ root, port }) {
     const app = express()
     app.use(cors())
     app.use(morgan('dev'))
@@ -41,6 +30,5 @@ const {
 
     const server = http.createServer(app)
     const listen = util.promisify(server.listen.bind(server))
-    await listen(port)
-    console.log('Listening')
-})()
+    return listen(port)
+}

@@ -5,14 +5,7 @@ import yargs from 'yargs'
 import * as Cesium from './cesium'
 import * as Util from './util'
 
-const { input, threads = 8 } = yargs.argv
-const { output = Util.protojoin(input, 'cesium') } = yargs.argv
-
-if (Util.getProtocol(input)) throw new Error('Only local paths supported')
-
-console.log('Translating to 3D Tiles:', input, '->', output)
-
-async function translateMetadata(input, output) {
+async function translateMetadata({ input, output, threads }) {
     const root = Util.join(input, 'ept-hierarchy')
     const files = (await Util.readDirAsync(root))
         .map(v => v == '0-0-0-0.json' ? 'tileset.json' : v)
@@ -30,7 +23,7 @@ async function translateMetadata(input, output) {
     return Promise.all(tasks)
 }
 
-async function translatePoints(input, output) {
+async function translatePoints({ input, output, threads }) {
     const root = Util.join(input, 'ept-data')
     const files = (await Util.readDirAsync(root))
         .map(v => v.split('.')[0])
@@ -48,21 +41,21 @@ async function translatePoints(input, output) {
     return Promise.all(tasks)
 }
 
-;(async () => {
-    try {
-        await Util.mkdirpAsync(output)
-
-        console.log('Translating metadata...')
-        console.time('Metadata')
-        await translateMetadata(input, output)
-        console.timeEnd('Metadata')
-
-        console.log('Translating points')
-        console.time('Points')
-        await translatePoints(input, output)
-        console.timeEnd('Points')
+export async function translate({ input, output, threads, force }) {
+    console.log('Force:', force)
+    if (!force && Util.fileExistsAsync(Util.join(output, 'tileset.json'))) {
+        throw new Error('Output already exists - use --force to overwrite')
     }
-    catch (e) {
-        console.log('Error:', e)
-    }
-})()
+
+    await Util.mkdirpAsync(output)
+
+    console.log('Translating metadata...')
+    console.time('Metadata')
+    await translateMetadata({ input, output, threads })
+    console.timeEnd('Metadata')
+
+    console.log('Translating points')
+    console.time('Points')
+    await translatePoints({ input, output, threads })
+    console.timeEnd('Points')
+}

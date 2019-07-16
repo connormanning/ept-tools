@@ -1,25 +1,28 @@
 {
   "name": "ept-tools",
   "private": true,
-  "version": "1.0.0",
+  "version": "0.0.0",
   "description": "Entwine Point Tiles utility library",
   "repository": "github:connormanning/ept-tools",
-  "main": "index.js",
+  "main": "lib/app.js",
+  "bin": {
+    "ept": "./lib/app.js"
+  },
   "scripts": {
-    "build": "babel src --out-dir dist --copy-files",
+    "build": "babel src --out-dir lib --copy-files",
+    "prepublish": "npm run build",
     "start": "nodemon --exec babel-node --delay 200ms --watch . --ignore test -I src/server.js",
     "test": "jest"
   },
   "author": "Connor Manning",
   "license": "MIT",
   "dependencies": {
-    "@babel/cli": "^7.5.0",
-    "@babel/core": "^7.5.4",
-    "@babel/plugin-proposal-pipeline-operator": "^7.5.0",
     "@babel/plugin-transform-runtime": "^7.5.0",
-    "@babel/preset-env": "^7.5.4",
+    "ajv": "^6.10.2",
+    "chalk": "^2.4.2",
     "cors": "^2.8.5",
     "express": "^4.17.1",
+    "log-symbols": "^3.0.0",
     "mkdirp": "^0.5.1",
     "morgan": "^1.9.1",
     "p-limit": "^2.2.0",
@@ -29,12 +32,13 @@
     "zstd-codec": "^0.1.1"
   },
   "devDependencies": {
+    "@babel/cli": "^7.5.0",
+    "@babel/core": "^7.5.4",
     "@babel/node": "^7.5.0",
-    "@babel/preset-typescript": "^7.3.3",
+    "@babel/plugin-proposal-pipeline-operator": "^7.5.0",
+    "@babel/preset-env": "^7.5.4",
     "@babel/runtime": "^7.5.4",
     "babel-loader": "^8.0.6",
-    "jest": "^24.8.0",
-    "typescript": "^3.5.3",
-    "webpack": "^4.35.3"
+    "jest": "^24.8.0"
   }
 }
