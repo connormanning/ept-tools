@@ -61,7 +61,9 @@ async function run(f, ...args) {
 
 yargs
     .version(false)
-    .showHelpOnFail(false)
+    .demandCommand()
+    .strict()
+    .help()
     .command(
         'validate [input]',
         'Validate EPT metadata',

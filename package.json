@@ -10,14 +10,14 @@
   },
   "scripts": {
     "build": "babel src --out-dir lib --copy-files",
-    "prepublish": "npm run build",
+    "prepare": "npm run build",
     "start": "nodemon --exec babel-node --delay 200ms --watch . --ignore test -I src/server.js",
     "test": "jest"
   },
   "author": "Connor Manning",
   "license": "MIT",
   "dependencies": {
-    "@babel/plugin-transform-runtime": "^7.5.0",
+    "@babel/runtime": "^7.5.4",
     "ajv": "^6.10.2",
     "chalk": "^2.4.2",
     "cors": "^2.8.5",
@@ -36,8 +36,8 @@
     "@babel/core": "^7.5.4",
     "@babel/node": "^7.5.0",
     "@babel/plugin-proposal-pipeline-operator": "^7.5.0",
+    "@babel/plugin-transform-runtime": "^7.5.0",
     "@babel/preset-env": "^7.5.4",
-    "@babel/runtime": "^7.5.4",
     "babel-loader": "^8.0.6",
     "jest": "^24.8.0"
   }
