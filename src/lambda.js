@@ -6,7 +6,7 @@ import * as Util from './util'
 const root = process.env.ROOT
 
 export async function handler(event, context) {
-    const file = event.file || process.env.FILE
+    const file = event.path || process.env.FILE
     console.log('Event:', event)
     console.log('Context:', context)
     console.log('Root:', root)
