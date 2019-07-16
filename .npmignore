@@ -1,2 +1,5 @@
-src/
-
+*
+!lib/**
+!package.json
+!package-lock.json
+!license

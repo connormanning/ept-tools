@@ -1,6 +1,5 @@
 {
   "name": "ept-tools",
-  "private": true,
   "version": "0.0.0",
   "description": "Entwine Point Tiles utility library",
   "repository": "github:connormanning/ept-tools",
@@ -11,7 +10,6 @@
   "scripts": {
     "build": "babel src --out-dir lib --copy-files",
     "prepare": "npm run build",
-    "start": "nodemon --exec babel-node --delay 200ms --watch . --ignore test -I src/server.js",
     "test": "jest"
   },
   "author": "Connor Manning",

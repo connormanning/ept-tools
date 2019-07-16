@@ -26,7 +26,6 @@ export async function handler(event, context) {
     console.timeEnd('translate')
     console.log('Translated:', body)
 
-
     if (Buffer.isBuffer(body)) {
         return {
             statusCode: 200,
