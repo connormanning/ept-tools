@@ -25,6 +25,7 @@
     "morgan": "^1.9.1",
     "p-limit": "^2.2.0",
     "proj4": "^2.5.0",
+    "request": "^2.88.0",
     "request-promise-native": "^1.0.7",
     "yargs": "^13.2.4",
     "zstd-codec": "^0.1.1"
