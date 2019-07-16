@@ -6,24 +6,23 @@ import * as Util from './util'
 const root = process.env.ROOT
 
 export async function handler(event, context) {
-    const path = event.path || process.env.FILE
-    console.log('Env:', process.env)
-    console.log('Path:', path)
+    const file = event.file || process.env.FILE
     console.log('Event:', event)
     console.log('Context:', context)
     console.log('Root:', root)
+    console.log('File:', file)
 
-    const filename = Util.protojoin(root, path)
+    const filename = Util.protojoin(root, file)
     console.log('Filename:', filename)
     const basename = Util.basename(filename)
     console.log('Basename:', basename)
     const [filebase, extension] = basename.split('.')
     console.log('Extension:', extension)
 
-    console.time('translate')
+    console.time('Translation')
     const start = new Date()
     const body = await Cesium.translate(filename)
-    console.timeEnd('translate')
+    console.timeEnd('Translation')
     console.log('Translated:', body)
 
     if (Buffer.isBuffer(body)) {

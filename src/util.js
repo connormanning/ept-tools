@@ -39,7 +39,10 @@ export function protojoin(p) {
 export async function getBuffer(file) {
     const protocol = getProtocol(file)
     if (!protocol || protocol === 'file') return readFileAsync(file)
-    return request({ uri: file, encoding: null })
+    console.time(file)
+    const buffer = request({ uri: file, encoding: null })
+    console.timeEnd(file)
+    return buffer
 }
 
 export async function getJson(file) {
