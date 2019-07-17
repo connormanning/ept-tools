@@ -16,19 +16,20 @@ echo "  Role: ${ROLE_ARN}"
 echo "  Handler: lib/lambda.handler"
 
 #create role
-echo "PWD $DIR"
 aws iam create-policy \
     --policy-name ept-tools-policy \
     --policy-document file://scripts/policy.json
 policyArn=$(aws iam list-policies \
     --query 'Policies[?PolicyName==`ept-tools-policy`].Arn' \
     | jq .[0])
+policyArn=$(echo $policyArn | sed -e 's/^"//' -e 's/"$//')
 aws iam create-role \
     --role-name ept-tools-role \
     --assume-role-policy-document file://scripts/trust.json
 roleArn=$(aws iam list-roles \
     --query 'Roles[?RoleName==`ept-tools-role`].Arn' \
     | jq .[0])
+roleArn=$(echo $roleArn | sed -e 's/^"//' -e 's/"$//')
 
 aws iam attach-role-policy \
     --role-name ept-tools-role \
@@ -42,48 +43,77 @@ aws lambda create-function \
     --region ${REGION} \
     --function-name ${FUNCTION} \
     --zip-file fileb://lambda.zip \
+    --environment Variables={ROOT='https://s3-us-west-2.amazonaws.com/usgs-lidar-public'} \
     --handler "lib/lambda.handler" &&
 echo "Done"
 
 #construct lambda uri
-temp1=$(aws lambda get-function \
+lambdaArn=$(aws lambda get-function \
+    --region ${REGION} \
     --function-name $FUNCTION \
     --query Configuration.FunctionArn)
-lambdaArn=$(echo $temp1 | sed -e 's/^"//' -e 's/"$//')
+lambdaArn=$(echo $lambdaArn | sed -e 's/^"//' -e 's/"$//')
 lambdaUri="arn:aws:apigateway:$REGION:lambda:path/2015-03-31/functions/$lambdaArn/invocations"
 
 
 #begin api gateway creation
-aws apigateway create-rest-api \
-    --name ept-tools-api-gateway \
-    --binary-media-types '*/*'
 gatewayId=$(aws apigateway get-rest-apis \
+    --region ${REGION} \
     --query 'items[?name==`ept-tools-api-gateway`].id' \
     | jq .[0])
+if [ -z "$gatewayId" ]
+then
+    echo "made it here"
+    aws apigateway create-rest-api \
+        --region ${REGION} \
+        --name ept-tools-api-gateway \
+        --binary-media-types '*/*'
+    gatewayId=$(aws apigateway get-rest-apis \
+        --region ${REGION} \
+        --query 'items[?name==`ept-tools-api-gateway`].id' \
+        | jq .[0])
+fi
+gatewayId=$(echo $gatewayId | sed -e 's/^"//' -e 's/"$//')
+echo "GatewayId: $gatewayId"
 rootId=$(aws apigateway get-resources \
+    --region ${REGION} \
     --rest-api-id ${gatewayId} \
     --query 'items[?path==`/`].id' \
     | jq .[0])
+rootId=$(echo $rootId | sed -e 's/^"//' -e 's/"$//')
+echo "RootId: $rootId"
 
 aws apigateway create-resource \
+    --region ${REGION} \
     --rest-api-id ${gatewayId} \
     --parent-id ${rootId} \
-    --path-path '{file+}'
-temp=$(aws apigateway get-resources \
+    --path-part '{file+}'
+funcId=$(aws apigateway get-resources \
+    --region ${REGION} \
     --rest-api-id ${gatewayId} \
     --query 'items[?path==`/{file+}`].id' \
     | jq .[0])
-funcId=$(echo $temp | sed -e 's/^"//' -e 's/"$//')
+funcId=$(echo $funcId | sed -e 's/^"//' -e 's/"$//')
+echo "LambdaId: ${funcId}"
 aws apigateway put-method \
+    --region ${REGION} \
     --rest-api-id "$gatewayId" \
     --resource-id "$funcId" \
     --http-method "GET" \
     --authorization-type "NONE"
 
 aws apigateway put-integration \
+    --region ${REGION} \
     --rest-api-id "$gatewayId" \
     --resource-id "$funcId" \
     --http-method "GET" \
     --type "AWS_PROXY" \
     --integration-http-method "GET" \
-    --uri $lambdaUri
+    --uri ${lambdaUri}
+
+##Create deployment
+aws apigateway create-deployment \
+    --region ${REGION} \
+    --rest-api-id ${gatewayId} \
+    --stage-name 'prod'
+
