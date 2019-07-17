@@ -111,12 +111,20 @@ aws apigateway put-integration \
     --resource-id "$funcId" \
     --http-method "GET" \
     --type "AWS_PROXY" \
-    --integration-http-method "GET" \
+    --integration-http-method "POST" \
     --uri ${lambdaUri}
+
+aws lambda add-permission \
+    --region ${REGION} \
+    --function-name ${FUNCTION} \
+    --principal 'apigateway.amazonaws.com' \
+    --action 'lambda:InvokeFunction' \
+    --statement-id 'AllowExecutionFromApiGateway'
 
 ##Create deployment
 aws apigateway create-deployment \
     --region ${REGION} \
     --rest-api-id ${gatewayId} \
     --stage-name 'prod'
+
 
