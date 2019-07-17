@@ -63,7 +63,7 @@ export async function decompress(compressed, ept) {
     const xyz = ['X', 'Y', 'Z']
 
     const { schema } = ept
-    const schemaScale = xyz.map(name => Schema.find(schema, name).scale)
+    const schemaScale = xyz.map(name => Schema.find(schema, name).scale || 1)
     const schemaOffset = xyz.map(name => Schema.find(schema, name).offset || 0)
     const absoluteSchema = schema.reduce((schema, dimension) => {
         return schema.concat(
@@ -111,7 +111,7 @@ export async function decompress(compressed, ept) {
     // the other attributes allocated and filled with junk.  For the current
     // context of converting to 3D Tiles, that's just fine.  For more generic
     // library purposes in the future, this may need to change.
-    for (var p = 0 ; p < points; ++p) {
+    for (var p = 0; p < points; ++p) {
         module.getPoint(dataPointer)
         readers.forEach((read, i) => writers[i](output, read(point), p))
     }
