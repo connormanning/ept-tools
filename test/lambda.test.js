@@ -1,7 +1,7 @@
 import * as Util from '../src/util'
 
 const ec2Root = 'https://usgs-tiles.entwine.io'
-const devRoot = 'https://lkcmvxqvp4.execute-api.us-west-2.amazonaws.com/dev'
+const devRoot = 'https://wx06np7hkd.execute-api.us-west-2.amazonaws.com/prod/'
 
 const resource = 'IL_BooneCo_2007'
 
