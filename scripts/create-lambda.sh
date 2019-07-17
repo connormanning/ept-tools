@@ -8,11 +8,13 @@ cd ${DIR}/..
 FUNCTION=${FUNCTION:="ept-serve-tiles"}
 REGION=${REGION:="us-east-1"}
 ROLE_ARN=${ROLE:=lambda_execution}
+MEMORY=${MEMORY:=1024}
 
 echo "Creating lambda function"
 echo "  Function: ${FUNCTION}"
 echo "  Region: ${REGION}"
 echo "  Role: ${ROLE_ARN}"
+echo "  Memory: ${MEMORY}"
 echo "  Handler: lib/lambda.handler"
 
 #create role
@@ -43,6 +45,7 @@ aws lambda create-function \
     --region ${REGION} \
     --function-name ${FUNCTION} \
     --zip-file fileb://lambda.zip \
+    --memory-size ${MEMORY} \
     --environment Variables={ROOT='https://s3-us-west-2.amazonaws.com/usgs-lidar-public'} \
     --handler "lib/lambda.handler" &&
 echo "Done"
@@ -61,7 +64,7 @@ gatewayId=$(aws apigateway get-rest-apis \
     --region ${REGION} \
     --query 'items[?name==`ept-tools-api-gateway`].id' \
     | jq .[0])
-if [ -z "$gatewayId" ]
+if [ $gatewayId == 'null' ]
 then
     echo "made it here"
     aws apigateway create-rest-api \
