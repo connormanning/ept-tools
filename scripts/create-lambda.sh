@@ -128,3 +128,5 @@ aws apigateway create-deployment \
     --stage-name 'prod'
 
 
+ echo "Api Gateway url created: https://$gatewayId.execute-api.$REGION.amazonaws.com/prod"
+
