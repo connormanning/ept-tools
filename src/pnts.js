@@ -32,12 +32,6 @@ export function buildFeatureTableMetadata({
         byteOffset += points * Constants.pntsRgbSize
     }
 
-    /*
-    if (options.normals) {
-        _.assign(table, { NORMAL: { byteOffset } })
-    }
-    */
-
     return table
 }
 
@@ -47,7 +41,7 @@ export function buildFeatureTableString({ ept, options = { }, bounds, points }) 
         |> (v => Util.padRight(v, 8))
 }
 
-export function buildHeader({ ept, options = { }, bounds, points }) {
+export function calculateSizes({ ept, options = { }, bounds, points }) {
     const featureTableString =
         buildFeatureTableString({ ept, options, bounds,  points })
 
@@ -58,6 +52,7 @@ export function buildHeader({ ept, options = { }, bounds, points }) {
     )
     const batchTableStringSize = 0
     const batchTableBinarySize = 0
+
     const totalSize = (
         Constants.pntsHeaderSize +
         featureTableStringSize +
@@ -66,8 +61,39 @@ export function buildHeader({ ept, options = { }, bounds, points }) {
         batchTableBinarySize
     )
 
+    return {
+        headerSize: Constants.pntsHeaderSize,
+        featureTableStringSize,
+        featureTableBinarySize,
+        batchTableStringSize,
+        batchTableBinarySize,
+        totalSize
+    }
+}
+
+export function buildHeader({
+    output,
+    ept,
+    options = { },
+    bounds,
+    points,
+    sizes
+}) {
+    if (output.length != Constants.pntsHeaderSize) {
+        throw new Error('Invalid PNTS header buffer size')
+    }
+
+    const {
+        headerSize,
+        featureTableStringSize,
+        featureTableBinarySize,
+        batchTableStringSize,
+        batchTableBinarySize,
+        totalSize
+    } = sizes
+
     // https://git.io/fjP8k
-    const output = Buffer.allocUnsafe(Constants.pntsHeaderSize)
+    // const output = Buffer.allocUnsafe(Constants.pntsHeaderSize)
     output.write(Constants.pntsMagic, 0, 'ascii')
     output.writeUInt32LE(Constants.pntsVersion, 4)
     output.writeUInt32LE(totalSize, 8)
@@ -75,13 +101,18 @@ export function buildHeader({ ept, options = { }, bounds, points }) {
     output.writeUInt32LE(featureTableBinarySize, 16)
     output.writeUInt32LE(batchTableStringSize, 20)
     output.writeUInt32LE(batchTableBinarySize, 24)
-    return output
 }
 
-export function buildXyz({ ept, options, bounds: nativeBounds, points, buffer }) {
+export function buildXyz({
+    output,
+    ept,
+    options,
+    bounds: nativeBounds,
+    points,
+    buffer
+}) {
     const { schema, srs } = ept
 
-    const output = Buffer.allocUnsafe(points * Constants.pntsXyzSize)
     const extractors = ['X', 'Y', 'Z'].map(v => Binary.getExtractor(schema, v))
 
     const srsCodeString = Srs.codeString(srs)
@@ -97,11 +128,9 @@ export function buildXyz({ ept, options, bounds: nativeBounds, points, buffer })
             .forEach((v, i) => output.writeFloatLE(v - mid[i], o + i * 4))
         ++point
     }
-    return output
 }
 
-export function buildRgbFromIntensity({ ept, points, buffer }) {
-    const output = Buffer.allocUnsafe(points * Constants.pntsRgbSize)
+export function buildRgbFromIntensity({ output, ept, points, buffer, sizes }) {
     const extract = Binary.getExtractor(ept.schema, 'Intensity')
 
     let truncate = false
@@ -110,7 +139,6 @@ export function buildRgbFromIntensity({ ept, points, buffer }) {
         intensities[point] = extract(buffer, point)
         if (intensities[point] > 255) truncate = true
     }
-
 
     if (truncate) {
         for (let point = 0; point < points; ++point) {
@@ -127,15 +155,14 @@ export function buildRgbFromIntensity({ ept, points, buffer }) {
         output.writeUInt8(intensity, o + 2)
         ++point
     }
-    return output
 }
 
-export function buildRgb({ ept, options, points, buffer }) {
+export function buildRgb({ output, ept, points, buffer, sizes, options }) {
     if (options.color === 'intensity') {
-        return buildRgbFromIntensity({ ept, points, buffer})
+        return buildRgbFromIntensity({ output, ept, points, buffer, sizes })
     }
 
-    const output = Buffer.allocUnsafe(points * Constants.pntsRgbSize)
+    // TODO: Need to check for truncation here like we do for intensity.
     const extractors = ['Red', 'Green', 'Blue']
         .map(v => Binary.getExtractor(ept.schema, v))
     let point = 0
@@ -145,33 +172,83 @@ export function buildRgb({ ept, options, points, buffer }) {
         })
         ++point
     }
-    return output
 }
 
-export function buildFeatureTable({ ept, options, bounds, points, buffer }) {
-    let featureTable = buildXyz({ ept, points, bounds, buffer })
+export function buildFeatureTable({
+    output,
+    ept,
+    bounds,
+    points,
+    buffer,
+    sizes,
+    options = { },
+}) {
+    buildXyz({
+        output: output.slice(0, points * Constants.pntsXyzSize),
+        ept,
+        points,
+        bounds,
+        buffer,
+        sizes,
+        options
+    })
 
     if (options.color) {
-        featureTable = Buffer.concat([
-            featureTable,
-            buildRgb({ ept, options, points, buffer })
-        ])
+        buildRgb({
+            output: output.slice(
+                points * Constants.pntsXyzSize,
+                points * Constants.pntsXyzSize + points * Constants.pntsRgbSize
+            ),
+            ept,
+            points,
+            bounds,
+            buffer,
+            sizes,
+            options
+        })
     }
-
-    return featureTable
 }
 
-export function translate({ ept, options = { }, bounds, points, buffer }) {
-    // TODO: Would be easy to pre-calculate the total size, allocate a single
-    // Buffer, and shallowly `slice` it into these builder functions to avoid
-    // multiple allocations.
-    const header = buildHeader({ ept, options, bounds, points })
-    const featureTableMetadata = Buffer.from(
-        buildFeatureTableString({ ept, options, bounds, points }),
+export function translate({ ept, bounds, points, buffer, options = { } }) {
+    const sizes = calculateSizes({ ept, options, bounds, points })
+    const output = Buffer.allocUnsafe(sizes.totalSize)
+
+    const { headerSize, featureTableStringSize, featureTableBinarySize } = sizes
+
+    const header = output.slice(0, headerSize)
+    const featureTable = output.slice(
+        headerSize + featureTableStringSize,
+        headerSize + featureTableStringSize + featureTableBinarySize
+    )
+
+    buildHeader({
+        output: header,
+        ept,
+        options,
+        bounds,
+        points,
+        sizes
+    })
+
+    const featureTableString =
+        buildFeatureTableString({ ept, options, bounds, points })
+
+    output.write(
+        featureTableString,
+        headerSize,
+        featureTableString.length,
         'ascii'
     )
-    const featureTable =
-        buildFeatureTable({ ept, options, bounds, points, buffer })
 
-    return Buffer.concat([header, featureTableMetadata, featureTable])
+    buildFeatureTable({
+        output: featureTable,
+        ept,
+        options,
+        bounds,
+        points,
+        buffer,
+        sizes
+    })
+
+    return output
 }

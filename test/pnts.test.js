@@ -18,11 +18,17 @@ test('feature table metadata', () => {
     })
 })
 
+test('buffer size calculations', () => {
+    // TODO.
+})
+
 test('basic header', () => {
     const ept = { srs, schema: [] }
     const points = 42
     const bounds = [0, 0, 0, 10, 10, 10]
-    const header = Pnts.buildHeader({ ept, bounds, points })
+    const sizes = Pnts.calculateSizes({ ept, bounds, points })
+    const header = Buffer.alloc(Constants.pntsHeaderSize)
+    Pnts.buildHeader({ output: header, ept, bounds, points, sizes })
     const featureTableString =
         Pnts.buildFeatureTableMetadata({ ept, bounds, points })
         |> JSON.stringify
@@ -67,7 +73,9 @@ test('header with color', () => {
     const options = { color: true }
     const points = 42
     const bounds = [0, 0, 0, 10, 10, 10]
-    const header = Pnts.buildHeader({ ept, options, bounds, points })
+    const sizes = Pnts.calculateSizes({ ept, bounds, points, options })
+    const header = Buffer.alloc(Constants.pntsHeaderSize)
+    Pnts.buildHeader({ output: header, ept, bounds, points, sizes, options })
     const featureTableString = Pnts.buildFeatureTableMetadata(
         { ept, options, bounds, points }
     )
@@ -127,17 +135,17 @@ test('basic feature table', () => {
         ++point
     }
 
-    const featureTable =
-        Pnts.buildFeatureTable({ ept, options, bounds, points, buffer })
+    const sizes = Pnts.calculateSizes({ ept, bounds, points })
+    const output = Buffer.alloc(sizes.featureTableBinarySize)
+    expect(output.length).toEqual(points * Constants.pntsXyzSize)
 
-    expect(featureTable).toBeInstanceOf(Buffer)
-    expect(featureTable.length).toEqual(points * Constants.pntsXyzSize)
+    Pnts.buildFeatureTable({ output, ept, options, bounds, points, buffer, sizes })
 
     point = 0
-    for (let o = 0; o < featureTable.length; o += Constants.pntsXyzSize) {
-        expect(featureTable.readFloatLE(o) + mid[0]).toEqual(100 + point)
-        expect(featureTable.readFloatLE(o + 4) + mid[1]).toEqual(200 + point)
-        expect(featureTable.readFloatLE(o + 8) + mid[2]).toEqual(300 + point)
+    for (let o = 0; o < output.length; o += Constants.pntsXyzSize) {
+        expect(output.readFloatLE(o) + mid[0]).toEqual(100 + point)
+        expect(output.readFloatLE(o + 4) + mid[1]).toEqual(200 + point)
+        expect(output.readFloatLE(o + 8) + mid[2]).toEqual(300 + point)
         ++point
     }
 })
@@ -173,25 +181,26 @@ test('feature table with color', () => {
         ++point
     }
 
-    const featureTable =
-        Pnts.buildFeatureTable({ ept, options, bounds, points, buffer })
-
-    expect(featureTable).toBeInstanceOf(Buffer)
     const xyzSize = points * Constants.pntsXyzSize
     const rgbSize = points * Constants.pntsRgbSize
-    expect(featureTable.length).toEqual(xyzSize + rgbSize)
+
+    const sizes = Pnts.calculateSizes({ ept, bounds, points, options })
+    const output = Buffer.alloc(sizes.featureTableBinarySize)
+    expect(output.length).toEqual(xyzSize + rgbSize)
+
+    Pnts.buildFeatureTable({ output, ept, options, bounds, points, buffer, sizes })
 
     for (let i = 0; i < points; ++i) {
         const offset = i * Constants.pntsXyzSize
-        expect(featureTable.readFloatLE(offset) + mid[0]).toEqual(100 + i)
-        expect(featureTable.readFloatLE(offset + 4) + mid[1]).toEqual(200 + i)
-        expect(featureTable.readFloatLE(offset + 8) + mid[2]).toEqual(300 + i)
+        expect(output.readFloatLE(offset) + mid[0]).toEqual(100 + i)
+        expect(output.readFloatLE(offset + 4) + mid[1]).toEqual(200 + i)
+        expect(output.readFloatLE(offset + 8) + mid[2]).toEqual(300 + i)
     }
 
     for (let i = 0; i < points; ++i) {
         const offset = xyzSize + i * Constants.pntsRgbSize
-        expect(featureTable.readUInt8(offset)).toEqual(10 + i)
-        expect(featureTable.readUInt8(offset + 1)).toEqual(20 + i)
-        expect(featureTable.readUInt8(offset + 2)).toEqual(30 + i)
+        expect(output.readUInt8(offset)).toEqual(10 + i)
+        expect(output.readUInt8(offset + 1)).toEqual(20 + i)
+        expect(output.readUInt8(offset + 2)).toEqual(30 + i)
     }
 })
