@@ -5,16 +5,6 @@ import Module from './lib/laz-perf.asm'
 import * as Binary from './binary'
 import * as Schema from './schema'
 
-const extractors = {
-    X: p => p.readInt32LE(0),
-    Y: p => p.readInt32LE(4),
-    Z: p => p.readInt32LE(8),
-    Intensity: p => p.readUInt16LE(12),
-    Red: p => p.readUInt16LE(28),
-    Green: p => p.readUInt16LE(30),
-    Blue: p => p.readUInt16LE(32),
-}
-
 const pointOffsetPosition = 32 * 3
 const dataFormatIdPosition = pointOffsetPosition + 8
 const legacyPointCountPosition = dataFormatIdPosition + 3
@@ -49,9 +39,37 @@ function readHeader(buffer) {
     }
 }
 
+const fixedExtractors = {
+    X: p => p.readInt32LE(0),
+    Y: p => p.readInt32LE(4),
+    Z: p => p.readInt32LE(8),
+    Intensity: p => p.readUInt16LE(12)
+}
+
+export function getExtractor(name, dataFormatId) {
+    if (fixedExtractors[name]) return fixedExtractors[name]
+
+    let extractors = { }
+    if (dataFormatId === 2) {
+        extractors = {
+            Red: p => p.readUInt16LE(20),
+            Green: p => p.readUInt16LE(22),
+            Blue: p => p.readUInt16LE(24),
+        }
+    }
+    else if (dataFormatId === 3 || dataFormatId === 5) {
+        extractors = {
+            Red: p => p.readUInt16LE(28),   // 2: 20
+            Green: p => p.readUInt16LE(30),
+            Blue: p => p.readUInt16LE(32),
+        }
+    }
+    return extractors[name]
+}
+
 export async function decompress(compressed, ept) {
     const header = readHeader(compressed)
-    const { points, pointSize, scale, offset } = header
+    const { dataFormatId, points, pointSize, scale, offset } = header
 
     // TODO: We should try/catch around the code below so we don't leak this
     // in case of an exception - we'll run out of memory quickly otherwise.
@@ -87,17 +105,17 @@ export async function decompress(compressed, ept) {
                 _.isEqual(scale, schemaScale) &&
                 _.isEqual(offset, schemaOffset)
             ) {
-                return extractors[name]
+                return fixedExtractors[name]
             }
 
             // If the LAZ scale/offset are different than the schema scale
             // offset, convert them to match the schema.
             return v => {
-                const absolute = extractors[name](v) * scale[i] + offset[i]
+                const absolute = fixedExtractors[name](v) * scale[i] + offset[i]
                 return (absolute - schemaOffset[i]) / scale[i]
             }
         }
-        return extractors[name]
+        return getExtractor(name, dataFormatId)
     })
     const writers = dimensions
         .map(name => Binary.getWriter(absoluteSchema, name))

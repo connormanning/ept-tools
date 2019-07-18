@@ -142,7 +142,7 @@ export function buildRgbFromIntensity({ output, ept, points, buffer, sizes }) {
 
     if (truncate) {
         for (let point = 0; point < points; ++point) {
-            if (intensities[point] > 255) intensities[point] = 255
+            intensities[point] >>= 8
         }
     }
 
@@ -162,13 +162,22 @@ export function buildRgb({ output, ept, points, buffer, sizes, options }) {
         return buildRgbFromIntensity({ output, ept, points, buffer, sizes })
     }
 
-    // TODO: Need to check for truncation here like we do for intensity.
     const extractors = ['Red', 'Green', 'Blue']
         .map(v => Binary.getExtractor(ept.schema, v))
+
+    let truncate = false
+    for (let point = 0; !truncate && point < points; ++point) {
+        extractors.forEach(extract => {
+            if (extract(buffer, point) > 255) truncate = true
+        })
+    }
+
+    const shift = truncate ? 8 : 0
+
     let point = 0
     for (let o = 0; o < output.length; o += Constants.pntsRgbSize) {
         extractors.forEach((extract, i) => {
-            output.writeUInt8(extract(buffer, point), o + i)
+            output.writeUInt8(extract(buffer, point) >> shift, o + i)
         })
         ++point
     }

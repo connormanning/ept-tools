@@ -42,8 +42,10 @@ async function translatePoints({ input, output, threads }) {
 }
 
 export async function translate({ input, output, threads, force }) {
-    console.log('Force:', force)
-    if (!force && Util.fileExistsAsync(Util.join(output, 'tileset.json'))) {
+    if (
+        !force &&
+        await Util.fileExistsAsync(Util.join(output, 'tileset.json'))
+    ) {
         throw new Error('Output already exists - use --force to overwrite')
     }
 
