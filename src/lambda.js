@@ -1,7 +1,12 @@
-import http from 'http'
+import _ from 'lodash'
+
+import util from 'util'
+import zlib from 'zlib'
 
 import * as Cesium from './cesium'
 import * as Util from './util'
+
+const gzipAsync = util.promisify(zlib.gzip)
 
 const root = process.env.ROOT
 
@@ -26,13 +31,23 @@ export async function handler(event, context) {
     console.log('Translated:', body)
 
     if (Buffer.isBuffer(body)) {
+        const compress = _.get(event, ['headers', 'Accept-Encoding'], '')
+            .includes('gzip')
+
+        console.log('Compressing?', compress)
+        const buffer = compress ? await gzipAsync(body) : body
+        console.log('Compressed:', buffer.length / body.length)
+
         return {
             statusCode: 200,
-            headers: {
-                'Access-Control-Allow-Origin': '*',
-                'Content-Type': 'application/octet-stream'
-            },
-            body: body.toString('base64'),
+            headers: _.assign(
+                {
+                    'Access-Control-Allow-Origin': '*',
+                    'Content-Type': 'application/octet-stream'
+                },
+                compress ? { 'Content-Encoding': 'gzip' } : null
+            ),
+            body: buffer.toString('base64'),
             isBase64Encoded: true
         }
     }
