@@ -11,13 +11,18 @@ import * as Util from './util'
 export async function serve({ root, port }) {
     const app = express()
     app.use(cors())
-    app.use(morgan('dev'))
+    app.use(morgan('dev', { skip: (req, res) => res.statusCode < 400 }))
 
-    app.get('/:filename(*)', async (req, res) => {
-        const { filename } = req.params
+    app.get('/:resource(*)/ept-tileset/:filename(*)', async (req, res) => {
+        const { resource, filename } = req.params
 
         try {
-            const fullPath = Util.protojoin(root, filename)
+            const fullPath = Util.protojoin(
+                root,
+                resource,
+                'ept-tileset',
+                filename
+            )
             const body = await Cesium.translate(fullPath)
             return res.send(body)
         }

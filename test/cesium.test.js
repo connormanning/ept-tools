@@ -6,12 +6,12 @@ import * as Cesium from '../src/cesium'
 const ellipsoid = path.join(__dirname, 'data/ellipsoid-binary-ecef')
 
 test('binary ecef tileset', async () => {
-    const filename = path.join(ellipsoid, 'tileset.json')
+    const filename = path.join(ellipsoid, 'ept-tileset/tileset.json')
     expect(async () => await Cesium.translate(filename)).not.toThrow()
 })
 
 test('binary ecef pnts file', async () => {
-    const filename = path.join(ellipsoid, '0-0-0-0.pnts')
+    const filename = path.join(ellipsoid, 'ept-tileset/0-0-0-0.pnts')
     const pnts = await Cesium.translate(filename)
 
     const header = pnts.slice(0, Constants.pntsHeaderSize)

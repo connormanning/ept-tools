@@ -13,7 +13,9 @@ async function translateMetadata({ input, output, threads }) {
     const pool = Pool(threads)
     const tasks = files.map(file => pool(async () => {
         console.log(file)
-        const tileset = await Cesium.translate(Util.join(input, file))
+        const tileset = await Cesium.translate(
+            Util.join(input, 'ept-tileset', file)
+        )
         await Util.writeFileAsync(
             Util.join(output, file),
             JSON.stringify(tileset)
@@ -29,12 +31,12 @@ async function translatePoints({ input, output, threads }) {
         .map(v => v.split('.')[0])
         .map(v => v + '.pnts')
 
-    console.log('Files:', files)
-
     const pool = Pool(threads)
-    const tasks = files.map(file => pool(async () => {
-        console.log(file)
-        const pnts = await Cesium.translate(Util.join(input, file))
+    const tasks = files.map((file, i) => pool(async () => {
+        console.log((i + 1).toString() + '/' + files.length + ':', file)
+        const pnts = await Cesium.translate(
+            Util.join(input, 'ept-tileset', file)
+        )
         await Util.writeFileAsync(Util.join(output, file), pnts)
     }))
 

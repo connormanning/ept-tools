@@ -30,13 +30,11 @@ export async function handler(event, context) {
     console.timeEnd('Translation')
     console.log('Translated:', body)
 
-    if (Buffer.isBuffer(body)) {
-        const compress = _.get(event, ['headers', 'Accept-Encoding'], '')
-            .includes('gzip')
+    const compress = _.get(event, ['headers', 'Accept-Encoding'], '')
+        .includes('gzip')
 
-        console.log('Compressing?', compress)
+    if (Buffer.isBuffer(body)) {
         const buffer = compress ? await gzipAsync(body) : body
-        console.log('Compressed:', buffer.length / body.length)
 
         return {
             statusCode: 200,
@@ -52,13 +50,22 @@ export async function handler(event, context) {
         }
     }
     else {
+        const str = body
+            |> JSON.stringify
+            |> (async v => compress ? await gzipAsync(v) : v)
+
+        console.log('Compressed', str.length / body.length)
+
         return {
             statusCode: 200,
-            headers: {
-                'Access-Control-Allow-Origin': '*',
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(body)
+            headers: _.assign(
+                {
+                    'Access-Control-Allow-Origin': '*',
+                    'Content-Type': 'application/json'
+                },
+                compress ? { 'Content-Encoding': 'gzip' } : null
+            ),
+            body: str
         }
     }
 }

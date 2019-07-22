@@ -21,6 +21,7 @@ async function validate({ input }) {
         console.log()
 
         console.log(symbols.error, 'EPT is not valid')
+        process.exit(1)
     }
     else {
         if (warnings.length) {
@@ -39,10 +40,13 @@ async function serve({ root, port }) {
 
 async function translate({
     input,
-    output = Util.protojoin(input, 'ept-tileset'),
+    output,
     threads,
     force,
 }) {
+    if (input.endsWith('ept.json')) input = Util.protojoin(input, '..')
+    if (!output) output = Util.protojoin(input, 'ept-tileset')
+
     console.log('Translating:', input, '->', output)
     console.log('\tThreads:', threads)
     if (force) console.log('\tOverwriting output')
@@ -56,6 +60,7 @@ async function run(f, ...args) {
     catch (e) {
         if (e.message) return console.error('Error:', e.message)
         console.log('Unknown error:', e)
+        process.exit(1)
     }
 }
 
@@ -77,7 +82,7 @@ yargs
         args => run(validate, args)
     )
     .command(
-        'serve-tiles [root]',
+        'serve [root]',
         'Serve 3D tiles on the fly from EPT resources',
         yargs => yargs
             .option('root', {

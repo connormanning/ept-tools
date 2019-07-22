@@ -13,7 +13,13 @@ import * as Zstandard from './zstandard'
 const dataExtensions = { binary: 'bin', laszip: 'laz', zstandard: 'zst' }
 
 export async function translate(filename) {
-    const eptRoot = Util.dirname(filename)
+    const dirname = Util.dirname(filename)
+    if (!dirname.endsWith('ept-tileset')) {
+        throw new Error('Invalid virtual tileset path:' + filename)
+    }
+
+    // Now strip off the virtual subpath `ept-tileset` to get the EPT root.
+    const eptRoot = Util.protojoin(Util.dirname(filename), '..')
     const tilename = Util.basename(filename)
     const [root, extension] = tilename.split('.')
 
