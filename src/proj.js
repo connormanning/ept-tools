@@ -41,6 +41,8 @@ for (let north = 0; north < 2; ++north) {
     }
 }
 
+proj4.defs['EPSG:28992'] = '+proj=sterea +lat_0=52.15616055555555 +lon_0=5.38763888888889 +k=0.9999079 +x_0=155000 +y_0=463000 +ellps=bessel +units=m +no_defs'
+
 const wgs84 = { radius: 6378137, flattening: 1 / 298.257223563 }
 const e2 = (2 - wgs84.flattening) * wgs84.flattening
 
