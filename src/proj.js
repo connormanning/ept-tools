@@ -47,9 +47,11 @@ proj4.defs['EPSG:28992'] = '+proj=sterea +lat_0=52.15616055555555 +lon_0=5.38763
 proj4.defs['EPSG:3577'] = '+proj=aea +lat_1=-18 +lat_2=-36 +lat_0=0 +lon_0=132 +x_0=0 +y_0=0 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs '
 
 // GDA94/MGA zones - these should really be wrapped into a function like UTM...
-proj4.defs['EPSG:28355'] = '+proj=utm +zone=55 +south +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs'
+proj4.defs['EPSG:28355'] = '+proj=utm +zone=55 +south +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs';
 
-proj4.defs['EPSG:28354'] = '+proj=utm +zone=54 +south +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs'
+proj4.defs['EPSG:28356'] = '+proj=utm +zone=56 +south +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs';
+
+proj4.defs['EPSG:28354'] = '+proj=utm +zone=54 +south +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs';
 
 const wgs84 = { radius: 6378137, flattening: 1 / 298.257223563 }
 const e2 = (2 - wgs84.flattening) * wgs84.flattening
