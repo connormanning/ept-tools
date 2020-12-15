@@ -3,6 +3,7 @@ module.exports = {
   testEnvironment: 'node',
   moduleDirectories: ['node_modules', 'src'],
   testPathIgnorePatterns: ['lib/'],
+  collectCoverageFrom: ['src/**'],
   coveragePathIgnorePatterns: ['/test/'],
   coverageThreshold: {
     global: {
