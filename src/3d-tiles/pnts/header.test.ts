@@ -1,45 +1,47 @@
 import { Header } from './header'
 
 // Valid sizes must all be a multiple of 8.
-const sizes = {
-  featureTableJson: 8 * 4,
-  featureTableBinary: 8 * 3 * 24,
-  batchTableJson: 8 * 6,
-  batchTableBinary: 8 * 512,
+const buffers = {
+  featureTableHeader: Buffer.alloc(8 * 4),
+  featureTableBinary: Buffer.alloc(8 * 3 * 24),
+  batchTableHeader: Buffer.alloc(8 * 6),
+  batchTableBinary: Buffer.alloc(8 * 512),
 }
 test('invalid buffer sizes', () => {
-  expect(() => Header.create({ ...sizes, featureTableJson: 7 })).toThrow(
+  const b = Buffer.alloc(7)
+  expect(() => Header.create({ ...buffers, featureTableHeader: b })).toThrow(
     /invalid feature table json/i
   )
-  expect(() => Header.create({ ...sizes, featureTableBinary: 7 })).toThrow(
+  expect(() => Header.create({ ...buffers, featureTableBinary: b })).toThrow(
     /invalid feature table binary/i
   )
-  expect(() => Header.create({ ...sizes, batchTableJson: 7 })).toThrow(
+  expect(() => Header.create({ ...buffers, batchTableHeader: b })).toThrow(
     /invalid batch table json/i
   )
-  expect(() => Header.create({ ...sizes, batchTableBinary: 7 })).toThrow(
+  expect(() => Header.create({ ...buffers, batchTableBinary: b })).toThrow(
     /invalid batch table binary/i
   )
 })
 
 test('success', () => {
-  const header = Header.create(sizes)
+  const header = Header.create(buffers)
 
   const magic = header.toString('utf8', 0, 4)
   const version = header.readUInt32LE(4)
   const total = header.readUInt32LE(8)
-  const featureTableJsonSize = header.readUInt32LE(12)
+  const featureTableHeaderSize = header.readUInt32LE(12)
   const featureTableBinarySize = header.readUInt32LE(16)
-  const batchTableJsonSize = header.readUInt32LE(20)
+  const batchTableHeaderSize = header.readUInt32LE(20)
   const batchTableBinarySize = header.readUInt32LE(24)
 
   expect(magic).toEqual('pnts')
   expect(version).toEqual(1)
   expect(total).toEqual(
-    header.length + Object.values(sizes).reduce((sum, cur) => sum + cur)
+    header.length +
+      Object.values(buffers).reduce((sum, cur) => sum + cur.length, 0)
   )
-  expect(featureTableJsonSize).toEqual(sizes.featureTableJson)
-  expect(featureTableBinarySize).toEqual(sizes.featureTableBinary)
-  expect(batchTableJsonSize).toEqual(sizes.batchTableJson)
-  expect(batchTableBinarySize).toEqual(sizes.batchTableBinary)
+  expect(featureTableHeaderSize).toEqual(buffers.featureTableHeader.length)
+  expect(featureTableBinarySize).toEqual(buffers.featureTableBinary.length)
+  expect(batchTableHeaderSize).toEqual(buffers.batchTableHeader.length)
+  expect(batchTableBinarySize).toEqual(buffers.batchTableBinary.length)
 })

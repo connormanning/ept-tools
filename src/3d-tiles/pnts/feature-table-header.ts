@@ -7,7 +7,7 @@ import { Translate } from './types'
 
 type WithByteOffset = { byteOffset: number }
 
-export declare namespace FeatureTable {
+export declare namespace FeatureTableHeader {
   export type Floating = {
     POSITION: WithByteOffset
   }
@@ -22,7 +22,7 @@ export declare namespace FeatureTable {
   }
 }
 
-type Base = (FeatureTable.Floating | FeatureTable.Quantized) & {
+type Base = (FeatureTableHeader.Floating | FeatureTableHeader.Quantized) & {
   // https://git.io/JIhyp
   POINTS_LENGTH: number
   RTC_CENTER?: Point
@@ -36,12 +36,14 @@ type Base = (FeatureTable.Floating | FeatureTable.Quantized) & {
   NORMAL_OCT16P?: WithByteOffset
 }
 
-export type FeatureTable = Base | (Base & FeatureTable.WithBatchTable)
-export const FeatureTable = { create }
+export type FeatureTableHeader =
+  | Base
+  | (Base & FeatureTableHeader.WithBatchTable)
+export const FeatureTableHeader = { create }
 
-function create({ view, tileBounds, toEcef }: Translate): FeatureTable {
+function create({ view, tileBounds, toEcef }: Translate): FeatureTableHeader {
   const bounds = Bounds.reproject(tileBounds, toEcef)
-  const table: FeatureTable = {
+  const table: FeatureTableHeader = {
     POINTS_LENGTH: view.length,
     RTC_CENTER: Bounds.mid(bounds),
     POSITION: { byteOffset: 0 },
