@@ -1,4 +1,4 @@
-import { Bounds, Ept } from '../../ept'
+import { Bounds } from '../../ept'
 import { View } from '../../types'
 import { Reproject } from '../../utils'
 

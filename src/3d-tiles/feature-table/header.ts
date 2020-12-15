@@ -2,12 +2,12 @@ import { Bounds } from '../../ept'
 import { Point } from '../../types'
 import * as Constants from '../constants'
 
-import { Rgb } from './rgb'
-import { Translate } from './types'
+import { Rgb } from '../pnts/rgb'
+import { Translate } from '../pnts/types'
 
 type WithByteOffset = { byteOffset: number }
 
-export declare namespace FeatureTableHeader {
+export declare namespace Header {
   export type Floating = {
     POSITION: WithByteOffset
   }
@@ -22,7 +22,7 @@ export declare namespace FeatureTableHeader {
   }
 }
 
-type Base = (FeatureTableHeader.Floating | FeatureTableHeader.Quantized) & {
+type Base = (Header.Floating | Header.Quantized) & {
   // https://git.io/JIhyp
   POINTS_LENGTH: number
   RTC_CENTER?: Point
@@ -36,14 +36,12 @@ type Base = (FeatureTableHeader.Floating | FeatureTableHeader.Quantized) & {
   NORMAL_OCT16P?: WithByteOffset
 }
 
-export type FeatureTableHeader =
-  | Base
-  | (Base & FeatureTableHeader.WithBatchTable)
-export const FeatureTableHeader = { create }
+export type Header = Base | (Base & Header.WithBatchTable)
+export const Header = { create }
 
-function create({ view, tileBounds, toEcef }: Translate): FeatureTableHeader {
+function create({ view, tileBounds, toEcef }: Translate): Header {
   const bounds = Bounds.reproject(tileBounds, toEcef)
-  const table: FeatureTableHeader = {
+  const table: Header = {
     POINTS_LENGTH: view.length,
     RTC_CENTER: Bounds.mid(bounds),
     POSITION: { byteOffset: 0 },

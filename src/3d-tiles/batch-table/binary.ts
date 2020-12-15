@@ -1,6 +1,6 @@
-import { Translate } from './types'
+import { Translate } from '../pnts/types'
 
-export const BatchTableBinary = { create }
+export const Binary = { create }
 function create(params: Translate) {
   return createIntensity(params)
 }
