@@ -40,7 +40,7 @@ function create({ view }: Header.Options): Header | undefined {
     return {
       Intensity: {
         byteOffset: 0,
-        componentType: 'UNSIGNED_BYTE',
+        componentType: 'UNSIGNED_INT',
         type: 'SCALAR',
       },
     }

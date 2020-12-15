@@ -1,5 +1,5 @@
-import { Rgb } from '../pnts/rgb'
-import { Xyz } from '../pnts/xyz'
+import { Rgb } from './rgb'
+import { Xyz } from './xyz'
 
 import { Translate } from '../pnts/types'
 

@@ -1,9 +1,11 @@
 import { BatchTable } from '../batch-table'
 import { FeatureTable } from '../feature-table'
+
 import { Header } from './header'
 import { Translate } from './types'
-import { padEnd } from './utils'
 
+export * as Constants from './constants'
+export { BatchTable, FeatureTable }
 export function translate(params: Translate) {
   const {
     header: featureTableHeader,

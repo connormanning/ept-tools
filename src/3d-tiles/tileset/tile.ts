@@ -1,8 +1,7 @@
-import { Bounds, Hierarchy, Key, Step } from '../ept'
-import { Reproject } from '../utils'
+import { Bounds, Hierarchy, Key, Step } from '../../ept'
+import { Reproject } from '../../utils'
 
-import { BoundingVolume } from './bounding-volume'
-import { Refine } from './refine'
+import { BoundingVolume } from '../bounding-volume'
 
 const steps: Step[] = [
   [0, 0, 0],
@@ -16,7 +15,7 @@ const steps: Step[] = [
 ]
 
 export declare namespace Tile {
-  type TranslateOptions = {
+  export type TranslateOptions = {
     bounds: Bounds
     code: string
     hierarchy: Hierarchy
@@ -31,7 +30,7 @@ export type Tile = {
   children?: Tile[]
   boundingVolume: BoundingVolume
   geometricError: number
-  refine?: Refine
+  refine?: 'ADD' | 'REPLACE'
 }
 
 export const Tile = { translate }

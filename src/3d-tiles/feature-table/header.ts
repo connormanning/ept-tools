@@ -1,9 +1,10 @@
 import { Bounds } from '../../ept'
 import { Point } from '../../types'
-import * as Constants from '../constants'
 
-import { Rgb } from '../pnts/rgb'
+import * as Constants from '../pnts/constants'
 import { Translate } from '../pnts/types'
+
+import { Rgb } from './rgb'
 
 type WithByteOffset = { byteOffset: number }
 
@@ -47,7 +48,7 @@ function create({ view, tileBounds, toEcef }: Translate): Header {
     POSITION: { byteOffset: 0 },
   }
   if (Rgb.existsIn(view)) {
-    table.RGB = { byteOffset: view.length * Constants.pntsXyzSize }
+    table.RGB = { byteOffset: view.length * Constants.xyzSize }
   }
   return table
 }
