@@ -9,6 +9,7 @@
   },
   "scripts": {
     "build": "tsc -p tsconfig.build.json",
+    "dev": "ts-node -r tsconfig-paths/register src/app/index.ts",
     "prepare": "$npm_execpath build",
     "test": "jest"
   },
@@ -35,6 +36,7 @@
     "pretty-quick": "^3.1.0",
     "ts-jest": "^26.4.4",
     "ts-node": "^9.1.0",
+    "tsconfig-paths": "^3.9.0",
     "typescript": "^4.1.2"
   },
   "husky": {
