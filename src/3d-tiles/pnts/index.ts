@@ -1,5 +1,5 @@
 import { translate } from './translate'
 
-export { FeatureTable } from './feature-table'
+export { FeatureTableHeader } from './feature-table-header'
 
 export const Pnts = { translate }

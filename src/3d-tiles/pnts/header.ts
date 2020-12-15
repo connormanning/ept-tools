@@ -1,54 +1,57 @@
 import { EptToolsError } from '../../types'
 import { pntsHeaderSize, pntsMagic, pntsVersion } from '../constants'
 
-export declare namespace Header {
-  export type Sizes = {
-    featureTableJson: number
-    featureTableBinary: number
-    batchTableJson: number
-    batchTableBinary: number
-  }
-}
 export const Header = { create }
 
-function create(sizes: Header.Sizes) {
+export type Buffers = {
+  featureTableHeader: Buffer
+  featureTableBinary: Buffer
+  batchTableHeader: Buffer
+  batchTableBinary: Buffer
+}
+function create({
+  featureTableHeader,
+  featureTableBinary,
+  batchTableHeader,
+  batchTableBinary,
+}: Buffers) {
   const buffer = Buffer.alloc(pntsHeaderSize)
 
-  if (sizes.featureTableJson % 8 !== 0) {
+  if (featureTableHeader.length % 8 !== 0) {
     throw new EptToolsError(
-      `Invalid feature table JSON size: ${sizes.featureTableJson}`
+      `Invalid feature table JSON size: ${featureTableHeader.length}`
     )
   }
-  if (sizes.featureTableBinary % 8 !== 0) {
+  if (featureTableBinary.length % 8 !== 0) {
     throw new EptToolsError(
-      `Invalid feature table binary size: ${sizes.featureTableBinary}`
+      `Invalid feature table binary size: ${featureTableBinary.length}`
     )
   }
-  if (sizes.batchTableJson % 8 !== 0) {
+  if (batchTableHeader.length % 8 !== 0) {
     throw new EptToolsError(
-      `Invalid batch table JSON size: ${sizes.batchTableJson}`
+      `Invalid batch table JSON size: ${batchTableHeader.length}`
     )
   }
-  if (sizes.batchTableBinary % 8 !== 0) {
+  if (batchTableBinary.length % 8 !== 0) {
     throw new EptToolsError(
-      `Invalid batch table binary size: ${sizes.batchTableBinary}`
+      `Invalid batch table binary size: ${batchTableBinary.length}`
     )
   }
 
   const total =
     pntsHeaderSize +
-    sizes.featureTableJson +
-    sizes.featureTableBinary +
-    sizes.batchTableJson +
-    sizes.batchTableBinary
+    featureTableHeader.length +
+    featureTableBinary.length +
+    batchTableHeader.length +
+    batchTableBinary.length
 
   // https://git.io/fjP8k
   buffer.write(pntsMagic, 0, 'utf8')
   buffer.writeUInt32LE(pntsVersion, 4)
   buffer.writeUInt32LE(total, 8)
-  buffer.writeUInt32LE(sizes.featureTableJson, 12)
-  buffer.writeUInt32LE(sizes.featureTableBinary, 16)
-  buffer.writeUInt32LE(sizes.batchTableJson, 20)
-  buffer.writeUInt32LE(sizes.batchTableBinary, 24)
+  buffer.writeUInt32LE(featureTableHeader.length, 12)
+  buffer.writeUInt32LE(featureTableBinary.length, 16)
+  buffer.writeUInt32LE(batchTableHeader.length, 20)
+  buffer.writeUInt32LE(batchTableBinary.length, 24)
   return buffer
 }

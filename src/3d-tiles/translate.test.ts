@@ -4,7 +4,7 @@ import { Bounds, DataType, Ept, JsonSchema, Key, Srs } from '../ept'
 import { Ellipsoid, testdir } from '../test'
 import { Reproject, getBinary, getJson } from '../utils'
 
-import { FeatureTable } from './pnts'
+import { FeatureTableHeader } from './pnts'
 
 import { BoundingVolume, Constants, Tile, Tileset, translate } from '.'
 
@@ -125,18 +125,18 @@ test('success: xyz and rgb', async () => {
   const magic = header.toString('utf8', 0, 4)
   const version = header.readUInt32LE(4)
   const total = header.readUInt32LE(8)
-  const featureTableJsonSize = header.readUInt32LE(12)
+  const featureTableHeaderSize = header.readUInt32LE(12)
   const featureTableBinarySize = header.readUInt32LE(16)
-  const batchTableJsonSize = header.readUInt32LE(20)
+  const batchTableHeaderSize = header.readUInt32LE(20)
   const batchTableBinarySize = header.readUInt32LE(24)
 
   expect(magic).toEqual('pnts')
   expect(version).toEqual(1)
   expect(total).toEqual(pnts.length)
-  expect(batchTableJsonSize).toEqual(0)
+  expect(batchTableHeaderSize).toEqual(0)
   expect(batchTableBinarySize).toEqual(0)
   expect(featureTableBinarySize).toEqual(
-    pnts.length - Constants.pntsHeaderSize - featureTableJsonSize
+    pnts.length - Constants.pntsHeaderSize - featureTableHeaderSize
   )
 
   // Now we'll verify the feature table JSON metadata.  It's not particularly
@@ -148,10 +148,10 @@ test('success: xyz and rgb', async () => {
   const tileBounds = Bounds.stepTo(ept.bounds, key)
   const ecefCenter = Bounds.mid(Bounds.reproject(tileBounds, toEcef))
 
-  const featureTable: FeatureTable = JSON.parse(
-    pnts.slice(header.length, header.length + featureTableJsonSize).toString()
+  const featureTable: FeatureTableHeader = JSON.parse(
+    pnts.slice(header.length, header.length + featureTableHeaderSize).toString()
   )
-  expect(featureTable).toEqual<FeatureTable>({
+  expect(featureTable).toEqual<FeatureTableHeader>({
     POINTS_LENGTH: numPoints,
     RTC_CENTER: ecefCenter,
     POSITION: { byteOffset: 0 },
@@ -159,7 +159,7 @@ test('success: xyz and rgb', async () => {
   })
 
   const view = DataType.view('binary', bin, ept.schema)
-  const binaryOffset = header.length + featureTableJsonSize
+  const binaryOffset = header.length + featureTableHeaderSize
 
   // And now we'll compare the point data.
   {
