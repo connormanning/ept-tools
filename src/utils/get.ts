@@ -2,7 +2,7 @@ import { promises as fs } from 'fs'
 import fetch from 'node-fetch'
 import { getProtocol } from 'protopath'
 
-import { EptToolsError } from '../types'
+import { EptToolsError } from 'types'
 
 async function runFetch(url: string) {
   const response = await fetch(url)

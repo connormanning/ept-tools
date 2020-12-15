@@ -1,4 +1,4 @@
-import { Ept } from '../ept'
+import { Ept } from 'ept'
 
 export const ept: Omit<Ept, 'dataType'> = {
   bounds: [-8242747, 4966455, -151, -8242445, 4966757, 151],

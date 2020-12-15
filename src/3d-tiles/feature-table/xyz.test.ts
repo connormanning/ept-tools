@@ -1,7 +1,6 @@
-import { Bounds, DataType, Schema } from '../../ept'
-import { Reproject, Scale } from '../../utils'
-
-import { Ellipsoid } from '../../test'
+import { Bounds, DataType, Schema } from 'ept'
+import { Ellipsoid } from 'test'
+import { Reproject, Scale } from 'utils'
 
 import { Xyz } from './xyz'
 

@@ -1,4 +1,4 @@
-import { Ctype, EptToolsError } from '../types'
+import { Ctype, EptToolsError } from 'types'
 
 export declare namespace Dimension {
   export type Type = 'signed' | 'unsigned' | 'float'

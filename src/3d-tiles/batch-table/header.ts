@@ -1,4 +1,4 @@
-import { View } from '../../types'
+import { View } from 'types'
 
 type JsonSerializable =
   | number

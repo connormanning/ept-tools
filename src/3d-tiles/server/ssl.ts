@@ -1,4 +1,4 @@
-import { EptToolsError } from '../../types'
+import { EptToolsError } from 'types'
 
 export declare namespace Ssl {
   export type Options = { keyPath: string; certPath: string; caPath?: string }

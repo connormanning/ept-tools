@@ -1,8 +1,8 @@
-import { Bounds } from '../../ept'
-import { Point } from '../../types'
+import { Bounds } from 'ept'
+import { Point } from 'types'
 
-import * as Constants from '../pnts/constants'
-import { Translate } from '../pnts/types'
+import * as Constants from '3d-tiles/pnts/constants'
+import { Translate } from '3d-tiles/pnts/types'
 
 import { Rgb } from './rgb'
 

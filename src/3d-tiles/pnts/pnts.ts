@@ -1,5 +1,5 @@
-import { BatchTable } from '../batch-table'
-import { FeatureTable } from '../feature-table'
+import { BatchTable } from '3d-tiles/batch-table'
+import { FeatureTable } from '3d-tiles/feature-table'
 
 import { Header } from './header'
 import { Translate } from './types'

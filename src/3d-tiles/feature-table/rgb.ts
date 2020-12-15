@@ -1,7 +1,7 @@
-import { View } from '../../types'
+import { View } from 'types'
 
-import * as Constants from '../pnts/constants'
-import { Translate } from '../pnts/types'
+import * as Constants from '3d-tiles/pnts/constants'
+import { Translate } from '3d-tiles/pnts/types'
 
 export const Rgb = { existsIn: hasRgb, create }
 function hasRgb(view: View) {
