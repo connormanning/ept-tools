@@ -4,7 +4,7 @@ import { Bounds, DataType, Ept, JsonSchema, Key, Srs } from '../ept'
 import { Ellipsoid, testdir } from '../test'
 import { Reproject, getBinary, getJson } from '../utils'
 
-import { FeatureTableHeader } from './pnts'
+import { FeatureTable } from './feature-table'
 
 import { BoundingVolume, Constants, Tile, Tileset, translate } from '.'
 
@@ -148,10 +148,10 @@ test('success: xyz and rgb', async () => {
   const tileBounds = Bounds.stepTo(ept.bounds, key)
   const ecefCenter = Bounds.mid(Bounds.reproject(tileBounds, toEcef))
 
-  const featureTable: FeatureTableHeader = JSON.parse(
+  const featureTable: FeatureTable.Header = JSON.parse(
     pnts.slice(header.length, header.length + featureTableHeaderSize).toString()
   )
-  expect(featureTable).toEqual<FeatureTableHeader>({
+  expect(featureTable).toEqual<FeatureTable.Header>({
     POINTS_LENGTH: numPoints,
     RTC_CENTER: ecefCenter,
     POSITION: { byteOffset: 0 },

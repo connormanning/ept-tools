@@ -8,7 +8,7 @@ type JsonSerializable =
   | { [key: string]: JsonSerializable }
   | JsonSerializable[]
 
-export declare namespace BatchTableHeader {
+export declare namespace Header {
   // https://git.io/JLtEm
   export type ComponentType =
     | 'BYTE'
@@ -21,23 +21,21 @@ export declare namespace BatchTableHeader {
     | 'DOUBLE'
   export type Type = 'SCALAR' | 'VEC2' | 'VEC3' | 'VEC4'
 
-  export type InlineValue = JsonSerializable[]
-  export type BinaryValue = {
+  export type InlineDimension = JsonSerializable[]
+  export type BinaryDimension = {
     byteOffset: number
     componentType: ComponentType
     type: Type
   }
-  export type Value = InlineValue | BinaryValue
+  export type Dimension = InlineDimension | BinaryDimension
 
   export type Options = { view: View }
 }
-export type BatchTableHeader = { [name: string]: BatchTableHeader.Value }
 
-export const BatchTableHeader = { create }
+export type Header = { [name: string]: Header.Dimension }
+export const Header = { create }
 
-function create({
-  view,
-}: BatchTableHeader.Options): BatchTableHeader | undefined {
+function create({ view }: Header.Options): Header | undefined {
   if (view.has('Intensity')) {
     return {
       Intensity: {
