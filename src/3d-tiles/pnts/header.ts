@@ -1,4 +1,5 @@
-import { EptToolsError } from '../../types'
+import { EptToolsError } from 'types'
+
 import * as Constants from './constants'
 
 export const Header = { create }

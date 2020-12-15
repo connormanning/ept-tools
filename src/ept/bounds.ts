@@ -1,5 +1,5 @@
-import { Point } from '../types'
-import { Reproject } from '../utils'
+import { Point } from 'types'
+import { Reproject } from 'utils'
 
 import { Key } from './key'
 import { Step } from './step'

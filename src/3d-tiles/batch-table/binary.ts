@@ -1,4 +1,4 @@
-import { Translate } from '../pnts/types'
+import { Translate } from '3d-tiles/pnts/types'
 
 export const Binary = { create }
 function create(params: Translate) {

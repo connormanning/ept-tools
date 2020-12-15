@@ -1,5 +1,5 @@
-import { Bounds, Ept, Hierarchy, Key, Srs } from '../../ept'
-import { EptToolsError } from '../../types'
+import { Bounds, Ept, Hierarchy, Key, Srs } from 'ept'
+import { EptToolsError } from 'types'
 
 import * as Constants from './constants'
 import { Tile } from './tile'

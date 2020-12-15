@@ -1,5 +1,5 @@
-import { Translate } from '../pnts/types'
-import { padEnd } from '../pnts/utils'
+import { Translate } from '3d-tiles/pnts/types'
+import { padEnd } from '3d-tiles/utils'
 
 import { Binary } from './binary'
 import { Header } from './header'

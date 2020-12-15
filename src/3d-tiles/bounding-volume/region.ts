@@ -1,4 +1,4 @@
-import { Bounds } from '../../ept'
+import { Bounds } from 'ept'
 
 export type Region = [number, number, number, number, number, number]
 export const Region = { fromWgs84 }

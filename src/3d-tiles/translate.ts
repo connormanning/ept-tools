@@ -1,8 +1,8 @@
 import { basename, dirname, join } from 'protopath'
 
-import { Bounds, DataType, Key, JsonSchema, Srs } from '../ept'
-import { EptToolsError } from '../types'
-import { Reproject, getBinary, getJson } from '../utils'
+import { Bounds, DataType, Key, JsonSchema, Srs } from 'ept'
+import { EptToolsError } from 'types'
+import { Reproject, getBinary, getJson } from 'utils'
 
 import { Pnts } from './pnts'
 import { Tileset } from './tileset'

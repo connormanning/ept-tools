@@ -3,7 +3,7 @@ import logger from 'koa-logger'
 import Router from '@koa/router'
 import { join } from 'protopath'
 
-import { translate } from '../translate'
+import { translate } from '3d-tiles'
 
 import { Cors } from './cors'
 import { Httpx } from './httpx'

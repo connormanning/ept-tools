@@ -2,7 +2,7 @@ import http from 'http'
 import { join } from 'path'
 import Koa, { Context } from 'koa'
 
-import { Server } from '../test'
+import { Server } from 'test'
 
 import { getBinary, getJson } from './get'
 

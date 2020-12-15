@@ -1,4 +1,4 @@
-import { EptToolsError } from '../types'
+import { EptToolsError } from 'types'
 
 import { Dimension } from './dimension'
 

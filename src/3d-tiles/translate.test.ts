@@ -1,8 +1,8 @@
 import { join } from 'protopath'
 
-import { Bounds, DataType, Ept, JsonSchema, Key, Srs } from '../ept'
-import { Ellipsoid, testdir } from '../test'
-import { Reproject, getBinary, getJson } from '../utils'
+import { Bounds, DataType, Ept, JsonSchema, Key, Srs } from 'ept'
+import { Ellipsoid, testdir } from 'test'
+import { Reproject, getBinary, getJson } from 'utils'
 
 import { BoundingVolume, Pnts, Tile, Tileset, translate } from '.'
 
