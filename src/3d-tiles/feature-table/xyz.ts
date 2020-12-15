@@ -1,7 +1,7 @@
 import { Bounds } from '../../ept'
 
-import * as Constants from '../constants'
-import { Translate } from './types'
+import * as Constants from '../pnts/constants'
+import { Translate } from '../pnts/types'
 
 export const Xyz = { create }
 
@@ -9,7 +9,7 @@ function create({ view, tileBounds, toEcef }: Translate) {
   const { getter, length } = view
   const getters = ['X', 'Y', 'Z'].map(getter)
 
-  const buffer = Buffer.allocUnsafe(length * Constants.pntsXyzSize)
+  const buffer = Buffer.allocUnsafe(length * Constants.xyzSize)
   const mid = Bounds.mid(Bounds.reproject(tileBounds, toEcef))
 
   for (let index = 0, offset = 0; index < length; ++index) {

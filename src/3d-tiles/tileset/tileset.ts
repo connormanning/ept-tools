@@ -1,12 +1,11 @@
-import { Bounds, Ept, Hierarchy, Key, Srs } from '../ept'
-import { EptToolsError } from '../types'
+import { Bounds, Ept, Hierarchy, Key, Srs } from '../../ept'
+import { EptToolsError } from '../../types'
 
-import { geometricErrorDivisor } from './constants'
+import * as Constants from './constants'
 import { Tile } from './tile'
 
 export declare namespace Tileset {
-  export type TranslateOptions = { ept: Ept; hierarchy: Hierarchy; key: Key }
-
+  export type Create = { key: Key; ept: Ept; hierarchy: Hierarchy }
   export type Version = '1.0'
   export type Asset = {
     version: Version
@@ -20,10 +19,11 @@ export type Tileset = {
   asset: Tileset.Asset
   properties?: object
 }
-export const Tileset = { translate }
+export const Tileset = { Constants, translate }
 
-function translate({ key, ept, hierarchy }: Tileset.TranslateOptions): Tileset {
-  const rootGeometricError = Bounds.width(ept.bounds) / geometricErrorDivisor
+function translate({ key, ept, hierarchy }: Tileset.Create): Tileset {
+  const rootGeometricError =
+    Bounds.width(ept.bounds) / Constants.geometricErrorDivisor
   const geometricError = rootGeometricError / Math.pow(2, Key.depth(key))
 
   const bounds = Bounds.stepTo(ept.bounds, key)

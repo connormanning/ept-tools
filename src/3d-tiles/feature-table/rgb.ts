@@ -1,6 +1,7 @@
 import { View } from '../../types'
-import * as Constants from '../constants'
-import { Translate } from './types'
+
+import * as Constants from '../pnts/constants'
+import { Translate } from '../pnts/types'
 
 export const Rgb = { existsIn: hasRgb, create }
 function hasRgb(view: View) {
@@ -12,7 +13,7 @@ function create({ view }: Translate) {
   const { getter, length } = view
   const getters = ['Red', 'Green', 'Blue'].map(getter)
 
-  const buffer = Buffer.allocUnsafe(length * Constants.pntsRgbSize)
+  const buffer = Buffer.allocUnsafe(length * Constants.rgbSize)
 
   for (let index = 0, offset = 0; index < length; ++index) {
     getters.forEach(get => buffer.writeUInt8(get(index), offset++))

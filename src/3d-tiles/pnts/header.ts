@@ -1,5 +1,5 @@
 import { EptToolsError } from '../../types'
-import { pntsHeaderSize, pntsMagic, pntsVersion } from '../constants'
+import * as Constants from './constants'
 
 export const Header = { create }
 
@@ -15,7 +15,7 @@ function create({
   batchTableHeader,
   batchTableBinary,
 }: Buffers) {
-  const buffer = Buffer.alloc(pntsHeaderSize)
+  const buffer = Buffer.alloc(Constants.headerSize)
 
   if (featureTableHeader.length % 8 !== 0) {
     throw new EptToolsError(
@@ -39,15 +39,15 @@ function create({
   }
 
   const total =
-    pntsHeaderSize +
+    Constants.headerSize +
     featureTableHeader.length +
     featureTableBinary.length +
     batchTableHeader.length +
     batchTableBinary.length
 
   // https://git.io/fjP8k
-  buffer.write(pntsMagic, 0, 'utf8')
-  buffer.writeUInt32LE(pntsVersion, 4)
+  buffer.write(Constants.magic, 0, 'utf8')
+  buffer.writeUInt32LE(Constants.version, 4)
   buffer.writeUInt32LE(total, 8)
   buffer.writeUInt32LE(featureTableHeader.length, 12)
   buffer.writeUInt32LE(featureTableBinary.length, 16)

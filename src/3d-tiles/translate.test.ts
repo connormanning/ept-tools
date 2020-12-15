@@ -4,9 +4,7 @@ import { Bounds, DataType, Ept, JsonSchema, Key, Srs } from '../ept'
 import { Ellipsoid, testdir } from '../test'
 import { Reproject, getBinary, getJson } from '../utils'
 
-import { FeatureTable } from './feature-table'
-
-import { BoundingVolume, Constants, Tile, Tileset, translate } from '.'
+import { BoundingVolume, Pnts, Tile, Tileset, translate } from '.'
 
 function flatten({ children = [], ...tile }: Tile): Tile[] {
   return [
@@ -46,7 +44,7 @@ test('success: tileset', async () => {
   const reproject = Reproject.create(Ellipsoid.srsCodeString, 'EPSG:4326')
   const boundsWgs84 = Bounds.reproject(Ellipsoid.bounds, reproject)
   const geometricError =
-    Bounds.width(Ellipsoid.bounds) / Constants.geometricErrorDivisor
+    Bounds.width(Ellipsoid.bounds) / Tileset.Constants.geometricErrorDivisor
 
   expect(tileset).toEqual<Tileset>({
     root: {
@@ -92,7 +90,7 @@ test('failure: invalid file extension', async () => {
   await expect(translate(filename)).rejects.toThrow(/invalid file extension/i)
 })
 
-test('success: xyz and rgb', async () => {
+test('success: xyz/rgb/i', async () => {
   // Set up some supporting metadata.  We'll be focusing on the translation of a
   // single node here: the 1-0-0-0 node.
   const key = Key.create(1, 0, 0, 0)
@@ -121,7 +119,7 @@ test('success: xyz and rgb', async () => {
   if (!Buffer.isBuffer(pnts)) throw new Error('Unexpected translate format')
 
   // First pluck the values out of the header and make sure they make sense.
-  const header = pnts.slice(0, Constants.pntsHeaderSize)
+  const header = pnts.slice(0, Pnts.Constants.headerSize)
   const magic = header.toString('utf8', 0, 4)
   const version = header.readUInt32LE(4)
   const total = header.readUInt32LE(8)
@@ -133,11 +131,14 @@ test('success: xyz and rgb', async () => {
   expect(magic).toEqual('pnts')
   expect(version).toEqual(1)
   expect(total).toEqual(pnts.length)
-  expect(batchTableHeaderSize).toEqual(0)
-  expect(batchTableBinarySize).toEqual(0)
+
+  const ceil8 = (n: number) => Math.ceil(n / 8) * 8
+  // XYZ + RGB.
   expect(featureTableBinarySize).toEqual(
-    pnts.length - Constants.pntsHeaderSize - featureTableHeaderSize
+    ceil8(numPoints * (Pnts.Constants.xyzSize + Pnts.Constants.rgbSize))
   )
+  // Intensity.
+  expect(batchTableBinarySize).toEqual(ceil8(numPoints * 1))
 
   // Now we'll verify the feature table JSON metadata.  It's not particularly
   // interesting but we need to check that our point count matches the expected
@@ -148,14 +149,29 @@ test('success: xyz and rgb', async () => {
   const tileBounds = Bounds.stepTo(ept.bounds, key)
   const ecefCenter = Bounds.mid(Bounds.reproject(tileBounds, toEcef))
 
-  const featureTable: FeatureTable.Header = JSON.parse(
+  const featureTable: Pnts.FeatureTable.Header = JSON.parse(
     pnts.slice(header.length, header.length + featureTableHeaderSize).toString()
   )
-  expect(featureTable).toEqual<FeatureTable.Header>({
+  expect(featureTable).toEqual<Pnts.FeatureTable.Header>({
     POINTS_LENGTH: numPoints,
     RTC_CENTER: ecefCenter,
     POSITION: { byteOffset: 0 },
-    RGB: { byteOffset: numPoints * Constants.pntsXyzSize },
+    RGB: { byteOffset: numPoints * Pnts.Constants.xyzSize },
+  })
+
+  const batchTableBegin =
+    pnts.length - batchTableBinarySize - batchTableHeaderSize
+  const batchTable: Pnts.BatchTable.Header = JSON.parse(
+    pnts
+      .slice(batchTableBegin, batchTableBegin + batchTableHeaderSize)
+      .toString()
+  )
+  expect(batchTable).toEqual<Pnts.BatchTable.Header>({
+    Intensity: {
+      byteOffset: 0,
+      componentType: 'UNSIGNED_INT',
+      type: 'SCALAR',
+    },
   })
 
   const view = DataType.view('binary', bin, ept.schema)
@@ -184,7 +200,7 @@ test('success: xyz and rgb', async () => {
     const rgbOffset = binaryOffset + featureTable.RGB!.byteOffset
     const data = pnts.slice(
       rgbOffset,
-      rgbOffset + numPoints * Constants.pntsRgbSize
+      rgbOffset + numPoints * Pnts.Constants.rgbSize
     )
 
     const getters = [
@@ -198,6 +214,17 @@ test('success: xyz and rgb', async () => {
         .forEach((v) => {
           expect(v).toEqual(data.readUInt8(offset++))
         })
+    }
+  }
+
+  {
+    // And finally the Intensity from the batch table.
+    const intensityOffset = batchTableBegin + batchTableHeaderSize
+    const data = pnts.slice(intensityOffset, intensityOffset + numPoints * 1)
+
+    const get = view.getter('Intensity')
+    for (let i = 0; i < numPoints; ++i) {
+      expect(get(i)).toEqual(data.readUInt8(i))
     }
   }
 })
