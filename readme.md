@@ -38,4 +38,3 @@ Available tools are:
 - [validate](doc/validate.md): validate metadata structure of an EPT dataset
 - [serve](doc/serve.md): serve EPT data as on-demand 3D Tiles over HTTP
 - [tile](doc/tile.md): translate EPT to 3D Tiles on disk
-
