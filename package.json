@@ -8,7 +8,7 @@
     "ept": "lib/index.js"
   },
   "scripts": {
-    "build": "tsc",
+    "build": "tsc -p tsconfig.build.json",
     "prepare": "$npm_execpath build",
     "test": "jest"
   },
