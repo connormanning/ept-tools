@@ -6,6 +6,8 @@ import { Server } from 'test'
 
 import { getBinary, getJson } from './get'
 
+const port = Server.getPort()
+
 const notafile = join(__dirname, 'test/i-do-not-exist.json')
 const textfile = join(__dirname, 'test/data.txt')
 const jsonfile = join(__dirname, 'test/data.json')
@@ -29,10 +31,10 @@ test('file: good json', async () => {
 test('http: failure', async () => {
   const app = new Koa()
   app.use((ctx: Context) => (ctx.status = 412))
-  const server = await Server.listen(app)
+  const server = await Server.listen(app, port)
 
   try {
-    await expect(getBinary(`http://localhost:${Server.port}`)).rejects.toThrow(
+    await expect(getBinary(`http://localhost:${port}`)).rejects.toThrow(
       /precondition failed/i
     )
   } finally {
@@ -43,12 +45,12 @@ test('http: failure', async () => {
 test('http: success', async () => {
   const app = new Koa()
   app.use((ctx: Context) => (ctx.body = Buffer.from('asdf')))
-  const server = await Server.listen(app)
+  const server = await Server.listen(app, port)
 
   try {
-    expect(
-      (await getBinary(`http://localhost:${Server.port}`)).toString()
-    ).toEqual('asdf')
+    expect((await getBinary(`http://localhost:${port}`)).toString()).toEqual(
+      'asdf'
+    )
   } finally {
     await Server.destroy(server)
   }
@@ -57,10 +59,10 @@ test('http: success', async () => {
 test('http: success json', async () => {
   const app = new Koa()
   app.use((ctx: Context) => (ctx.body = { a: 1 }))
-  const server = await Server.listen(app)
+  const server = await Server.listen(app, port)
 
   try {
-    expect(await getJson(`http://localhost:${Server.port}`)).toEqual({ a: 1 })
+    expect(await getJson(`http://localhost:${port}`)).toEqual({ a: 1 })
   } finally {
     await Server.destroy(server)
   }
