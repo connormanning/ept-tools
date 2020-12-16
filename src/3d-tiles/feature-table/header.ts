@@ -2,7 +2,7 @@ import { Bounds } from 'ept'
 import { Point } from 'types'
 
 import * as Constants from '3d-tiles/pnts/constants'
-import { Translate } from '3d-tiles/pnts/types'
+import { Params } from '3d-tiles/pnts/types'
 
 import { Rgb } from './rgb'
 
@@ -40,7 +40,7 @@ type Base = (Header.Floating | Header.Quantized) & {
 export type Header = Base | (Base & Header.WithBatchTable)
 export const Header = { create }
 
-function create({ view, tileBounds, toEcef }: Translate): Header {
+function create({ view, tileBounds, toEcef }: Params): Header {
   const bounds = Bounds.reproject(tileBounds, toEcef)
   const table: Header = {
     POINTS_LENGTH: view.length,

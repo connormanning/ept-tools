@@ -1,13 +1,13 @@
 import { View } from 'types'
 
 import * as Constants from '3d-tiles/pnts/constants'
-import { Translate } from '3d-tiles/pnts/types'
+import { Params } from '3d-tiles/pnts/types'
 
 export const Rgb = { existsIn: hasRgb, create }
 function hasRgb(view: View) {
   return view.has('Red') && view.has('Green') && view.has('Blue')
 }
-function create({ view }: Translate) {
+function create({ view }: Params) {
   if (!hasRgb(view)) return Buffer.alloc(0)
 
   const { getter, length } = view
@@ -16,7 +16,7 @@ function create({ view }: Translate) {
   const buffer = Buffer.allocUnsafe(length * Constants.rgbSize)
 
   for (let index = 0, offset = 0; index < length; ++index) {
-    getters.forEach(get => buffer.writeUInt8(get(index), offset++))
+    getters.forEach((get) => buffer.writeUInt8(get(index), offset++))
   }
 
   return buffer
