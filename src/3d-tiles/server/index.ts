@@ -21,13 +21,15 @@ export const Server = { create }
 async function create({
   root,
   port,
-  allowedOrigins,
+  allowedOrigins: userOrigins,
   keyPath,
   certPath,
   caPath,
 }: Server.Options) {
   const app = new Koa()
   app.use(logger())
+
+  const allowedOrigins = userOrigins === '*' ? '*' : userOrigins.split(',')
   app.use(Cors.create(allowedOrigins))
 
   const router = new Router()
