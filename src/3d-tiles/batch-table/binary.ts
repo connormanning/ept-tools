@@ -1,11 +1,11 @@
-import { Translate } from '3d-tiles/pnts/types'
+import { Params } from '3d-tiles/pnts/types'
 
 export const Binary = { create }
-function create(params: Translate) {
+function create(params: Params) {
   return createIntensity(params)
 }
 
-function createIntensity({ view }: Translate) {
+function createIntensity({ view }: Params) {
   if (!view.has('Intensity')) return Buffer.alloc(0)
 
   const { getter, length } = view

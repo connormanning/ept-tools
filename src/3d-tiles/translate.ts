@@ -7,10 +7,6 @@ import { Reproject, getBinary, getJson } from 'utils'
 import { Pnts } from './pnts'
 import { Tileset } from './tileset'
 
-export declare namespace Translate {
-  export type Options = {}
-}
-
 /**
  * Generates a 3D-Tiles file translation of an EPT dataset at the virtual path
  * <ept-directory>/ept-tileset/.  So the virtual "tileset.json" for an EPT
@@ -19,8 +15,10 @@ export declare namespace Translate {
  */
 export async function translate(
   filename: string,
-  _options: Translate.Options = {}
+  { zOffset = 0, dimensions = [], addons = [] }: Partial<Pnts.Options> = {}
 ) {
+  const options: Pnts.Options = { zOffset, dimensions, addons }
+
   const tilesetdir = dirname(filename)
   if (!tilesetdir.endsWith('ept-tileset')) {
     throw new EptToolsError(`Invalid virtual tileset path: ${filename}`)
@@ -62,5 +60,5 @@ export async function translate(
     throw new EptToolsError(`Cannot translate to 3D Tiles without an SRS code`)
   }
   const toEcef = Reproject.create(codeString, 'EPSG:4978')
-  return Pnts.translate({ view, tileBounds, toEcef })
+  return Pnts.translate({ view, tileBounds, toEcef, options })
 }
