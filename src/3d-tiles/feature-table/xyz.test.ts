@@ -1,5 +1,6 @@
 import { Bounds, DataType, Schema } from 'ept'
 import { Ellipsoid, Pnts } from 'test'
+import { Point } from 'types'
 import { Reproject, Scale } from 'utils'
 
 import { Xyz } from './xyz'
@@ -54,4 +55,37 @@ test('create', () => {
   expect(xyz.readFloatLE(12)).toBeCloseTo(ecefB[0] - ecefMid[0], 5)
   expect(xyz.readFloatLE(16)).toBeCloseTo(ecefB[1] - ecefMid[1], 5)
   expect(xyz.readFloatLE(20)).toBeCloseTo(ecefB[2] - ecefMid[2], 5)
+})
+
+test('z offset', () => {
+  const zOffset = 500
+  const schema: Schema = [
+    { name: 'X', type: 'float', size: 8 },
+    { name: 'Y', type: 'float', size: 8 },
+    { name: 'Z', type: 'float', size: 8 },
+  ]
+  const pointSize = Schema.pointSize(schema)
+  const buffer = Buffer.alloc(pointSize)
+  const x = 1,
+    y = 2,
+    z = 3
+  buffer.writeDoubleLE(x, 0)
+  buffer.writeDoubleLE(y, 8)
+  buffer.writeDoubleLE(z, 16)
+
+  const view = DataType.view('binary', buffer, schema)
+
+  const tileBounds: Bounds = [-5, -5, -5, 5, 5, 5]
+  const toEcef: Reproject = <P>(p: P) => p
+
+  const xyz = Xyz.create({
+    view,
+    tileBounds,
+    toEcef,
+    options: { zOffset },
+  })
+
+  expect(xyz.readFloatLE(0)).toEqual(x)
+  expect(xyz.readFloatLE(4)).toEqual(y)
+  expect(xyz.readFloatLE(8)).toEqual(z + zOffset)
 })

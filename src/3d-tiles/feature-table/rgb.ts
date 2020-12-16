@@ -7,7 +7,7 @@ export const Rgb = { existsIn: hasRgb, create }
 function hasRgb(view: View) {
   return view.has('Red') && view.has('Green') && view.has('Blue')
 }
-function create({ view }: Params) {
+function create({ view }: Pick<Params, 'view'>) {
   if (!hasRgb(view)) return Buffer.alloc(0)
 
   const { getter, length } = view

@@ -1,6 +1,6 @@
 import { join } from 'protopath'
 
-import { Bounds, DataType, Ept, JsonSchema, Key, Srs } from 'ept'
+import { Bounds, DataType, Ept, Hierarchy, JsonSchema, Key, Srs } from 'ept'
 import { Ellipsoid, testdir } from 'test'
 import { Reproject, getBinary, getJson } from 'utils'
 
@@ -22,7 +22,7 @@ test('failure: invalid path', async () => {
   ).rejects.toThrow(/invalid/i)
 })
 
-test('failure: invalid SRS', async () => {
+test('failure: missing srs', async () => {
   // Remove the SRS from the EPT data.
   const { srs, ...partial } = Ellipsoid.ept
   const ept: Ept = { ...partial, dataType: 'laszip' }
@@ -83,6 +83,68 @@ test('success: tileset', async () => {
       refine: Key.depth(key) === 0 ? 'ADD' : undefined,
     })
   })
+})
+
+test('success: nested hierarchy', async () => {
+  const key = Key.create(2, 0, 1, 1)
+  const root = join(testdir, 'ellipsoid-laz')
+  const filename = join(root, 'ept-tileset/2-0-1-1.json')
+  const tileset = await translate(filename)
+  if (Buffer.isBuffer(tileset)) throw new Error('Unexpected translated format')
+  const { children } = tileset.root
+
+  const reproject = Reproject.create(Ellipsoid.srsCodeString, 'EPSG:4326')
+  const boundsWgs84 = Bounds.reproject(
+    Bounds.stepTo(Ellipsoid.bounds, key),
+    reproject
+  )
+  const rootGeometricError =
+    Bounds.width(Ellipsoid.bounds) / Tileset.Constants.geometricErrorDivisor
+  const geometricError = rootGeometricError / 2 / 2
+
+  expect(tileset).toEqual<Tileset>({
+    root: {
+      content: { uri: '2-0-1-1.pnts' },
+      boundingVolume: { region: BoundingVolume.Region.fromWgs84(boundsWgs84) },
+      geometricError,
+      children,
+    },
+    geometricError,
+    asset: { version: '1.0' },
+  })
+
+  const flat = flatten(tileset.root)
+
+  // Validate all the nested "children" in each tile.  Flatten them and compare
+  // each of them to the corresponding hierarchy entry.
+  const hierarchyNode: Hierarchy = JsonSchema.parseHierarchy(
+    await getJson(join(root, 'ept-hierarchy/2-0-1-1.json'))
+  )
+  expect(flat).toHaveLength(Object.keys(hierarchyNode).length)
+  Object.entries(hierarchyNode).forEach(([s, points]) => {
+    const key = Key.parse(s)
+
+    // Find the tile corresponding to this hierarchy entry.
+    const tile = flat.find((v) => v.content.uri.startsWith(s))
+    if (!tile) throw new Error(`Missing tile with key ${s}`)
+
+    const extension = points === -1 ? 'json' : 'pnts'
+    const bounds = Bounds.reproject(
+      Bounds.stepTo(Ellipsoid.bounds, key),
+      reproject
+    )
+
+    expect(tile).toEqual<Tile>({
+      content: { uri: `${s}.${extension}` },
+      boundingVolume: { region: BoundingVolume.Region.fromWgs84(bounds) },
+      geometricError: rootGeometricError / Math.pow(2, Key.depth(key)),
+    })
+  })
+})
+
+test('failure: no srs code', async () => {
+  const filename = join(testdir, 'no-srs-code/ept-tileset', `0-0-0-0.abc`)
+  await expect(translate(filename)).rejects.toThrow(/without an srs code/i)
 })
 
 test('failure: invalid file extension', async () => {

@@ -1,5 +1,5 @@
 export { BoundingVolume } from './bounding-volume'
-export { Tile } from './tileset/tile'
+export type { Tile } from './tileset/tile'
 export { Tileset } from './tileset/tileset'
 export * from './pnts'
 
