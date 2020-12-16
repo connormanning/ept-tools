@@ -1,4 +1,4 @@
-import { View } from 'types'
+import { Params } from '3d-tiles/pnts/types'
 
 type JsonSerializable =
   | number
@@ -28,14 +28,12 @@ export declare namespace Header {
     type: Type
   }
   export type Dimension = InlineDimension | BinaryDimension
-
-  export type Options = { view: View }
 }
 
 export type Header = { [name: string]: Header.Dimension }
 export const Header = { create }
 
-function create({ view }: Header.Options): Header | undefined {
+function create({ view }: Pick<Params, 'view'>): Header | undefined {
   if (view.has('Intensity')) {
     return {
       Intensity: {

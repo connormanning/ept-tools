@@ -33,6 +33,8 @@ async function create({
   const router = new Router()
   router.get('/:resource*/ept-tileset/:filename+', async (ctx) => {
     const { resource = '', filename } = ctx.params
+    const { 'z-offset': zOffset } = ctx.query
+    console.log('z', zOffset)
     const fullPath = join(root, resource, 'ept-tileset', filename)
     ctx.body = await translate(fullPath)
   })

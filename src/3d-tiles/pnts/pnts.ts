@@ -7,7 +7,7 @@ import { Params } from './types'
 export * as Constants from './constants'
 export * from './types'
 
-export { BatchTable, FeatureTable }
+export type { BatchTable, FeatureTable }
 export function translate(params: Params) {
   const {
     header: featureTableHeader,

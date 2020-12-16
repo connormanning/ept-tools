@@ -40,8 +40,17 @@ type Base = (Header.Floating | Header.Quantized) & {
 export type Header = Base | (Base & Header.WithBatchTable)
 export const Header = { create }
 
-function create({ view, tileBounds, toEcef }: Params): Header {
-  const bounds = Bounds.reproject(tileBounds, toEcef)
+function offsetHeight(b: Bounds, zOffset: number): Bounds {
+  return [b[0], b[1], b[2] + zOffset, b[3], b[4], b[5] + zOffset]
+}
+
+function create({
+  view,
+  tileBounds,
+  toEcef,
+  options: { zOffset = 0 },
+}: Params): Header {
+  const bounds = offsetHeight(Bounds.reproject(tileBounds, toEcef), zOffset)
   const table: Header = {
     POINTS_LENGTH: view.length,
     RTC_CENTER: Bounds.mid(bounds),

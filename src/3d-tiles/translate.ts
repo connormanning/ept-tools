@@ -15,16 +15,20 @@ import { Tileset } from './tileset'
  */
 export async function translate(
   filename: string,
-  { zOffset = 0, dimensions = [], addons = [] }: Partial<Pnts.Options> = {}
+  options: Partial<Pnts.Options> = {}
 ) {
-  const options: Pnts.Options = { zOffset, dimensions, addons }
-
   const tilesetdir = dirname(filename)
   if (!tilesetdir.endsWith('ept-tileset')) {
     throw new EptToolsError(`Invalid virtual tileset path: ${filename}`)
   }
   const eptdir = join(tilesetdir, '..')
   const ept = JsonSchema.parse(await getJson(join(eptdir, 'ept.json')))
+
+  const { bounds, dataType, schema, srs } = ept
+  const codeString = Srs.horizontalCodeString(srs)
+  if (!codeString) {
+    throw new EptToolsError('Cannot translate to 3D Tiles without an SRS code')
+  }
 
   const tilename = basename(filename)
   const [root, extension] = tilename.split('.')
@@ -46,7 +50,6 @@ export async function translate(
   // Otherwise, we are returning binary point data for a single node.  First
   // download the contents of the EPT node and then we'll translate its points
   // into 3D Tiles "pnts" format.
-  const { bounds, dataType, schema, srs } = ept
   const key = Key.parse(root)
   const bufferExtension = DataType.extension(dataType)
   const buffer = await getBinary(
@@ -55,10 +58,6 @@ export async function translate(
 
   const view = DataType.view(dataType, buffer, schema)
   const tileBounds = Bounds.stepTo(bounds, key)
-  const codeString = Srs.horizontalCodeString(srs)
-  if (!codeString) {
-    throw new EptToolsError(`Cannot translate to 3D Tiles without an SRS code`)
-  }
   const toEcef = Reproject.create(codeString, 'EPSG:4978')
   return Pnts.translate({ view, tileBounds, toEcef, options })
 }
