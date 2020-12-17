@@ -5,9 +5,8 @@ const portBase = process.env.HTTP_PORT ? parseInt(process.env.HTTP_PORT) : 36363
 
 // For each test suite that creates fake server, we grab a dedicated port so we
 // can run all the tests in parallel without EADDRINUSE errors.
-let portCount = 0
-export function getPort() {
-  return portBase + portCount++
+export function getPort(offset: number) {
+  return portBase + offset
 }
 
 export async function listen(app: Koa, port: number): Promise<Server> {

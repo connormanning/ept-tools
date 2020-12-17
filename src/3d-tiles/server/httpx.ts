@@ -12,11 +12,11 @@ async function create(
   ssl?: Ssl.Options
 ): Promise<http.Server> {
   if (ssl) {
-    const { keyPath, certPath, caPath } = ssl
+    const { keyfile, certfile, cafile } = ssl
     const options = {
-      key: await read(keyPath),
-      cert: await read(certPath),
-      ca: caPath ? await read(caPath) : undefined,
+      key: await read(keyfile),
+      cert: await read(certfile),
+      ca: cafile ? await read(cafile) : undefined,
     }
 
     return new Promise<https.Server>((resolve, reject) => {

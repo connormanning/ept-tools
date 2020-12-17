@@ -1,7 +1,13 @@
 #!/usr/bin/env node
 import yargs from 'yargs'
 
-import { Serve } from './serve'
+import { Server } from '3d-tiles'
+
+function parseOrigins(o?: string): Server.Origins {
+  if (!o) return []
+  if (o === '*') return '*'
+  return o.split(',')
+}
 
 export const Cli = { run }
 function run() {
@@ -25,31 +31,16 @@ function run() {
             default: 3000,
             type: 'number',
           })
-          .option('allowed-origins', {
+          .option('origins', {
             describe: 'Access-Control-Allow-Origin list',
-            default: '*',
             type: 'string',
           })
-          .option('key-path', { describe: 'SSL key path', type: 'string' })
-          .option('cert-path', { describe: 'SSL cert path', type: 'string' })
-          .option('ca-path', { describe: 'SSL CA path', type: 'string' }),
-      // Pending https://github.com/yargs/yargs/issues/1679, we could replace
-      // the below with simply "Serve.run".  For now we need to translate kebab
-      // to camel.
-      ({
-        'allowed-origins': allowedOrigins,
-        'key-path': keyPath,
-        'cert-path': certPath,
-        'ca-path': caPath,
-        ...options
-      }) => {
-        return Serve.run({
-          allowedOrigins,
-          keyPath,
-          certPath,
-          caPath,
-          ...options,
-        })
+          .option('keyfile', { describe: 'SSL key file', type: 'string' })
+          .option('certfile', { describe: 'SSL cert file', type: 'string' })
+          .option('cafile', { describe: 'SSL CA file', type: 'string' }),
+      ({ origins: userOrigins, ...options }) => {
+        const origins = parseOrigins(userOrigins)
+        return Server.create({ origins, ...options })
       }
     )
     .parse()
