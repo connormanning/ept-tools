@@ -6,6 +6,7 @@ import { Reproject, getBinary, getJson } from 'utils'
 
 import { Pnts } from './pnts'
 import { Tileset } from './tileset'
+import { Options } from './types'
 
 /**
  * Generates a 3D-Tiles file translation of an EPT dataset at the virtual path
@@ -15,7 +16,7 @@ import { Tileset } from './tileset'
  */
 export async function translate(
   filename: string,
-  options: Partial<Pnts.Options> = {}
+  options: Partial<Options> = {}
 ) {
   const tilesetdir = dirname(filename)
   if (!tilesetdir.endsWith('ept-tileset')) {

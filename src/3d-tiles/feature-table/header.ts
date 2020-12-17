@@ -2,7 +2,7 @@ import { Bounds } from 'ept'
 import { Point } from 'types'
 
 import * as Constants from '3d-tiles/pnts/constants'
-import { Params } from '3d-tiles/pnts/types'
+import { Params } from '3d-tiles/types'
 
 import { Rgb } from './rgb'
 
