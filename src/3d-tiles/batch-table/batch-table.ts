@@ -6,7 +6,7 @@ import { Header } from './header'
 
 export type { Header }
 
-export function create(params: Pick<Params, 'view'>) {
+export function create(params: Pick<Params, 'view' | 'options'>) {
   const header = padEnd(
     Buffer.from(JSON.stringify(Header.create(params)) || ''),
     0x20

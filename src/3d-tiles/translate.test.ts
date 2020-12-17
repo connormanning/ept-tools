@@ -231,7 +231,7 @@ test('success: xyz/rgb/i', async () => {
   expect(batchTable).toEqual<Pnts.BatchTable.Header>({
     Intensity: {
       byteOffset: 0,
-      componentType: 'UNSIGNED_INT',
+      componentType: 'UNSIGNED_BYTE',
       type: 'SCALAR',
     },
   })

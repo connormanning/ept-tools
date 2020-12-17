@@ -1,5 +1,5 @@
-import { Pnts } from '3d-tiles'
-export const defaultOptions: Pnts.Options = {
+import { Options } from '3d-tiles'
+export const defaultOptions: Options = {
   zOffset: 0,
   dimensions: [],
   addons: [],
