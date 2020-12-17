@@ -5,7 +5,7 @@ import { Server } from 'test'
 
 import { Cors } from './cors'
 
-const port = Server.getPort()
+const port = Server.getPort(1)
 const url = `http://localhost:${port}`
 async function getOrigin(url: string, headers?: { [key: string]: string }) {
   const res = await fetch(url, { headers })

@@ -6,7 +6,7 @@ import { Server } from 'test'
 
 import { getBinary, getJson } from './get'
 
-const port = Server.getPort()
+const port = Server.getPort(0)
 
 const notafile = join(__dirname, 'test/i-do-not-exist.json')
 const textfile = join(__dirname, 'test/data.txt')

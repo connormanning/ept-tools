@@ -1,24 +1,26 @@
 import { EptToolsError } from 'types'
 
 export declare namespace Ssl {
-  export type Options = { keyPath: string; certPath: string; caPath?: string }
+  export type Options = { keyfile: string; certfile: string; cafile?: string }
 }
 export const Ssl = { maybeCreate }
 
-function maybeCreate({ keyPath, certPath, caPath }: Partial<Ssl.Options> = {}):
+function maybeCreate({ keyfile, certfile, cafile }: Partial<Ssl.Options> = {}):
   | Ssl.Options
   | undefined {
-  if (keyPath || certPath) {
-    if (!keyPath || !certPath) {
+  if (keyfile || certfile) {
+    if (!keyfile || !certfile) {
       throw new EptToolsError(
-        'If SSL key path or cert path are provided, then both must be provided'
+        'If SSL keyfile or certfile are provided, then both must be provided'
       )
     }
 
-    return { keyPath, certPath, caPath }
+    return { keyfile, certfile, cafile }
   }
 
-  if (caPath) {
-    throw new EptToolsError('Cannot provide CA path without key and cert path')
+  if (cafile) {
+    throw new EptToolsError(
+      'Cannot provide cafile without keyfile and certfile'
+    )
   }
 }
