@@ -3,11 +3,12 @@ import logger from 'koa-logger'
 import Router from '@koa/router'
 import { join } from 'protopath'
 
-import { translate } from '3d-tiles'
+import { Options, translate } from '3d-tiles'
 
 import { Cors } from './cors'
 import { Httpx } from './httpx'
 import { Ssl } from './ssl'
+import { EptToolsError } from 'types'
 
 export declare namespace Server {
   export type Origins = '*' | string[]
@@ -34,9 +35,9 @@ async function create({
   const router = new Router()
   router.get('/:resource*/ept-tileset/:filename+', async (ctx) => {
     const { resource = '', filename } = ctx.params
-    const { 'z-offset': zOffset } = ctx.query
     const fullPath = join(root, resource, 'ept-tileset', filename)
-    ctx.body = await translate(fullPath, { zOffset })
+    const options = parseOptions(ctx.query)
+    ctx.body = await translate(fullPath, options)
   })
   app.use(router.routes())
   app.use(router.allowedMethods())
@@ -54,4 +55,18 @@ async function create({
   }
 
   return { destroy }
+}
+
+function parseOptions(q: { [key: string]: string | undefined }) {
+  const options: Partial<Options> = {}
+
+  const { 'z-offset': zOffset } = q
+  if (typeof zOffset === 'string') {
+    options.zOffset = parseFloat(zOffset)
+    if (Number.isNaN(options.zOffset)) {
+      throw new EptToolsError(`Invalid Z-offset: ${zOffset}`)
+    }
+  }
+
+  return options
 }

@@ -1,4 +1,4 @@
-import { Params } from '3d-tiles/pnts/types'
+import { Params } from '3d-tiles/types'
 
 export const Binary = { create }
 function create(params: Pick<Params, 'view'>) {

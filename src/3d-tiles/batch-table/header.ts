@@ -1,4 +1,4 @@
-import { Params } from '3d-tiles/pnts/types'
+import { Params } from '3d-tiles/types'
 
 type JsonSerializable =
   | number
@@ -38,7 +38,7 @@ function create({ view }: Pick<Params, 'view'>): Header | undefined {
     return {
       Intensity: {
         byteOffset: 0,
-        componentType: 'UNSIGNED_INT',
+        componentType: 'UNSIGNED_BYTE',
         type: 'SCALAR',
       },
     }
