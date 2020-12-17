@@ -2,6 +2,7 @@ import { Ctype } from 'types'
 
 export declare namespace Bytes {
   type Getter = (offset: number) => number
+  type Setter = (value: number, offset: number) => void
 }
 
 export const Bytes = {
@@ -34,3 +35,11 @@ function createGetter(buffer: Buffer, ctype: Ctype): Bytes.Getter {
     }
   }
 }
+
+/*
+function createSetter(buffer: Buffer, ctype: Ctype): Bytes.Setter {
+  return (value: number, offset: number) => {
+    switch (ctype)
+  }
+}
+*/

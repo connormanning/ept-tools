@@ -1,3 +1,4 @@
+import { Schema } from 'ept'
 import { Params } from '3d-tiles/types'
 
 export const Binary = { create }
@@ -6,7 +7,7 @@ function create(params: Pick<Params, 'view'>) {
 }
 
 function createIntensity({ view }: Pick<Params, 'view'>) {
-  if (!view.has('Intensity')) return Buffer.alloc(0)
+  if (!Schema.has(view.schema, 'Intensity')) return Buffer.alloc(0)
 
   const { getter, length } = view
   const get = getter('Intensity')

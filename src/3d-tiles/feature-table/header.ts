@@ -1,10 +1,8 @@
-import { Bounds } from 'ept'
+import { Bounds, Schema } from 'ept'
 import { Point } from 'types'
 
 import * as Constants from '3d-tiles/pnts/constants'
 import { Params } from '3d-tiles/types'
-
-import { Rgb } from './rgb'
 
 type WithByteOffset = { byteOffset: number }
 
@@ -56,7 +54,7 @@ function create({
     RTC_CENTER: Bounds.mid(bounds),
     POSITION: { byteOffset: 0 },
   }
-  if (Rgb.existsIn(view)) {
+  if (Schema.has(view.schema, 'Red')) {
     table.RGB = { byteOffset: view.length * Constants.xyzSize }
   }
   return table
