@@ -1,4 +1,4 @@
-import { View } from 'types'
+import { View } from 'ept'
 
 import * as Constants from '3d-tiles/pnts/constants'
 import { Params } from '3d-tiles/types'

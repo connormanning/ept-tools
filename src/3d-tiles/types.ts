@@ -1,5 +1,4 @@
-import { Bounds } from 'ept'
-import { View } from 'types'
+import { Bounds, View } from 'ept'
 import { Reproject } from 'utils'
 
 export type Addon = [string, string]

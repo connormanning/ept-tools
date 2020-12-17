@@ -8,7 +8,7 @@ test('create: empty', () => {
   const buffer = Buffer.alloc(Schema.pointSize(schema))
   const view = DataType.view('binary', buffer, schema)
 
-  const { header, binary } = BatchTable.create({ view })
+  const { header, binary } = BatchTable.create({ view, options: {} })
   expect(header).toHaveLength(0)
   expect(binary).toHaveLength(0)
 })

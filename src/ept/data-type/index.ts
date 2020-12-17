@@ -1,5 +1,5 @@
-import { Schema } from 'ept'
-import { View } from 'types'
+import { Schema } from '../schema'
+import { View } from '../view'
 
 import { Binary } from './binary'
 
