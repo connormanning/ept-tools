@@ -1,14 +1,10 @@
-import { View } from 'ept'
-
+import { Schema } from 'ept'
 import * as Constants from '3d-tiles/pnts/constants'
 import { Params } from '3d-tiles/types'
 
-export const Rgb = { existsIn: hasRgb, create }
-function hasRgb(view: View) {
-  return view.has('Red') && view.has('Green') && view.has('Blue')
-}
+export const Rgb = { create }
 function create({ view }: Pick<Params, 'view'>) {
-  if (!hasRgb(view)) return Buffer.alloc(0)
+  if (!Schema.has(view.schema, 'Red')) return Buffer.alloc(0)
 
   const { getter, length } = view
   const getters = ['Red', 'Green', 'Blue'].map(getter)

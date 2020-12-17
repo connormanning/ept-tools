@@ -84,8 +84,7 @@ function create({
 
   let byteOffset = 0
   return dimensions.reduce<Header>((header, name) => {
-    const dim = Schema.find(view.schema, name) // TODO: View needs to expose this.
-    // TODO: Should we just omit missing dimensions from the result?
+    const dim = Schema.find(view.schema, name)
     if (!dim) throw new EptToolsError(`Missing required dimension: ${name}`)
     const componentType = getComponentType(dim)
     header[name] = { byteOffset, componentType, type: 'SCALAR' }
@@ -94,7 +93,7 @@ function create({
   }, {})
   */
 
-  if (view.has('Intensity')) {
+  if (Schema.has(view.schema, 'Intensity')) {
     return {
       Intensity: {
         byteOffset: 0,
@@ -103,5 +102,4 @@ function create({
       },
     }
   }
-  return undefined
 }

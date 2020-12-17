@@ -4,12 +4,6 @@ import { Schema } from './schema'
 import { EptToolsError } from 'types'
 import { Bytes, Scale } from 'utils'
 
-export type View = {
-  length: number
-  has: (name: string) => boolean
-  getter: (name: string) => View.Getter
-}
-
 export declare namespace View {
   export type Getter = (index: number) => number
   export type Getters = { [name: string]: Getter | undefined }
@@ -17,11 +11,7 @@ export declare namespace View {
   export type Setter = (value: number, index: number) => void
   export type Setters = { [name: string]: Setter | undefined }
 
-  export type Base = {
-    schema: Schema
-    length: number
-    has: (name: string) => boolean
-  }
+  export type Base = { schema: Schema; length: number }
   export type Readable = Base & { getter: (name: string) => Getter }
   export type Writable = Base & { setter: (name: string) => Setter }
 }
@@ -30,7 +20,7 @@ export const View = {
   Readable: { create: createReadable },
 }
 
-function createBase(buffer: Buffer, schema: Schema): View.Base {
+function getLength(buffer: Buffer, schema: Schema): number {
   const pointSize = Schema.pointSize(schema)
 
   if (pointSize === 0) {
@@ -42,12 +32,11 @@ function createBase(buffer: Buffer, schema: Schema): View.Base {
     throw new EptToolsError('Invalid buffer length for this schema')
   }
 
-  const has = (name: string) => Schema.has(schema, name)
-  return { schema, length, has }
+  return length
 }
 
 function createReadable(buffer: Buffer, schema: Schema): View.Readable {
-  const { length, has } = createBase(buffer, schema)
+  const length = getLength(buffer, schema)
 
   const pointSize = Schema.pointSize(schema)
 
@@ -76,5 +65,11 @@ function createReadable(buffer: Buffer, schema: Schema): View.Readable {
     return get
   }
 
-  return { schema, length, has, getter }
+  return { schema, length, getter }
 }
+
+/*
+function createWritable(buffer: Buffer, schema: Schema): View.Writable {
+
+}
+*/

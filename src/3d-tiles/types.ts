@@ -10,7 +10,7 @@ export type Options = {
 }
 
 export type Params = {
-  view: View
+  view: View.Readable
   tileBounds: Bounds
   toEcef: Reproject
   options: Partial<Options>
