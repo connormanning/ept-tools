@@ -164,7 +164,7 @@ test('success: xyz/rgb/i', async () => {
     'ellipsoid-bin/ept-tileset',
     `${keyString}.pnts`
   )
-  const pnts = await translate(filename)
+  const pnts = await translate(filename, { dimensions: ['Intensity'] })
   if (!Buffer.isBuffer(pnts)) throw new Error('Unexpected translate format')
 
   // First pluck the values out of the header and make sure they make sense.
@@ -218,7 +218,7 @@ test('success: xyz/rgb/i', async () => {
   expect(batchTable).toEqual<Pnts.BatchTable.Header>({
     Intensity: {
       byteOffset: 0,
-      componentType: 'UNSIGNED_BYTE',
+      componentType: 'UNSIGNED_SHORT',
       type: 'SCALAR',
     },
   })
@@ -269,11 +269,11 @@ test('success: xyz/rgb/i', async () => {
   {
     // And finally the Intensity from the batch table.
     const intensityOffset = batchTableBegin + batchTableHeaderSize
-    const data = pnts.slice(intensityOffset, intensityOffset + numPoints * 1)
+    const data = pnts.slice(intensityOffset, intensityOffset + numPoints * 2)
 
     const get = view.getter('Intensity')
     for (let i = 0; i < numPoints; ++i) {
-      expect(get(i)).toEqual(data.readUInt8(i))
+      expect(get(i)).toEqual(data.readUInt16LE(i * 2))
     }
   }
 })
