@@ -1,6 +1,6 @@
 import { join } from 'protopath'
 
-import { Bounds, DataType, Ept, Hierarchy, JsonSchema, Key, Srs } from 'ept'
+import { Bounds, DataType, Hierarchy, JsonSchema, Key, Srs } from 'ept'
 import { Ellipsoid, testdir } from 'test'
 import { Reproject, getBinary, getJson } from 'utils'
 
@@ -20,19 +20,6 @@ test('failure: invalid path', async () => {
   await expect(
     translate('something/ept-tileset-BAD/tileset.json')
   ).rejects.toThrow(/invalid/i)
-})
-
-test('failure: missing srs', async () => {
-  // Remove the SRS from the EPT data.
-  const { srs, ...partial } = Ellipsoid.ept
-  const ept: Ept = { ...partial, dataType: 'laszip' }
-  expect(() =>
-    Tileset.translate({
-      ept,
-      hierarchy: Ellipsoid.rootHierarchy,
-      key: Key.create(),
-    })
-  ).toThrow(/without an srs/i)
 })
 
 test('success: tileset', async () => {
@@ -199,8 +186,8 @@ test('success: xyz/rgb/i', async () => {
   expect(featureTableBinarySize).toEqual(
     ceil8(numPoints * (Pnts.Constants.xyzSize + Pnts.Constants.rgbSize))
   )
-  // Intensity.
-  expect(batchTableBinarySize).toEqual(ceil8(numPoints * 1))
+  // Intensity + Classification.
+  expect(batchTableBinarySize).toEqual(ceil8(numPoints * 2))
 
   // Now we'll verify the feature table JSON metadata.  It's not particularly
   // interesting but we need to check that our point count matches the expected

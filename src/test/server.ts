@@ -3,8 +3,8 @@ import Koa from 'koa'
 
 const portBase = process.env.HTTP_PORT ? parseInt(process.env.HTTP_PORT) : 36363
 
-// For each test suite that creates fake server, we grab a dedicated port so we
-// can run all the tests in parallel without EADDRINUSE errors.
+// For each test suite that creates a fake server, we grab a dedicated port so
+// we can run all the tests in parallel without EADDRINUSE errors.
 export function getPort(offset: number) {
   return portBase + offset
 }

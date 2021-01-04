@@ -9,6 +9,7 @@ test('create: empty', () => {
   const view = DataType.view('binary', buffer, schema)
 
   const { header, binary } = BatchTable.create({ view, options: {} })
-  expect(header).toHaveLength(0)
+  expect(header).toHaveLength(8)
+  expect(JSON.parse(header.toString())).toEqual({})
   expect(binary).toHaveLength(0)
 })

@@ -15,6 +15,7 @@ export const Bounds = {
   step,
   stepTo,
   reproject,
+  offsetHeight,
 }
 
 function min(b: Bounds): Point {
@@ -64,4 +65,8 @@ function stepTo(bounds: Bounds, [d, x, y, z]: Key) {
 
 function reproject(bounds: Bounds, reproject: Reproject): Bounds {
   return [...reproject(min(bounds)), ...reproject(max(bounds))]
+}
+
+function offsetHeight(b: Bounds, zOffset: number): Bounds {
+  return [b[0], b[1], b[2] + zOffset, b[3], b[4], b[5] + zOffset]
 }

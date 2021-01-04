@@ -27,9 +27,34 @@ export declare namespace Dimension {
 }
 
 export type Dimension = Dimension.Core | (Dimension.Core & Dimension.Stats)
-export const Dimension = { ctype }
+export const Dimension = { ctype, fromCtype }
 
-function ctype({ type, size }: Dimension): Ctype {
+function fromCtype(ctype: Ctype): Pick<Dimension, 'type' | 'size'> {
+  switch (ctype) {
+    case 'int8':
+      return { type: 'signed', size: 1 }
+    case 'int16':
+      return { type: 'signed', size: 2 }
+    case 'int32':
+      return { type: 'signed', size: 4 }
+    case 'int64':
+      return { type: 'signed', size: 8 }
+    case 'uint8':
+      return { type: 'unsigned', size: 1 }
+    case 'uint16':
+      return { type: 'unsigned', size: 2 }
+    case 'uint32':
+      return { type: 'unsigned', size: 4 }
+    case 'uint64':
+      return { type: 'unsigned', size: 8 }
+    case 'float':
+      return { type: 'float', size: 4 }
+    case 'double':
+      return { type: 'float', size: 8 }
+  }
+}
+
+function ctype({ type, size }: Pick<Dimension, 'type' | 'size'>): Ctype {
   switch (type) {
     case 'signed': {
       switch (size) {

@@ -33,6 +33,7 @@ function run() {
           })
           .option('origins', {
             describe: 'Access-Control-Allow-Origin list',
+            default: '*',
             type: 'string',
           })
           .option('keyfile', { describe: 'SSL key file', type: 'string' })
