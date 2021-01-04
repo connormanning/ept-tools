@@ -1,11 +1,17 @@
-import { Bounds, Ept, Hierarchy, Key, Srs } from 'ept'
+import { Bounds, Ept, Hierarchy, Key, Schema, Srs } from 'ept'
 import { EptToolsError } from 'types'
 
+import { Options } from '../types'
 import * as Constants from './constants'
 import { Tile } from './tile'
 
 export declare namespace Tileset {
-  export type Create = { key: Key; ept: Ept; hierarchy: Hierarchy }
+  export type Create = {
+    key: Key
+    ept: Ept
+    hierarchy: Hierarchy
+    options: Partial<Options>
+  }
   export type Version = '1.0'
   export type Asset = {
     version: Version
@@ -21,12 +27,17 @@ export type Tileset = {
 }
 export const Tileset = { Constants, translate }
 
-function translate({ key, ept, hierarchy }: Tileset.Create): Tileset {
+function translate({
+  key,
+  ept,
+  hierarchy,
+  options: { zOffset = 0, dimensions = [] } = {},
+}: Tileset.Create): Tileset {
   const rootGeometricError =
     Bounds.width(ept.bounds) / Constants.geometricErrorDivisor
   const geometricError = rootGeometricError / Math.pow(2, Key.depth(key))
 
-  const bounds = Bounds.stepTo(ept.bounds, key)
+  const bounds = Bounds.stepTo(Bounds.offsetHeight(ept.bounds, zOffset), key)
   const code = Srs.horizontalCodeString(ept.srs)
   if (!code) throw new EptToolsError('Cannot translate without an SRS code')
 
@@ -38,5 +49,16 @@ function translate({ key, ept, hierarchy }: Tileset.Create): Tileset {
   // - EPT Tools "powered-by" and version info could go in "properties".
   // - Also user-supplied values?
   const root = Tile.translate({ bounds, code, hierarchy, key, geometricError })
-  return { root, geometricError, asset: { version: '1.0' } }
+  return {
+    root,
+    geometricError,
+    asset: { version: '1.0' },
+    // TODO: Enable this.
+    /*
+    properties: {
+      // TODO: Add XYZ/RGB/Normals if they will be present.
+      // dimensions: [...dimensions.filter((name) => Schema.has(ept.schema, name))],
+    },
+    */
+  }
 }

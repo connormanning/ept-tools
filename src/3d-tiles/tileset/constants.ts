@@ -1,1 +1,1 @@
-export const geometricErrorDivisor = 32
+export const geometricErrorDivisor = 16

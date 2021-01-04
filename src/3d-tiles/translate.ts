@@ -41,7 +41,7 @@ export async function translate(
     const hierarchy = JsonSchema.parseHierarchy(
       await getJson(join(eptdir, 'ept-hierarchy', `${Key.stringify(key)}.json`))
     )
-    return Tileset.translate({ ept, hierarchy, key })
+    return Tileset.translate({ ept, hierarchy, key, options })
   }
 
   if (extension !== 'pnts') {
