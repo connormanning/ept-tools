@@ -9,3 +9,7 @@ export function padEnd(b: Buffer, c = 0): Buffer {
   if (!remainder) return b
   return Buffer.concat([b, Buffer.alloc(8 - remainder, c)])
 }
+
+export function sumLengths(buffers: Buffer[]) {
+  return buffers.reduce((sum, buffer) => sum + buffer.length, 0)
+}

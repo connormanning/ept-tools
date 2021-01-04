@@ -1,1 +1,1 @@
-export * as BatchTable from './batch-table'
+export { BatchTable } from './batch-table'

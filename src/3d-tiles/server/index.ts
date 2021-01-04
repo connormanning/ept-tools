@@ -60,12 +60,16 @@ async function create({
 function parseOptions(q: { [key: string]: string | undefined }) {
   const options: Partial<Options> = {}
 
-  const { 'z-offset': zOffset } = q
+  const { 'z-offset': zOffset, dimensions: dimstring } = q
   if (typeof zOffset === 'string') {
     options.zOffset = parseFloat(zOffset)
     if (Number.isNaN(options.zOffset)) {
       throw new EptToolsError(`Invalid Z-offset: ${zOffset}`)
     }
+  }
+
+  if (typeof dimstring === 'string') {
+    options.dimensions = dimstring.split(',').map((s) => s.trim())
   }
 
   return options

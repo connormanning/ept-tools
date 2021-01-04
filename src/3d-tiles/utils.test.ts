@@ -9,3 +9,9 @@ test('pad end', () => {
     Buffer.concat([Buffer.alloc(4), Buffer.alloc(4, 0x20)])
   )
 })
+
+test('sum lengths', () => {
+  expect(U.sumLengths([])).toEqual(0)
+  expect(U.sumLengths([Buffer.alloc(0)])).toEqual(0)
+  expect(U.sumLengths([Buffer.alloc(1), Buffer.alloc(2)])).toEqual(3)
+})

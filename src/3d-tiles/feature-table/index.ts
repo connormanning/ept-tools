@@ -1,1 +1,1 @@
-export * as FeatureTable from './feature-table'
+export { FeatureTable } from './feature-table'
