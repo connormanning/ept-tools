@@ -2,6 +2,7 @@ import { Schema } from '../schema'
 import { View } from '../view'
 
 import { Binary } from './binary'
+import { Laszip } from './laszip'
 
 export type DataType = 'binary' | 'laszip' | 'zstandard'
 export const DataType = { extension, view }
@@ -19,7 +20,8 @@ function view(
   switch (dataType) {
     case 'binary':
       return Binary.view(buffer, schema)
-    // TODO: Other types here.
+    case 'laszip':
+      return Laszip.view(buffer)
     default:
       throw new Error(`Invalid data type ${dataType}`)
   }
