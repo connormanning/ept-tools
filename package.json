@@ -8,7 +8,7 @@
     "ept": "lib/index.js"
   },
   "scripts": {
-    "build": "tsc -p tsconfig.build.json",
+    "build": "ttsc -p tsconfig.build.json && copyfiles -f src/lib/* lib/lib/",
     "dev": "ts-node -r tsconfig-paths/register src/app/index.ts",
     "prepare": "$npm_execpath build",
     "test": "jest"
@@ -29,6 +29,8 @@
     "@types/koa__router": "^8.0.3",
     "@types/node": "^14.14.10",
     "@types/node-fetch": "^2.5.7",
+    "@zerollup/ts-transform-paths": "^1.7.18",
+    "copyfiles": "^2.4.1",
     "husky": "^4.3.0",
     "jest": "^26.6.3",
     "koa": "^2.13.0",
@@ -37,6 +39,7 @@
     "ts-jest": "^26.4.4",
     "ts-node": "^9.1.0",
     "tsconfig-paths": "^3.9.0",
+    "ttypescript": "^1.5.12",
     "typescript": "^4.1.2"
   },
   "husky": {
