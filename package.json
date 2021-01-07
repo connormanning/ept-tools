@@ -16,6 +16,7 @@
   "dependencies": {
     "@koa/router": "^10.0.0",
     "ajv": "^6.12.6",
+    "cropy": "^0.0.0",
     "fatproj": "^0.0.2",
     "koa-logger": "^3.2.1",
     "node-fetch": "^2.6.1",
