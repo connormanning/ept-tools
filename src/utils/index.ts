@@ -1,4 +1,5 @@
 export * from './get'
 export { Bytes } from './bytes'
+export { Pool } from './pool'
 export { Reproject } from './reproject'
 export { Scale } from './scale'

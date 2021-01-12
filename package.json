@@ -18,12 +18,14 @@
     "ajv": "^6.12.6",
     "cropy": "^0.0.0",
     "fatproj": "^0.0.2",
+    "fs-extra": "^9.0.1",
     "koa-logger": "^3.2.1",
     "node-fetch": "^2.6.1",
     "protopath": "^0.0.0",
     "yargs": "^16.2.0"
   },
   "devDependencies": {
+    "@types/fs-extra": "^9.0.6",
     "@types/jest": "^26.0.16",
     "@types/koa": "^2.11.6",
     "@types/koa-logger": "^3.1.1",
