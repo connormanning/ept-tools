@@ -32,7 +32,7 @@ function create({ view, tileBounds, toEcef, options }: Params): FeatureTable {
 
   if (has('Red') && has('Green') && has('Blue')) {
     header.RGB = { byteOffset: sumLengths(buffers) }
-    buffers.push(Rgb.create({ view }))
+    buffers.push(Rgb.create({ view, options }))
   }
 
   const binary = padEnd(Buffer.concat(buffers))

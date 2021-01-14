@@ -9,6 +9,6 @@ test('create: no rgb', () => {
   ]
   const buffer = Buffer.alloc(Schema.pointSize(schema))
   const view = DataType.view('binary', buffer, schema)
-  const rgb = Rgb.create({ view })
+  const rgb = Rgb.create({ view, options: {} })
   expect(rgb).toHaveLength(0)
 })

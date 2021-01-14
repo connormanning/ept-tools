@@ -3,7 +3,7 @@ import logger from 'koa-logger'
 import Router from '@koa/router'
 import { join } from 'protopath'
 
-import { Options, translate } from '3d-tiles'
+import { Cache, Options, translate } from '3d-tiles'
 
 import { Cors } from './cors'
 import { Httpx } from './httpx'
@@ -32,12 +32,14 @@ async function create({
   app.use(logger())
   app.use(Cors.create(origins))
 
+  const cache = Cache.create()
   const router = new Router()
-  router.get('/:resource*/ept-tileset/:filename+', async (ctx) => {
-    const { resource = '', filename } = ctx.params
-    const fullPath = join(root, resource, 'ept-tileset', filename)
+
+  router.get('/:resource*/ept-tileset/:subpath+', async (ctx) => {
+    const { resource = '', subpath } = ctx.params
+    const filename = join(root, resource, 'ept-tileset', subpath)
     const options = parseOptions(ctx.query)
-    ctx.body = await translate(fullPath, options)
+    ctx.body = await translate({ filename, options, cache })
   })
   app.use(router.routes())
   app.use(router.allowedMethods())
@@ -60,7 +62,7 @@ async function create({
 function parseOptions(q: { [key: string]: string | undefined }) {
   const options: Partial<Options> = {}
 
-  const { 'z-offset': zOffset, dimensions: dimstring } = q
+  const { 'z-offset': zOffset, dimensions: dimstring, truncate } = q
   if (typeof zOffset === 'string') {
     options.zOffset = parseFloat(zOffset)
     if (Number.isNaN(options.zOffset)) {
@@ -70,6 +72,20 @@ function parseOptions(q: { [key: string]: string | undefined }) {
 
   if (typeof dimstring === 'string') {
     options.dimensions = dimstring.split(',').map((s) => s.trim())
+  }
+
+  if (typeof truncate === 'string') {
+    // This option may be passed as one of the following:
+    // - ?truncate
+    // - ?truncate=true
+    // - ?truncate=false
+    //
+    // Other values are invalid.  The valueless version arrives here as ''.
+
+    if (!['', 'true', 'false'].includes(truncate)) {
+      throw new EptToolsError(`Invalid "truncate" setting: ${truncate}`)
+    }
+    options.truncate = truncate === '' || truncate === 'true'
   }
 
   return options

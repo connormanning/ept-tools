@@ -3,4 +3,5 @@ export const defaultOptions: Options = {
   zOffset: 0,
   dimensions: [],
   addons: [],
+  truncate: false,
 }
