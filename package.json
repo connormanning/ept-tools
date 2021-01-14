@@ -22,7 +22,8 @@
     "koa-logger": "^3.2.1",
     "node-fetch": "^2.6.1",
     "protopath": "^0.0.0",
-    "yargs": "^16.2.0"
+    "yargs": "^16.2.0",
+    "zstd-codec": "^0.1.2"
   },
   "devDependencies": {
     "@types/fs-extra": "^9.0.6",

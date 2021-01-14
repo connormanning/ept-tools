@@ -64,7 +64,7 @@ export async function translate({ filename, cache, options = {} }: Translate) {
     join(eptdir, 'ept-data', `${root}.${bufferExtension}`)
   )
 
-  const view = DataType.view(dataType, buffer, schema)
+  const view = await DataType.view(dataType, buffer, schema)
   const tileBounds = Bounds.stepTo(bounds, key)
   const toEcef = Reproject.create(codeString, 'EPSG:4978')
   return Pnts.translate({ view, tileBounds, toEcef, options })

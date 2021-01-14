@@ -230,7 +230,7 @@ test('success: xyz/rgb/i', async () => {
     },
   })
 
-  const view = DataType.view('binary', bin, ept.schema)
+  const view = await DataType.view('binary', bin, ept.schema)
   const binaryOffset = header.length + featureTableHeaderSize
 
   // And now we'll compare the point data.
