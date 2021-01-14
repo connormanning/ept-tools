@@ -4,9 +4,16 @@ import { Bounds, DataType, Key, JsonSchema, Srs } from 'ept'
 import { EptToolsError } from 'types'
 import { Reproject, getBinary, getJson } from 'utils'
 
+import { Cache } from './cache'
 import { Pnts } from './pnts'
 import { Tileset } from './tileset'
 import { Options } from './types'
+
+type Translate = {
+  filename: string
+  options?: Partial<Options>
+  cache?: Cache
+}
 
 /**
  * Generates a 3D-Tiles file translation of an EPT dataset at the virtual path
@@ -14,16 +21,16 @@ import { Options } from './types'
  * dataset at path "\~/entwine/autzen/ept.json" would be at
  * "\~/entwine/autzen/ept-tileset/tileset.json".
  */
-export async function translate(
-  filename: string,
-  options: Partial<Options> = {}
-) {
+export async function translate({ filename, cache, options = {} }: Translate) {
   const tilesetdir = dirname(filename)
   if (!tilesetdir.endsWith('ept-tileset')) {
     throw new EptToolsError(`Invalid virtual tileset path: ${filename}`)
   }
   const eptdir = join(tilesetdir, '..')
-  const ept = JsonSchema.parse(await getJson(join(eptdir, 'ept.json')))
+  const eptfilename = join(eptdir, 'ept.json')
+  const ept =
+    (await cache?.get(eptfilename)) ||
+    JsonSchema.parse(await getJson(eptfilename))
 
   const { bounds, dataType, schema, srs } = ept
   const codeString = Srs.horizontalCodeString(srs)

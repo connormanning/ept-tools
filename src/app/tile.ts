@@ -29,7 +29,8 @@ export async function tile(args: Tile) {
     console.time('Metadata')
   }
 
-  await translateMetadata(args)
+  const cache = Cesium.Cache.create(0)
+  await translateMetadata({ ...args, cache })
 
   if (verbose) console.timeEnd('Metadata')
 
@@ -39,18 +40,20 @@ export async function tile(args: Tile) {
     console.time('Points')
   }
 
-  await translatePoints(args)
+  await translatePoints({ ...args, cache })
 
   if (verbose) console.timeEnd('Points')
 }
 
+type Args = Tile & { cache: Cesium.Cache }
 async function translateMetadata({
   input,
   output,
   threads,
   options,
   verbose,
-}: Tile) {
+  cache,
+}: Args) {
   const root = join(input, 'ept-hierarchy')
   const list = (await Storage.list(root)).map(({ path }) =>
     path === '0-0-0-0.json' ? 'tileset.json' : path
@@ -60,10 +63,11 @@ async function translateMetadata({
     list.map((filename, i) => async () => {
       if (verbose) console.log(`${i}/${list.length}:`, filename)
 
-      const data = await Cesium.translate(
-        join(input, 'ept-tileset', filename),
-        options
-      )
+      const data = await Cesium.translate({
+        filename: join(input, 'ept-tileset', filename),
+        options,
+        cache,
+      })
 
       if (data instanceof Buffer) {
         throw new EptToolsError(`Unexpected response type during ${filename}`)
@@ -81,7 +85,8 @@ async function translatePoints({
   threads,
   options,
   verbose,
-}: Tile) {
+  cache,
+}: Args) {
   const root = join(input, 'ept-data')
   const list = (await Storage.list(root)).map(
     ({ path }) => getStem(path) + '.pnts'
@@ -91,10 +96,11 @@ async function translatePoints({
     list.map((filename, i) => async () => {
       if (verbose) console.log(`${i}/${list.length}:`, filename)
 
-      const data = await Cesium.translate(
-        join(input, 'ept-tileset', filename),
-        options
-      )
+      const data = await Cesium.translate({
+        filename: join(input, 'ept-tileset', filename),
+        options,
+        cache,
+      })
 
       if (!(data instanceof Buffer)) {
         throw new EptToolsError(`Unexpected response type during ${filename}`)

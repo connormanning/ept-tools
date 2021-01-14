@@ -18,13 +18,13 @@ function flatten({ children = [], ...tile }: Tile): Tile[] {
 
 test('failure: invalid path', async () => {
   await expect(
-    translate('something/ept-tileset-BAD/tileset.json')
+    translate({ filename: 'something/ept-tileset-BAD/tileset.json' })
   ).rejects.toThrow(/invalid/i)
 })
 
 test('success: tileset', async () => {
   const filename = join(testdir, 'ellipsoid-laz/ept-tileset/tileset.json')
-  const tileset = await translate(filename)
+  const tileset = await translate({ filename })
   if (Buffer.isBuffer(tileset)) throw new Error('Unexpected translated format')
   const { children } = tileset.root
 
@@ -33,6 +33,8 @@ test('success: tileset', async () => {
   const geometricError =
     Bounds.width(Ellipsoid.bounds) / Tileset.Constants.geometricErrorDivisor
 
+  const { asset } = tileset
+  expect(asset).toMatchObject({ version: '1.0' })
   expect(tileset).toEqual<Tileset>({
     root: {
       content: { uri: '0-0-0-0.pnts' },
@@ -42,7 +44,7 @@ test('success: tileset', async () => {
       children,
     },
     geometricError,
-    asset: { version: '1.0' },
+    asset,
   })
 
   const flat = flatten(tileset.root)
@@ -76,7 +78,7 @@ test('success: nested hierarchy', async () => {
   const key = Key.create(2, 0, 1, 1)
   const root = join(testdir, 'ellipsoid-laz')
   const filename = join(root, 'ept-tileset/2-0-1-1.json')
-  const tileset = await translate(filename)
+  const tileset = await translate({ filename })
   if (Buffer.isBuffer(tileset)) throw new Error('Unexpected translated format')
   const { children } = tileset.root
 
@@ -130,13 +132,15 @@ test('success: nested hierarchy', async () => {
 })
 
 test('failure: no srs code', async () => {
-  const filename = join(testdir, 'no-srs-code/ept-tileset', `0-0-0-0.abc`)
-  await expect(translate(filename)).rejects.toThrow(/without an srs code/i)
+  const filename = join(testdir, 'no-srs-code/ept-tileset/tileset.json')
+  await expect(translate({ filename })).rejects.toThrow(/without an srs code/i)
 })
 
 test('failure: invalid file extension', async () => {
   const filename = join(testdir, 'ellipsoid-bin/ept-tileset', `0-0-0-0.abc`)
-  await expect(translate(filename)).rejects.toThrow(/invalid file extension/i)
+  await expect(translate({ filename })).rejects.toThrow(
+    /invalid file extension/i
+  )
 })
 
 test('success: xyz/rgb/i', async () => {
@@ -164,7 +168,10 @@ test('success: xyz/rgb/i', async () => {
     'ellipsoid-bin/ept-tileset',
     `${keyString}.pnts`
   )
-  const pnts = await translate(filename, { dimensions: ['Intensity'] })
+  const pnts = await translate({
+    filename,
+    options: { dimensions: ['Intensity'] },
+  })
   if (!Buffer.isBuffer(pnts)) throw new Error('Unexpected translate format')
 
   // First pluck the values out of the header and make sure they make sense.

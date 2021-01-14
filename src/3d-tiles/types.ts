@@ -7,6 +7,7 @@ export type Options = {
   zOffset: number
   dimensions: string[]
   addons: Addons
+  truncate: boolean
 }
 
 export type Params = {

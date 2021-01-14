@@ -64,9 +64,9 @@ function create(
 function getOutputDimension(dimension: Dimension): Dimension {
   const { name, type, size, scale = 1 } = dimension
 
-  // If the value is scaled, or if it has size 8, then we always use a double.
+  // If the value is scaled, or if it has size 8, then we always use a float.
   // The 64-bit integral types are not allowed.
-  if (scale !== 1 || size === 8) return { name, type: 'float', size: 8 }
+  if (scale !== 1 || size === 8) return { name, type: 'float', size: 4 }
   return { name, type, size }
 }
 

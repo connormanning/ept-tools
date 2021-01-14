@@ -31,7 +31,7 @@ function translate({
   key,
   ept,
   hierarchy,
-  options: { zOffset = 0, dimensions = [] } = {},
+  options: { zOffset = 0, dimensions = [], truncate = false } = {},
 }: Tileset.Create): Tileset {
   const rootGeometricError =
     Bounds.width(ept.bounds) / Constants.geometricErrorDivisor
@@ -41,24 +41,19 @@ function translate({
   const code = Srs.horizontalCodeString(ept.srs)
   if (!code) throw new EptToolsError('Cannot translate without an SRS code')
 
-  // TODO: For the root node, supply additional metadata in the "asset" and
-  // "properties" key.  See "Tileset Properties" in section 2 of
+  // See "Tileset Properties" in section 2 of
   // https://github.com/CesiumGS/3d-tiles/blob/master/3d-tiles-overview.pdf.
-  //
-  // - EPT dimension statistics could go in "asset".
-  // - EPT Tools "powered-by" and version info could go in "properties".
-  // - Also user-supplied values?
   const root = Tile.translate({ bounds, code, hierarchy, key, geometricError })
-  return {
-    root,
-    geometricError,
-    asset: { version: '1.0' },
-    // TODO: Enable this.
-    /*
-    properties: {
-      // TODO: Add XYZ/RGB/Normals if they will be present.
-      // dimensions: [...dimensions.filter((name) => Schema.has(ept.schema, name))],
-    },
-    */
+
+  const metadata = {
+    software: 'EPT Tools',
+    ept,
+    options: { zOffset, dimensions, truncate },
   }
+  const asset: Tileset.Asset = {
+    version: '1.0',
+    ...(Key.depth(key) === 0 ? metadata : undefined),
+  }
+
+  return { root, geometricError, asset }
 }
