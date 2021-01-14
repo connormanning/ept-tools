@@ -3,6 +3,7 @@ import { View } from '../view'
 
 import { Binary } from './binary'
 import { Laszip } from './laszip'
+import { Zstandard } from './zstandard'
 
 export type DataType = 'binary' | 'laszip' | 'zstandard'
 export const DataType = { extension, view }
@@ -12,16 +13,18 @@ function extension(type: DataType): string {
   return extensions[type]
 }
 
-function view(
+async function view(
   dataType: DataType,
   buffer: Buffer,
   schema: Schema
-): View.Readable {
+): Promise<View.Readable> {
   switch (dataType) {
     case 'binary':
       return Binary.view(buffer, schema)
     case 'laszip':
       return Laszip.view(buffer)
+    case 'zstandard':
+      return Zstandard.view(buffer, schema)
     default:
       throw new Error(`Invalid data type ${dataType}`)
   }

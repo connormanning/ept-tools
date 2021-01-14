@@ -5,7 +5,7 @@ import { Reproject, Scale } from 'utils'
 
 import { Xyz } from './xyz'
 
-test('create', () => {
+test('create', async () => {
   const schema: Schema = [
     { name: 'X', type: 'signed', size: 4, scale: 0.01, offset: 100 },
     { name: 'Y', type: 'float', size: 8 },
@@ -31,7 +31,7 @@ test('create', () => {
   buffer.writeInt32LE(Scale.apply(b[2], 0.0025, 500), 16 + 12)
 
   // Now create our supporting data structures and get our XYZ buffer.
-  const view = DataType.view('binary', buffer, schema)
+  const view = await DataType.view('binary', buffer, schema)
 
   const toEcef = Reproject.create(Ellipsoid.srsCodeString, 'EPSG:4978')
   const ecefBounds = Bounds.reproject(tileBounds, toEcef)
@@ -57,7 +57,7 @@ test('create', () => {
   expect(xyz.readFloatLE(20)).toBeCloseTo(ecefB[2] - ecefMid[2], 5)
 })
 
-test('z offset', () => {
+test('z offset', async () => {
   const zOffset = 500
   const schema: Schema = [
     { name: 'X', type: 'float', size: 8 },
@@ -73,7 +73,7 @@ test('z offset', () => {
   buffer.writeDoubleLE(y, 8)
   buffer.writeDoubleLE(z, 16)
 
-  const view = DataType.view('binary', buffer, schema)
+  const view = await DataType.view('binary', buffer, schema)
 
   const tileBounds: Bounds = [-5, -5, -5, 5, 5, 5]
   const toEcef: Reproject = <P>(p: P) => p

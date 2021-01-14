@@ -4,12 +4,14 @@
     "baseUrl": "src",
     "rootDir": "src",
     "outDir": "lib",
+    "typeRoots": ["../node_modules/@types", "./types"],
 
     "target": "es2017",
     "module": "commonjs",
     "lib": ["es2020"],
     "declaration": true,
     "declarationMap": true,
+    "skipLibCheck": true,
 
     "moduleResolution": "node",
     "allowSyntheticDefaultImports": true,

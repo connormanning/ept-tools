@@ -20,9 +20,9 @@ const bounds: Bounds = [0, 0, 0, 8, 8, 8]
 
 const toEcef: Reproject = <P>(p: P) => p
 
-test('create: with rgb', () => {
+test('create: with rgb', async () => {
   const buffer = Buffer.alloc(Schema.pointSize(schema) * numPoints)
-  const view = DataType.view('binary', buffer, schema)
+  const view = await DataType.view('binary', buffer, schema)
   const { header } = FeatureTable.create({
     view,
     tileBounds: bounds,
@@ -38,10 +38,10 @@ test('create: with rgb', () => {
   })
 })
 
-test('create: no rgb', () => {
+test('create: no rgb', async () => {
   const xyzonly = schema.slice(0, 3)
   const buffer = Buffer.alloc(Schema.pointSize(xyzonly) * numPoints)
-  const view = DataType.view('binary', buffer, xyzonly)
+  const view = await DataType.view('binary', buffer, xyzonly)
   const { header } = FeatureTable.create({
     view,
     tileBounds: bounds,
@@ -56,10 +56,10 @@ test('create: no rgb', () => {
   })
 })
 
-test('create: with z offset', () => {
+test('create: with z offset', async () => {
   const zOffset = 10
   const buffer = Buffer.alloc(Schema.pointSize(schema) * numPoints)
-  const view = DataType.view('binary', buffer, schema)
+  const view = await DataType.view('binary', buffer, schema)
   const { header } = FeatureTable.create({
     view,
     tileBounds: bounds,
