@@ -45,5 +45,5 @@ function create(timeout = 60000) {
 }
 
 async function fetch(filename: string) {
-  return JsonSchema.parse(await getJson(filename))
+  return JsonSchema.parse(await getJson(filename))[0]
 }

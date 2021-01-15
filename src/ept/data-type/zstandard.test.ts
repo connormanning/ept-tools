@@ -1,14 +1,14 @@
-import { JsonSchema } from 'ept'
 import { join } from 'protopath'
 
 import { Ellipsoid, testdir } from 'test'
-import { getBinary, getJson } from 'utils'
+import { getBinary } from 'utils'
 
 import { Zstandard } from './zstandard'
 
 test('read', async () => {
+  const { schema } = Ellipsoid
+
   const base = join(testdir, 'ellipsoid-zst')
-  const { schema } = JsonSchema.parse(await getJson(join(base, 'ept.json')))
   const buffer = await getBinary(join(base, 'ept-data/0-0-0-0.zst'))
 
   const view = await Zstandard.view(buffer, schema)

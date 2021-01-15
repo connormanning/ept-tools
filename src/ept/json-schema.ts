@@ -1,3 +1,5 @@
+import Ajv from 'ajv'
+
 import { Ept } from './ept'
 import { Hierarchy } from './hierarchy'
 
@@ -135,10 +137,42 @@ export const ept = {
   properties,
 }
 
-// TODO: For now we're not actually validating these.
-export function parse(value: unknown): Ept {
-  return value as Ept
+export const hierarchy = {
+  title: 'EPT hierarchy',
+  description: 'EPT hierarchy contents',
+  type: 'object',
+  propertyNames: { pattern: '^\\d+-\\d+-\\d+-\\d+' },
+  patternProperties: {
+    '.*': { type: 'integer' },
+  },
 }
-export function parseHierarchy(value: unknown): Hierarchy {
-  return value as Hierarchy
+
+const ajv = new Ajv()
+const validate = {
+  ept: ajv.compile(ept),
+  hierarchy: ajv.compile(hierarchy),
+}
+
+export function parse(value: unknown) {
+  return doValidate<Ept>(validate.ept, value)
+}
+export function parseHierarchy(value: unknown) {
+  return doValidate<Hierarchy>(validate.hierarchy, value)
+}
+
+export type Validated<T> = [T, string[]]
+function doValidate<T>(
+  validate: Ajv.ValidateFunction,
+  value: unknown
+): Validated<T> {
+  const isValid = validate(value)
+  const errors =
+    isValid || !validate.errors
+      ? []
+      : validate.errors.map<string>((v) => {
+          const prefix = schema.key || v.dataPath.slice(1)
+          return (prefix.length ? `${prefix}: ` : '') + v.message
+        })
+
+  return [value as T, errors]
 }

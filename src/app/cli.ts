@@ -5,6 +5,7 @@ import yargs from 'yargs'
 import { Server } from '3d-tiles'
 
 import { tile } from './tile'
+import { validate } from './validate'
 
 function parseOrigins(o?: string): Server.Origins {
   if (!o) return []
@@ -18,6 +19,18 @@ function run() {
     .demandCommand()
     .strict()
     .help()
+    .command(
+      'validate [input]',
+      'Validate EPT metadata',
+      (yargs) =>
+        yargs.option('input', {
+          alias: 'i',
+          type: 'string',
+          describe: 'Path to ept.json file',
+          demandOption: true,
+        }),
+      ({ input }) => validate(input)
+    )
     .command(
       'serve [root]',
       'Serve 3D Tiles on the fly from EPT resources',
