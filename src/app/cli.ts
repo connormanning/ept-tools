@@ -29,7 +29,10 @@ function run() {
           describe: 'Path to ept.json file',
           demandOption: true,
         }),
-      ({ input }) => validate(input)
+      ({ input }) => {
+        if (!input.endsWith('ept.json')) input = join(input, 'ept.json')
+        return validate(input)
+      }
     )
     .command(
       'serve [root]',
