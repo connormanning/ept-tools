@@ -30,7 +30,7 @@ export async function translate({ filename, cache, options = {} }: Translate) {
   const eptfilename = join(eptdir, 'ept.json')
   const ept =
     (await cache?.get(eptfilename)) ||
-    JsonSchema.parse(await getJson(eptfilename))
+    JsonSchema.parse(await getJson(eptfilename))[0]
 
   const { bounds, dataType, schema, srs } = ept
   const codeString = Srs.horizontalCodeString(srs)
@@ -47,7 +47,7 @@ export async function translate({ filename, cache, options = {} }: Translate) {
     const key = root === 'tileset' ? Key.create() : Key.parse(root)
     const hierarchy = JsonSchema.parseHierarchy(
       await getJson(join(eptdir, 'ept-hierarchy', `${Key.stringify(key)}.json`))
-    )
+    )[0]
     return Tileset.translate({ ept, hierarchy, key, options })
   }
 
