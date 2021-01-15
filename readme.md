@@ -9,6 +9,7 @@ A suite of tools for working with [Entwine Point Tile](entwine.io) data.
 # Installation
 
 Install the `ept` application via [npm](https://www.npmjs.com/):
+
 ```bash
 npm install ept-tools -g
 ```
@@ -35,6 +36,5 @@ ept <tool> --help
 
 Available tools are:
 
-- [validate](doc/validate.md): validate metadata structure of an EPT dataset
 - [serve](doc/serve.md): serve EPT data as on-demand 3D Tiles over HTTP
 - [tile](doc/tile.md): translate EPT to 3D Tiles on disk

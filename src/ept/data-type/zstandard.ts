@@ -1,4 +1,4 @@
-/// <reference types="../../types/global" />
+/// <reference types='../../types/global'/>
 import { Streaming, ZstdCodec } from 'zstd-codec'
 
 import { Schema } from 'ept'
