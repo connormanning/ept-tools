@@ -81,17 +81,45 @@ function run() {
             default: false,
             alias: 'v',
             type: 'boolean',
+          })
+          .option('dimensions', {
+            describe: 'Dimensions to be added to the batch table',
+            type: 'string',
+            array: true,
+          })
+          .option('z-offset', {
+            describe:
+              'Elevation offset to raise/lower the resulting point cloud',
+            type: 'number',
+          })
+          .option('truncate', {
+            describe: 'Truncate 16-bit colors to 8-bit',
+            default: false,
+            type: 'boolean',
           }),
-      ({ input, output, threads, force, verbose }) => {
+      ({
+        input,
+        output,
+        threads,
+        force,
+        verbose,
+        dimensions,
+        'z-offset': zOffset,
+        truncate,
+      }) => {
         // Get input/output as directories - they potentially point at files.
         if (basename(input) === 'ept.json') input = join(input, '..')
         if (!output) output = join(input, 'ept-tileset')
         if (basename(output) === 'tileset.json') output = join(output, '..')
 
-        const options = {}
+        const options = { dimensions, zOffset, truncate }
 
-        console.log(`Tiling ${input} -> ${output}`)
-        console.log('Threads', threads)
+        console.log(`Tiling: ${input} -> ${output}`)
+        console.log('Threads:', threads)
+        if (dimensions?.length)
+          console.log('Dimensions:', dimensions.join(', '))
+        if (zOffset) console.log('Z offset:', zOffset)
+        if (truncate) console.log('Truncating RGB values')
         if (force) console.log('Overwriting output')
         return tile({ input, output, threads, force, verbose, options })
       }
