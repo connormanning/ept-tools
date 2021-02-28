@@ -1,10 +1,9 @@
-import Ajv from 'ajv'
+import Ajv, { ValidateFunction } from 'ajv'
 
 import { Ept } from './ept'
 import { Hierarchy } from './hierarchy'
 
 export const bounds = {
-  key: 'bounds',
   title: 'Bounds',
   description:
     'Bounding volume of the form [xmin, ymin, zmin, xmax, ymax, zmax]',
@@ -15,7 +14,6 @@ export const bounds = {
 }
 
 export const dataType = {
-  key: 'dataType',
   title: 'Data type',
   description: 'Point data encoding',
   type: 'string',
@@ -23,7 +21,6 @@ export const dataType = {
 }
 
 export const hierarchyType = {
-  key: 'hierarchyType',
   title: 'Hierarchy type',
   description: 'Hierarchy data encoding',
   type: 'string',
@@ -31,7 +28,6 @@ export const hierarchyType = {
 }
 
 export const points = {
-  key: 'points',
   title: 'Point count',
   description: 'Point count',
   type: 'integer',
@@ -74,7 +70,6 @@ export const dimension = {
 }
 
 export const schema = {
-  key: 'schema',
   title: 'Attribute schema',
   description: 'Array of dimensions representing the point layout',
   type: 'array',
@@ -83,7 +78,6 @@ export const schema = {
 }
 
 export const span = {
-  key: 'span',
   title: 'Span',
   description: 'EPT node span: represents node resolution in one dimension',
   type: 'integer',
@@ -91,7 +85,6 @@ export const span = {
 }
 
 export const srs = {
-  key: 'srs',
   title: 'Spatial reference',
   description: 'Spatial reference codes and WKT',
   type: 'object',
@@ -109,7 +102,6 @@ export const srs = {
 }
 
 export const version = {
-  key: 'version',
   title: 'EPT version',
   description: 'EPT version',
   type: 'string',
@@ -162,7 +154,7 @@ export function parseHierarchy(value: unknown) {
 
 export type Validated<T> = [T, string[]]
 function doValidate<T>(
-  validate: Ajv.ValidateFunction,
+  validate: ValidateFunction,
   value: unknown
 ): Validated<T> {
   const isValid = validate(value)
@@ -170,7 +162,7 @@ function doValidate<T>(
     isValid || !validate.errors
       ? []
       : validate.errors.map<string>((v) => {
-          const prefix = schema.key || v.dataPath.slice(1)
+          const prefix = schema.title || v.dataPath.slice(1)
           return (prefix.length ? `${prefix}: ` : '') + v.message
         })
 
