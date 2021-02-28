@@ -1,7 +1,8 @@
 import { Options } from '3d-tiles'
+import { ParsedUrlQuery } from 'querystring'
 import { EptToolsError } from 'types'
 
-export function parseQuery(q: { [key: string]: string | undefined }) {
+export function parseQuery(q: ParsedUrlQuery) {
   const options: Partial<Options> = {}
 
   const { 'z-offset': zOffset, dimensions: dimstring, truncate } = q

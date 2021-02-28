@@ -25,6 +25,7 @@
     "log-symbols": "^4.0.0",
     "node-fetch": "^2.6.1",
     "protopath": "^0.0.0",
+    "querystring": "^0.2.1",
     "yargs": "^16.2.0",
     "zlib": "^1.0.5",
     "zstd-codec": "^0.1.2"
