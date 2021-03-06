@@ -5,12 +5,12 @@
   "repository": "github:connormanning/ept-tools",
   "main": "lib/index.js",
   "bin": {
-    "ept": "lib/index.js"
+    "ept": "lib/app/index.js"
   },
   "scripts": {
     "build": "ttsc -p tsconfig.build.json && copyfiles -f src/lib/* lib/lib/",
     "dev": "ts-node -r tsconfig-paths/register src/app/index.ts",
-    "lambda": "ncc build src/app/lambda.ts -o ./lambda",
+    "lambda": "ncc build src/app/lambda.ts -o ./lambda && copyfiles -f src/lib/* lambda/lib/",
     "lambda-zip": "(cd lambda && zip -r ../ept-tools.zip .)",
     "prepublish": "$npm_execpath build",
     "test": "jest"
