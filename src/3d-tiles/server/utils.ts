@@ -20,15 +20,15 @@ export function parseQuery(q: ParsedUrlQuery) {
   if (typeof truncate === 'string') {
     // This option may be passed as one of the following:
     // - ?truncate
-    // - ?truncate=true
-    // - ?truncate=false
+    // - ?truncate=true (or false)
+    // - ?truncate=1 (or 0)
     //
     // Other values are invalid.  The valueless version arrives here as ''.
 
-    if (!['', 'true', 'false'].includes(truncate)) {
+    if (!['', 'true', 'false', '1', '0'].includes(truncate)) {
       throw new EptToolsError(`Invalid "truncate" setting: ${truncate}`)
     }
-    options.truncate = truncate === '' || truncate === 'true'
+    options.truncate = ['', 'true', '1'].includes(truncate)
   }
 
   return options
