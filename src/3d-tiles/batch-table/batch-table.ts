@@ -12,6 +12,16 @@ export declare namespace BatchTable {
 export type BatchTable = { header: Header; binary: Buffer }
 export const BatchTable = { create }
 
+const specials = [
+  'ReturnNumber',
+  'NumberOfReturns',
+  'ScanDirectionFlag',
+  'EdgeOfFlightLine',
+  'Synthetic',
+  'KeyPoint',
+  'Withheld',
+]
+
 function create(
   srcView: View.Readable,
   { dimensions = [] }: Partial<Options> = {}
@@ -21,41 +31,48 @@ function create(
   const header: Header = {}
   const buffers: Buffer[] = []
 
-  dimensions.forEach((name) => {
-    const get = srcView.getter(name)
+  dimensions
+    .filter(
+      (name) => Schema.has(srcView.schema, name) || specials.includes(name)
+    )
+    .forEach((name) => {
+      const get = srcView.getter(name)
 
-    const dimension = Schema.find(srcView.schema, name)
-    if (!dimension) throw new EptToolsError(`Invalid dimension: ${name}`)
-    const outputDimension = getOutputDimension(dimension)
+      let dimension = Schema.find(srcView.schema, name)
+      if (!dimension && get && specials.includes(name)) {
+        dimension = { name, type: 'unsigned', size: 1 }
+      }
+      if (!dimension) throw new EptToolsError(`Invalid dimension: ${name}`)
+      const outputDimension = getOutputDimension(dimension)
 
-    // Each binary buffer must be padded such that the subsequent buffer meets
-    // its alignment requirement.  To make this trivial, just pad everything
-    // out to a multiple of 8 bytes.  Note that our ascending byteOffset needs
-    // to account for this, so we'll just perform this padding up front.  Also
-    // note that since we're not using our padding utility which zero-fills
-    // properly, we need to make sure to zero out the pad bytes here: so we're
-    // using Buffer.alloc instead of Buffer.allocUnsafe.
-    const byteLength = length * outputDimension.size
-    const rem = byteLength % 8
-    const pad = rem ? 8 - rem : 0
-    const buffer = Buffer.alloc(length * outputDimension.size + pad)
+      // Each binary buffer must be padded such that the subsequent buffer meets
+      // its alignment requirement.  To make this trivial, just pad everything
+      // out to a multiple of 8 bytes.  Note that our ascending byteOffset needs
+      // to account for this, so we'll just perform this padding up front.  Also
+      // note that since we're not using our padding utility which zero-fills
+      // properly, we need to make sure to zero out the pad bytes here: so we're
+      // using Buffer.alloc instead of Buffer.allocUnsafe.
+      const byteLength = length * outputDimension.size
+      const rem = byteLength % 8
+      const pad = rem ? 8 - rem : 0
+      const buffer = Buffer.alloc(length * outputDimension.size + pad)
 
-    const dstView = View.Writable.create(buffer, [outputDimension])
-    const set = dstView.setter(name)
+      const dstView = View.Writable.create(buffer, [outputDimension])
+      const set = dstView.setter(name)
 
-    for (let i = 0; i < length; ++i) {
-      set(get(i), i)
-    }
+      for (let i = 0; i < length; ++i) {
+        set(get(i), i)
+      }
 
-    const byteOffset = buffers.reduce((sum, b) => sum + b.length, 0)
-    header[name] = {
-      byteOffset,
-      componentType: getComponentType(outputDimension),
-      type: 'SCALAR',
-    }
+      const byteOffset = buffers.reduce((sum, b) => sum + b.length, 0)
+      header[name] = {
+        byteOffset,
+        componentType: getComponentType(outputDimension),
+        type: 'SCALAR',
+      }
 
-    buffers.push(buffer)
-  })
+      buffers.push(buffer)
+    })
 
   const binary = Buffer.concat(buffers)
   return { header, binary }
@@ -74,6 +91,7 @@ function getComponentType(dimension: Dimension): Header.ComponentType {
   // We should never see a ctype of (u)int64 here, as it is not allowed as a
   // component type in the batch table.
   const ctype = Dimension.ctype(dimension)
+
   switch (ctype) {
     case 'int8':
       return 'BYTE'

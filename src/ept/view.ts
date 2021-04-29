@@ -51,11 +51,30 @@ function createReadable(buffer: Buffer, schema: Schema): View.Readable {
     const get = Bytes.getter(buffer, Dimension.ctype(dim))
     const dimOffset = Schema.offset(schema, dim.name)
 
-    map[dim.name] = (index: number) => {
-      if (index >= length) {
-        throw new EptToolsError(`Invalid point index: ${index} >= ${length}`)
+    if (dim.name === 'LasFlags') {
+      const getFlags = (index: number) => {
+        if (index >= length) {
+          throw new EptToolsError(`Invalid point index: ${index} >= ${length}`)
+        }
+        return get(index * pointSize + dimOffset)
       }
-      return Scale.unapply(get(index * pointSize + dimOffset), scale, offset)
+      map['ReturnNumber'] = (index) => getFlags(index) & 0b0000_0111
+      map['NumberOfReturns'] = (index) => (getFlags(index) & 0b0011_1000) >> 3
+      map['ScanDirectionFlag'] = (index) => (getFlags(index) & 0b0100_0000) >> 6
+      map['EdgeOfFlightLine'] = (index) => (getFlags(index) & 0b1000_0000) >> 7
+    } else if (dim.name === 'Classification') {
+      const getFull = (index: number) => get(index * pointSize + dimOffset)
+      map['Classification'] = (index) => getFull(index) & 0b0001_1111
+      map['Synthetic'] = (index) => (getFull(index) & 0b0010_0000) >> 5
+      map['KeyPoint'] = (index) => (getFull(index) & 0b0100_0000) >> 6
+      map['Withheld'] = (index) => (getFull(index) & 0b1000_0000) >> 7
+    } else {
+      map[dim.name] = (index: number) => {
+        if (index >= length) {
+          throw new EptToolsError(`Invalid point index: ${index} >= ${length}`)
+        }
+        return Scale.unapply(get(index * pointSize + dimOffset), scale, offset)
+      }
     }
     return map
   }, {})

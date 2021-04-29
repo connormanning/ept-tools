@@ -25,7 +25,7 @@ function create0({ scale, offset }: Header): Schema {
     { name: 'Y', type: 'signed', size: 4, scale: scale[1], offset: offset[1] },
     { name: 'Z', type: 'signed', size: 4, scale: scale[2], offset: offset[2] },
     { name: 'Intensity', type: 'unsigned', size: 2 },
-    { name: 'Flags', type: 'unsigned', size: 1 },
+    { name: 'LasFlags', type: 'unsigned', size: 1 },
     { name: 'Classification', type: 'unsigned', size: 1 },
     { name: 'ScanAngleRank', type: 'signed', size: 1 },
     { name: 'UserData', type: 'unsigned', size: 1 },

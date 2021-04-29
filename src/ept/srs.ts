@@ -10,4 +10,12 @@ const horizontalCodeString = (srs: Srs = {}): string | undefined => {
   if (authority && horizontal) return `${authority}:${horizontal}`
 }
 
-export const Srs = { horizontalCodeString }
+const codeString = (srs: Srs = {}): string | undefined => {
+  const { authority, horizontal, vertical } = srs
+  if (authority && horizontal) {
+    if (vertical) return `${authority}:${horizontal}+${vertical}`
+    return `${authority}:${horizontal}`
+  }
+}
+
+export const Srs = { codeString, horizontalCodeString }
