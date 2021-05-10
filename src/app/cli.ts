@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-import { basename, join } from 'protopath'
+import { basename, join, normalize, popSlash } from 'protopath'
 import yargs from 'yargs'
 
 import { Server } from '3d-tiles'
@@ -7,10 +7,10 @@ import { Server } from '3d-tiles'
 import { tile } from './tile'
 import { validate } from './validate'
 
-function parseOrigins(o?: string): Server.Origins {
+function parseOrigins(o?: string[]): Server.Origins {
   if (!o) return []
-  if (o === '*') return '*'
-  return o.split(',')
+  if (o.length === 1 && o[0] === '*') return '*'
+  return o.map(normalize).map(popSlash)
 }
 
 export const Cli = { run }
@@ -35,14 +35,21 @@ function run() {
       }
     )
     .command(
-      'serve [root]',
+      'serve',
       'Serve 3D Tiles on the fly from EPT resources',
       (yargs) =>
         yargs
           .option('root', {
             describe: 'EPT project directory to serve',
-            default: '.',
             type: 'string',
+            conflicts: 'roots'
+          })
+          .option('roots', {
+            describe: 'Allowed endpoint roots - "*" for anything',
+            default: ['*'],
+            type: 'string',
+            array: true,
+            conflicts: 'root'
           })
           .option('port', {
             alias: 'p',
@@ -52,15 +59,17 @@ function run() {
           })
           .option('origins', {
             describe: 'Access-Control-Allow-Origin list',
-            default: '*',
+            default: ['*'],
             type: 'string',
+            array: true,
           })
           .option('keyfile', { describe: 'SSL key file', type: 'string' })
           .option('certfile', { describe: 'SSL cert file', type: 'string' })
           .option('cafile', { describe: 'SSL CA file', type: 'string' }),
-      ({ origins: userOrigins, ...options }) => {
+      ({ origins: userOrigins, roots: userRoots, ...options }) => {
         const origins = parseOrigins(userOrigins)
-        return Server.create({ origins, ...options })
+        const roots = parseOrigins(userRoots)
+        return Server.create({ origins, roots, ...options })
       }
     )
     .command(

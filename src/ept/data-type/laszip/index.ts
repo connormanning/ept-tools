@@ -12,9 +12,6 @@ export const extension = 'laz'
 
 export const Laszip = { view }
 
-// TODO: Note that currently, the resulting schema doesn't quite match the EPT
-// schema, as our Laszip schema doesn't expand the bit fields into their
-// respective dimensions: they are combined as the single dimension "Flag".
 function view(input: Buffer): View.Readable {
   const header = Header.parse(input)
   const { pointCount } = header

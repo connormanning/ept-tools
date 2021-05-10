@@ -4,6 +4,7 @@ import { Reproject } from 'utils'
 export type Addon = [string, string]
 export type Addons = Addon[]
 export type Options = {
+  ept?: string
   zOffset: number
   dimensions: string[]
   addons: Addons

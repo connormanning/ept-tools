@@ -1,11 +1,23 @@
 import { Options } from '3d-tiles'
+import { normalize } from 'protopath'
 import { ParsedUrlQuery } from 'querystring'
 import { EptToolsError } from 'types'
 
 export function parseQuery(q: ParsedUrlQuery) {
   const options: Partial<Options> = {}
 
-  const { 'z-offset': zOffset, dimensions: dimstring, truncate } = q
+  const {
+    ept,
+    'z-offset': zOffset,
+    dimensions: dimstring,
+    truncate,
+    ...rest
+  } = q
+
+  if (typeof ept === 'string') {
+    options.ept = normalize(ept)
+  }
+
   if (typeof zOffset === 'string') {
     options.zOffset = parseFloat(zOffset)
     if (Number.isNaN(options.zOffset)) {
@@ -31,5 +43,5 @@ export function parseQuery(q: ParsedUrlQuery) {
     options.truncate = ['', 'true', '1'].includes(truncate)
   }
 
-  return options
+  return { ...options, rest }
 }

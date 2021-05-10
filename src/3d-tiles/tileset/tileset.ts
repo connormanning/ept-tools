@@ -45,6 +45,17 @@ function translate({
   // https://github.com/CesiumGS/3d-tiles/blob/master/3d-tiles-overview.pdf.
   const root = Tile.translate({ bounds, code, hierarchy, key, geometricError })
 
+  dimensions = dimensions.filter((name) => {
+    if (Schema.has(ept.schema, name)) return true
+    if (
+      ['Synthetic', 'KeyPoint', 'Withheld'].includes(name) &&
+      Schema.has(ept.schema, 'Classification')
+    ) {
+      return true
+    }
+    return false
+  })
+
   const metadata = {
     software: 'EPT Tools',
     ept,
