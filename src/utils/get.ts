@@ -1,16 +1,16 @@
-import { Storage } from 'cropy'
+import { Forager } from 'forager'
 
 export async function getBinary(path: string) {
-  return Storage.read(path)
+  return Forager.read(path)
 }
 
 export async function getJson(path: string): Promise<unknown> {
-  return Storage.readJson(path)
+  return Forager.readJson(path)
 }
 
 export async function isReadable(path: string) {
   try {
-    await Storage.read(path)
+    await Forager.read(path)
     return true
   } catch (e) {
     return false

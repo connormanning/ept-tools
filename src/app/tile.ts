@@ -1,4 +1,4 @@
-import { Storage } from 'cropy'
+import { Forager } from 'forager'
 import { mkdirp } from 'fs-extra'
 import { getProtocol, getStem, join } from 'protopath'
 
@@ -55,7 +55,7 @@ async function translateMetadata({
   cache,
 }: Args) {
   const root = join(input, 'ept-hierarchy')
-  const list = (await Storage.list(root)).map(({ path }) =>
+  const list = (await Forager.list(root)).map(({ path }) =>
     path === '0-0-0-0.json' ? 'tileset.json' : path
   )
 
@@ -73,7 +73,7 @@ async function translateMetadata({
         throw new EptToolsError(`Unexpected response type during ${filename}`)
       }
 
-      return Storage.write(join(output, filename), JSON.stringify(data))
+      return Forager.write(join(output, filename), JSON.stringify(data))
     }),
     threads
   )
@@ -88,7 +88,7 @@ async function translatePoints({
   cache,
 }: Args) {
   const root = join(input, 'ept-data')
-  const list = (await Storage.list(root)).map(
+  const list = (await Forager.list(root)).map(
     ({ path }) => getStem(path) + '.pnts'
   )
 
@@ -106,7 +106,7 @@ async function translatePoints({
         throw new EptToolsError(`Unexpected response type during ${filename}`)
       }
 
-      return Storage.write(join(output, filename), data)
+      return Forager.write(join(output, filename), data)
     }),
     threads
   )
