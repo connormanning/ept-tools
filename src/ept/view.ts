@@ -51,7 +51,7 @@ function createReadable(buffer: Buffer, schema: Schema): View.Readable {
     const get = Bytes.getter(buffer, Dimension.ctype(dim))
     const dimOffset = Schema.offset(schema, dim.name)
 
-    if (dim.name === 'LasFlags') {
+    if (dim.name === 'ScanFlags') {
       const getFlags = (index: number) => {
         if (index >= length) {
           throw new EptToolsError(`Invalid point index: ${index} >= ${length}`)
@@ -62,12 +62,29 @@ function createReadable(buffer: Buffer, schema: Schema): View.Readable {
       map['NumberOfReturns'] = (index) => (getFlags(index) & 0b0011_1000) >> 3
       map['ScanDirectionFlag'] = (index) => (getFlags(index) & 0b0100_0000) >> 6
       map['EdgeOfFlightLine'] = (index) => (getFlags(index) & 0b1000_0000) >> 7
-    } else if (dim.name === 'Classification') {
+    } else if (dim.name === 'ClassFlags') {
+      const getFlags = (index: number) => {
+        if (index >= length) {
+          throw new EptToolsError(`Invalid point index: ${index} >= ${length}`)
+        }
+        return get(index * pointSize + dimOffset)
+      }
+      map['Synthetic'] = (index) => getFlags(index) & 0b0001
+      map['KeyPoint'] = (index) => (getFlags(index) & 0b0010) >> 1
+      map['Withheld'] = (index) => (getFlags(index) & 0b0100) >> 2
+      map['Overlap'] = (index) => (getFlags(index) & 0b1000) >> 3
+    } else if (
+      // If there is a Classification dimension, but no ClassFlags dimension,
+      // then the upper 3 bits of Classification represent the ClassFlags.
+      dim.name === 'Classification' &&
+      !Schema.has(schema, 'ClassFlags')
+    ) {
       const getFull = (index: number) => get(index * pointSize + dimOffset)
       map['Classification'] = (index) => getFull(index) & 0b0001_1111
       map['Synthetic'] = (index) => (getFull(index) & 0b0010_0000) >> 5
       map['KeyPoint'] = (index) => (getFull(index) & 0b0100_0000) >> 6
       map['Withheld'] = (index) => (getFull(index) & 0b1000_0000) >> 7
+      map['Overlap'] = (index) => (getFull(index) & 0b0001_1111) === 12 ? 1 : 0
     } else {
       map[dim.name] = (index: number) => {
         if (index >= length) {
