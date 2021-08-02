@@ -1,3 +1,5 @@
+import { Schema as JsonSchema } from 'ajv'
+
 import { Schema } from '../schema'
 import { View } from '../view'
 
@@ -6,7 +8,13 @@ import { Laszip } from './laszip'
 import { Zstandard } from './zstandard'
 
 export type DataType = 'binary' | 'laszip' | 'zstandard'
-export const DataType = { extension, view }
+const schema: JsonSchema = {
+  title: 'Data type',
+  description: 'Point data encoding',
+  type: 'string',
+  enum: ['binary', 'laszip', 'zstandard'],
+}
+export const DataType = { schema, extension, view }
 
 const extensions = { binary: 'bin', laszip: 'laz', zstandard: 'zst' }
 function extension(type: DataType): string {

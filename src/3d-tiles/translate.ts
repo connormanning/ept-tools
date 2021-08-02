@@ -1,6 +1,6 @@
 import { basename, dirname, join } from 'protopath'
 
-import { Bounds, DataType, Key, JsonSchema, Srs } from 'ept'
+import { Bounds, DataType, Ept, Hierarchy, Key, JsonSchema, Srs } from 'ept'
 import { EptToolsError } from 'types'
 import { Reproject, getBinary, getJson } from 'utils'
 
@@ -30,7 +30,7 @@ export async function translate({ filename, cache, options = {} }: Translate) {
   const eptfilename = join(eptdir, 'ept.json')
   const ept =
     (await cache?.get(eptfilename)) ||
-    JsonSchema.parse(await getJson(eptfilename))[0]
+    JsonSchema.validate<Ept>(Ept.schema, await getJson(eptfilename))[0]
 
   const { bounds, dataType, schema, srs } = ept
   const codeString = Srs.horizontalCodeString(srs)
@@ -45,7 +45,8 @@ export async function translate({ filename, cache, options = {} }: Translate) {
   // includes metadata information as well as a translated hierarchy structure.
   if (extension === 'json') {
     const key = root === 'tileset' ? Key.create() : Key.parse(root)
-    const hierarchy = JsonSchema.parseHierarchy(
+    const hierarchy = JsonSchema.validate<Hierarchy>(
+      Hierarchy.schema,
       await getJson(join(eptdir, 'ept-hierarchy', `${Key.stringify(key)}.json`))
     )[0]
     return Tileset.translate({ ept, hierarchy, key, options })

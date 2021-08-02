@@ -8,7 +8,7 @@ export { Srs } from './srs'
 export { Ept } from './ept'
 export { Hierarchy } from './hierarchy'
 
-export * as JsonSchema from './json-schema'
+export { JsonSchema } from './json-schema'
 export { Key } from './key'
 export { Step } from './step'
 export { View } from './view'

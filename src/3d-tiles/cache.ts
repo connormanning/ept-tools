@@ -45,5 +45,12 @@ function create(timeout = 60000) {
 }
 
 async function fetch(filename: string) {
-  return JsonSchema.parse(await getJson(filename))[0]
+  const [result, errors] = JsonSchema.validate<Ept>(
+    Ept.schema,
+    await getJson(filename)
+  )
+
+  errors.forEach((e) => console.log(`${filename}:`, e))
+
+  return result
 }

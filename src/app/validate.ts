@@ -1,10 +1,10 @@
 import symbols from 'log-symbols'
 
-import { JsonSchema } from 'ept'
+import { Ept, JsonSchema } from 'ept'
 import { getJson } from 'utils'
 
 export async function validate(input: string) {
-  const [, errors] = JsonSchema.parse(await getJson(input))
+  const [, errors] = JsonSchema.validate<Ept>(Ept.schema, await getJson(input))
 
   if (errors.length) {
     console.log(symbols.error, 'Errors:')

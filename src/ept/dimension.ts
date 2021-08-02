@@ -1,3 +1,5 @@
+import { Schema } from 'ajv'
+
 import { Ctype, EptToolsError } from 'types'
 
 export declare namespace Dimension {
@@ -27,7 +29,58 @@ export declare namespace Dimension {
 }
 
 export type Dimension = Dimension.Core | (Dimension.Core & Dimension.Stats)
-export const Dimension = { ctype, fromCtype }
+const schema: Schema = {
+  title: 'Dimension',
+  description: 'Dimension details',
+  type: 'object',
+  properties: {
+    name: {
+      type: 'string',
+    },
+    type: {
+      type: 'string',
+      enum: ['signed', 'unsigned', 'float'],
+    },
+    size: {
+      type: 'integer',
+      enum: [1, 2, 4, 8],
+    },
+    scale: {
+      type: 'number',
+      exclusiveMinimum: 0,
+      default: 1,
+    },
+    offset: {
+      type: 'number',
+      default: 0,
+    },
+    count: { type: 'number' },
+    minimum: { type: 'number' },
+    maximum: { type: 'number' },
+    mean: { type: 'number' },
+    stddev: { type: 'number' },
+    variance: { type: 'number' },
+    counts: {
+      type: 'array',
+      items: {
+        type: 'object',
+        properties: {
+          value: { type: 'number' },
+          count: { type: 'number' },
+        },
+        required: ['value', 'count'],
+      },
+    },
+  },
+  allOf: [
+    {
+      if: { properties: { type: { const: 'float' } } },
+      then: { properties: { size: { enum: [4, 8] } } },
+    },
+  ],
+  required: ['name', 'type', 'size'],
+}
+export const Dimension = { schema, ctype, fromCtype }
 
 function fromCtype(ctype: Ctype): Pick<Dimension, 'type' | 'size'> {
   switch (ctype) {

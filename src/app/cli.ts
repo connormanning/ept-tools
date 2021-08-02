@@ -5,6 +5,7 @@ import yargs from 'yargs'
 import { Server } from '3d-tiles'
 
 import { tile } from './tile'
+import { upgrade } from './upgrade'
 import { validate } from './validate'
 
 function parseOrigins(o?: string[]): Server.Origins {
@@ -35,6 +36,21 @@ function run() {
       }
     )
     .command(
+      'upgrade [input]',
+      'Upgrade EPT dataset',
+      (yargs) =>
+        yargs.option('input', {
+          alias: 'i',
+          type: 'string',
+          describe: 'Path to ept.json file',
+          demandOption: true,
+        }),
+      ({ input }) => {
+        if (!input.endsWith('ept.json')) input = join(input, 'ept.json')
+        return upgrade(input)
+      }
+    )
+    .command(
       'serve',
       'Serve 3D Tiles on the fly from EPT resources',
       (yargs) =>
@@ -42,14 +58,14 @@ function run() {
           .option('root', {
             describe: 'EPT project directory to serve',
             type: 'string',
-            conflicts: 'roots'
+            conflicts: 'roots',
           })
           .option('roots', {
             describe: 'Allowed endpoint roots - "*" for anything',
             default: ['*'],
             type: 'string',
             array: true,
-            conflicts: 'root'
+            conflicts: 'root',
           })
           .option('port', {
             alias: 'p',

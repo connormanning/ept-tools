@@ -1,9 +1,17 @@
+import { Schema as JsonSchema } from 'ajv'
 import { EptToolsError } from 'types'
 
 import { Dimension } from './dimension'
 
 export type Schema = Dimension[]
-export const Schema = { find, has, offset, pointSize }
+const schema: JsonSchema = {
+  title: 'Attribute schema',
+  description: 'Array of dimensions representing the point layout',
+  type: 'array',
+  items: Dimension.schema,
+  minItems: 3, // XYZ must be present.
+}
+export const Schema = { schema, find, has, offset, pointSize }
 
 function find(schema: Schema, name: string) {
   return schema.find((d) => d.name === name)

@@ -1,3 +1,4 @@
+import { Schema } from 'ajv'
 import { Point } from 'types'
 import { Reproject } from 'utils'
 
@@ -5,7 +6,18 @@ import { Key } from './key'
 import { Step } from './step'
 
 export type Bounds = [...Point, ...Point] // Min, max.
+const schema: Schema = {
+  title: 'Bounds',
+  description:
+    'Bounding volume of the form [xmin, ymin, zmin, xmax, ymax, zmax]',
+  type: 'array',
+  items: { type: 'number' },
+  minItems: 6,
+  maxItems: 6,
+}
+
 export const Bounds = {
+  schema,
   min,
   max,
   mid,

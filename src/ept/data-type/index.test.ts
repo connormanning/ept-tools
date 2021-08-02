@@ -1,4 +1,4 @@
-import { DataType } from '.'
+import { DataType } from 'ept'
 
 test('view: invalid type', async () => {
   await expect(() =>

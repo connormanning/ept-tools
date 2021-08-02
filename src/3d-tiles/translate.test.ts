@@ -1,6 +1,6 @@
 import { join } from 'protopath'
 
-import { Bounds, DataType, Hierarchy, JsonSchema, Key, Srs } from 'ept'
+import { Bounds, DataType, Ept, Hierarchy, JsonSchema, Key, Srs } from 'ept'
 import { Ellipsoid, testdir } from 'test'
 import { Reproject, getBinary, getJson } from 'utils'
 
@@ -106,7 +106,8 @@ test('success: nested hierarchy', async () => {
 
   // Validate all the nested "children" in each tile.  Flatten them and compare
   // each of them to the corresponding hierarchy entry.
-  const [hierarchyNode] = JsonSchema.parseHierarchy(
+  const [hierarchyNode] = JsonSchema.validate<Hierarchy>(
+    Hierarchy.schema,
     await getJson(join(root, 'ept-hierarchy/2-0-1-1.json'))
   )
   expect(flat).toHaveLength(Object.keys(hierarchyNode).length)
@@ -153,8 +154,9 @@ test('success: xyz/rgb/i', async () => {
   // Grab the data we'll need from the EPT dataset.  We'll fetch the EPT
   // metadata, the hierarchy to check the number of points, and the binary node
   // data itself to compare points.
-  const [ept] = JsonSchema.parse(await getJson(join(base, 'ept.json')))
-  const [hierarchy] = JsonSchema.parseHierarchy(
+  const [ept] = JsonSchema.validate<Ept>(Ept.schema, await getJson(join(base, 'ept.json')))
+  const [hierarchy] = JsonSchema.validate<Hierarchy>(
+    Hierarchy.schema,
     await getJson(join(base, 'ept-hierarchy/0-0-0-0.json'))
   )
   const bin = await getBinary(join(base, 'ept-data', `${keyString}.bin`))
