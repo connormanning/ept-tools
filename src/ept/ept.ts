@@ -15,7 +15,7 @@ export type Ept = {
   schema: Schema
   span: number
   srs?: Srs
-  version: '1.0.0'
+  version: '1.0.0' | '1.0.1'
 }
 
 export const points = {

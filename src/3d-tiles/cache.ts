@@ -1,5 +1,5 @@
-import { Ept, JsonSchema } from 'ept'
-import { getJson } from 'utils'
+import { Ept } from 'ept'
+import { JsonSchema, getJson } from 'utils'
 
 type Entry = {
   promise: Promise<Ept>

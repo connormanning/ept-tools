@@ -5,7 +5,7 @@ import yargs from 'yargs'
 import { Server } from '3d-tiles'
 
 import { tile } from './tile'
-import { upgrade } from './upgrade'
+import { upgrade, upgradeDir } from './upgrade'
 import { validate } from './validate'
 
 function parseOrigins(o?: string[]): Server.Origins {
@@ -39,15 +39,36 @@ function run() {
       'upgrade [input]',
       'Upgrade EPT dataset',
       (yargs) =>
-        yargs.option('input', {
-          alias: 'i',
-          type: 'string',
-          describe: 'Path to ept.json file',
-          demandOption: true,
-        }),
-      ({ input }) => {
+        yargs
+          .option('input', {
+            alias: 'i',
+            type: 'string',
+            describe: 'Path to EPT dataset',
+            demandOption: true,
+          })
+          .option('dir', {
+            describe: 'If set, "input" is treated as a directory of EPT',
+            type: 'boolean',
+            default: false,
+          })
+          .option('threads', {
+            describe: 'Number of parallel threads',
+            type: 'number',
+            default: 8,
+            alias: 't',
+          })
+          .option('verbose', {
+            describe: 'Enable verbose logs',
+            type: 'boolean',
+            default: true,
+            alias: 'v',
+          }),
+      ({ input, dir, threads, verbose }) => {
+        if (dir) {
+          return upgradeDir({ dir: input, threads, verbose})
+        }
         if (!input.endsWith('ept.json')) input = join(input, 'ept.json')
-        return upgrade(input)
+        return upgrade({ filename: input, threads, verbose })
       }
     )
     .command(

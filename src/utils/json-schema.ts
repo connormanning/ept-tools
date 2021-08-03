@@ -3,6 +3,15 @@ import Ajv, { Schema } from 'ajv'
 const ajv = new Ajv()
 export const JsonSchema = { validate }
 
+export class ValidationError extends Error {
+	errors: string[]
+
+	constructor(message: string, errors: string[]) {
+		super(message)
+		this.errors = errors
+	}
+}
+
 export type Validation<T> = [T, string[]]
 function validate<T>(schema: Schema, value: unknown): Validation<T> {
   if (typeof schema === 'boolean') throw new Error('Invalid JSON schema')

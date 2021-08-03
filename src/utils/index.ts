@@ -1,5 +1,6 @@
 export * from './get'
 export { Bytes } from './bytes'
+export { JsonSchema, ValidationError } from './json-schema'
 export { Pool } from './pool'
 export { Reproject } from './reproject'
 export { Scale } from './scale'
