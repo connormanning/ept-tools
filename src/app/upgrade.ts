@@ -202,7 +202,7 @@ export async function upgradeOne({
   }
   ept.version = '1.1.0'
 
-  if (!(await getHasV1Sources(dir))) {
+  if (!(await getHasV1Sources(backup))) {
     if (verbose) console.log('Awakening and validating source file metadata...')
     const [oldsummary, olddetail] = await awakenFromV0(
       join(backup, 'ept-sources'),

@@ -89,11 +89,6 @@ function run() {
       'Serve 3D Tiles on the fly from EPT resources',
       (yargs) =>
         yargs
-          .option('root', {
-            describe: 'EPT project directory to serve',
-            type: 'string',
-            conflicts: 'roots',
-          })
           .option('roots', {
             describe: 'Allowed endpoint roots - "*" for anything',
             default: ['*'],
