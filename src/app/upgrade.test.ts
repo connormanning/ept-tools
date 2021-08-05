@@ -49,6 +49,13 @@ test('new', async () => {
       await Forager.read(join(newdir, path))
     )
   }
+  {
+    const [, errors] = JsonSchema.validate<Source.V0.Summary>(
+      Source.V0.summary.schema,
+      await Forager.readJson(join(newdir, 'ept-sources/list.json'))
+    )
+    expect(errors).toHaveLength(0)
+  }
 })
 
 test('old', async () => {
@@ -108,11 +115,20 @@ test('mix', async () => {
   expect(ept.version).toEqual('1.1.0')
   expect(epterrors).toHaveLength(0)
 
-  const [, errors] = JsonSchema.validate<Source.Summary>(
-    Source.summary.schema,
-    await Forager.readJson(join(mixdir, 'ept-sources/manifest.json'))
-  )
-  expect(errors).toHaveLength(0)
+  {
+    const [, errors] = JsonSchema.validate<Source.Summary>(
+      Source.summary.schema,
+      await Forager.readJson(join(mixdir, 'ept-sources/manifest.json'))
+    )
+    expect(errors).toHaveLength(0)
+  }
+  {
+    const [, errors] = JsonSchema.validate<Source.V0.Summary>(
+      Source.V0.summary.schema,
+      await Forager.readJson(join(mixdir, 'ept-sources/list.json'))
+    )
+    expect(errors).toHaveLength(0)
+  }
 })
 
 test('dir', async () => {
@@ -123,8 +139,8 @@ test('dir', async () => {
   const n = results.find((v) => v.subdir === 'new')
   const j = results.find((v) => v.subdir === 'junk')
 
-	expect(o).toEqual({ subdir: 'old', isUpgraded: true })
-	expect(m).toEqual({ subdir: 'mix', isUpgraded: true })
-	expect(n).toEqual({ subdir: 'new', isUpgraded: false })
-	expect(typeof j?.error === 'string').toBe(true)
+  expect(o).toEqual({ subdir: 'old', isUpgraded: true })
+  expect(m).toEqual({ subdir: 'mix', isUpgraded: true })
+  expect(n).toEqual({ subdir: 'new', isUpgraded: false })
+  expect(typeof j?.error === 'string').toBe(true)
 })

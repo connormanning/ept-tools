@@ -74,6 +74,7 @@ type UpgradeDir = {
   threads?: number
   limit?: number
   verbose?: boolean
+  force?: boolean
 }
 type UpgradeDirResultItem = {
   subdir: string
@@ -86,6 +87,7 @@ export async function upgradeDir({
   threads,
   limit = Infinity,
   verbose,
+  force,
 }: UpgradeDir) {
   if (verbose) {
     console.log(`Upgrading EPT datasets within ${dir}`)
@@ -121,6 +123,7 @@ export async function upgradeDir({
         filename: join(dir, subdir, 'ept.json'),
         threads,
         verbose,
+        force
       })
       if (isUpgraded) ++upgradedCount
 
@@ -160,6 +163,10 @@ export async function upgradeOne({
   }
   const dir = join(filename, '..')
 
+  // This isn't strictly necessary and could be removed, but it lets v1.1.0
+  // data work with older versions of PDAL.
+  await maybeBackportV0Summary(dir, verbose)
+
   if (await getIsCurrent(dir, verbose)) {
     if (!force) {
       if (verbose) console.log('\tDataset is up to date')
@@ -177,14 +184,6 @@ export async function upgradeOne({
   // represents the original dataset before any upgrade attempts.
   if (verbose) console.log('Getting EPT...')
   const eptjson = await Forager.readJson(join(backup, 'ept.json'))
-
-  /*
-  // A few extremely old datasets have this issue.
-  if (!eptjson.points && eptjson.numPoints) {
-    eptjson.points = eptjson.numPoints
-    delete eptjson.numPoints
-  }
-  */
   const [ept, errors] = JsonSchema.validate<Ept>(Ept.schema, eptjson)
   if (errors.length) {
     if (verbose) errors.forEach((e) => console.log(`! ${e}`))
@@ -269,9 +268,44 @@ async function getIsCurrent(dir: string, verbose = false) {
   return ept.version === '1.1.0'
 }
 
-// Return true if the data-sources/ directory has a manifest.json in it, and its
-// contents are valid.  Throws if this file exists but is not valid.
-async function getHasV1Sources(dir: string, verbose = true) {
+async function maybeBackportV0Summary(dir: string, verbose = false) {
+  if (await getHasV0Sources(dir)) {
+    if (verbose) console.log('Version 1.0.0 list.json already exists')
+    return
+  }
+
+  if (verbose) console.log('Backporting manifest to v1.0.0...')
+
+  const manifest = await getV1Sources(dir, verbose)
+  if (!manifest) throw new Error('Failed to backport - manifest not found')
+
+  const list = manifest.map<Source.V0.Summary.Item>((v) => ({
+    id: v.metadataPath,
+    path: v.path,
+    status: 'inserted',
+    bounds: v.bounds,
+    inserts: v.points,
+    points: v.points,
+  }))
+
+  await Forager.write(
+    join(dir, 'ept-sources/list.json'),
+    JSON.stringify(list, null, 2)
+  )
+
+  if (verbose) console.log('\tDone')
+}
+
+async function getHasV0Sources(dir: string) {
+  try {
+    await Forager.read(join(dir, 'ept-sources/list.json'))
+    return true
+  } catch (e) {
+    return false
+  }
+}
+
+async function getV1Sources(dir: string, verbose = true) {
   const rawmanifest = await (async () => {
     try {
       return (await Forager.readJson(
@@ -280,9 +314,9 @@ async function getHasV1Sources(dir: string, verbose = true) {
     } catch (e) {}
   })()
 
-  if (!rawmanifest) return false
+  if (!rawmanifest) return undefined
 
-  const [, errors] = JsonSchema.validate<Source.Summary>(
+  const [manifest, errors] = JsonSchema.validate<Source.Summary>(
     Source.summary.schema,
     rawmanifest
   )
@@ -292,7 +326,13 @@ async function getHasV1Sources(dir: string, verbose = true) {
     throw new Error('Invalid data source manifest v1.1.0')
   }
 
-  return true
+  return manifest
+}
+
+// Return true if the data-sources/ directory has a manifest.json in it, and its
+// contents are valid.  Throws if this file exists but is not valid.
+async function getHasV1Sources(dir: string, verbose = true) {
+  return Boolean(await getV1Sources(dir, verbose))
 }
 
 async function awakenFromV0(

@@ -76,8 +76,7 @@ function run() {
           }),
       ({ input, dir, threads, force, limit, verbose }) => {
         if (dir) {
-          if (force) throw new Error('Cannot force with --dir set')
-          return upgradeDir({ dir: input, threads, limit, verbose })
+          return upgradeDir({ dir: input, threads, limit, verbose, force })
         }
 
         if (!input.endsWith('ept.json')) input = join(input, 'ept.json')

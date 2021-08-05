@@ -38,3 +38,4 @@ Available tools are:
 
 - [serve](doc/serve.md): serve EPT data as on-demand 3D Tiles over HTTP
 - [tile](doc/tile.md): translate EPT to 3D Tiles on disk
+- [validate](doc/validate.md): validate an EPT dataset
