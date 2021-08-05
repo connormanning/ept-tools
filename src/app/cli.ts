@@ -68,15 +68,27 @@ function run() {
             type: 'number',
             default: 0,
           })
+          .option('skip', {
+            describe: 'In --dir mode, skip the specified number of entries',
+            type: 'number',
+            default: 0,
+          })
           .option('verbose', {
             describe: 'Enable verbose logs',
             type: 'boolean',
             default: true,
             alias: 'v',
           }),
-      ({ input, dir, threads, force, limit, verbose }) => {
+      ({ input, dir, threads, force, limit, skip, verbose }) => {
         if (dir) {
-          return upgradeDir({ dir: input, threads, limit, verbose, force })
+          return upgradeDir({
+            dir: input,
+            threads,
+            limit,
+            skip,
+            verbose,
+            force,
+          })
         }
 
         if (!input.endsWith('ept.json')) input = join(input, 'ept.json')

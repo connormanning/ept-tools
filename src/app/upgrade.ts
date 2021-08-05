@@ -73,6 +73,7 @@ type UpgradeDir = {
   dir: string
   threads?: number
   limit?: number
+  skip?: number
   verbose?: boolean
   force?: boolean
 }
@@ -86,6 +87,7 @@ export async function upgradeDir({
   dir,
   threads,
   limit = Infinity,
+  skip = 0,
   verbose,
   force,
 }: UpgradeDir) {
@@ -110,6 +112,12 @@ export async function upgradeDir({
 
   let i = 0
   for (const subdir of list) {
+    if (i < skip) {
+      if (verbose) console.log(`Skipping ${i + 1}/${skip} ${subdir}`)
+      ++i
+      continue
+    }
+
     if (verbose) {
       const s =
         `\nUpgrading ${i + 1}/${list.length}` +

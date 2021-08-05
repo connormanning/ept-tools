@@ -133,6 +133,7 @@ test('mix', async () => {
 
 test('dir', async () => {
   const results = await upgradeDir({ dir: tmpdir, verbose: false })
+	expect(results).toHaveLength(4)
 
   const o = results.find((v) => v.subdir === 'old')
   const m = results.find((v) => v.subdir === 'mix')
@@ -143,4 +144,15 @@ test('dir', async () => {
   expect(m).toEqual({ subdir: 'mix', isUpgraded: true })
   expect(n).toEqual({ subdir: 'new', isUpgraded: false })
   expect(typeof j?.error === 'string').toBe(true)
+})
+
+test('skip', async () => {
+  const results = await upgradeDir({ dir: tmpdir, verbose: false, skip: 2 })
+	expect(results).toHaveLength(2)
+
+  const n = results.find((v) => v.subdir === 'new')
+  const o = results.find((v) => v.subdir === 'old')
+
+  expect(o).toEqual({ subdir: 'old', isUpgraded: true })
+  expect(n).toEqual({ subdir: 'new', isUpgraded: false })
 })
