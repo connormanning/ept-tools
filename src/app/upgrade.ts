@@ -121,7 +121,7 @@ export async function upgradeDir({
     if (verbose) {
       const s =
         `\nUpgrading ${i + 1}/${list.length}` +
-        (limit !== Infinity ? ` (limit ${upgradedCount}/${limit})` : '') +
+        (limit !== Infinity ? ` (limit ${upgradedCount + 1}/${limit})` : '') +
         `: ${subdir}`
       console.log(s)
     }
@@ -131,7 +131,7 @@ export async function upgradeDir({
         filename: join(dir, subdir, 'ept.json'),
         threads,
         verbose,
-        force
+        force,
       })
       if (isUpgraded) ++upgradedCount
 
@@ -170,10 +170,6 @@ export async function upgradeOne({
     throw new Error('Filename must end with "ept.json"')
   }
   const dir = join(filename, '..')
-
-  // This isn't strictly necessary and could be removed, but it lets v1.1.0
-  // data work with older versions of PDAL.
-  await maybeBackportV0Summary(dir, verbose)
 
   if (await getIsCurrent(dir, verbose)) {
     if (!force) {
@@ -260,6 +256,10 @@ export async function upgradeOne({
     if (verbose) console.log('Source file metadata is up to date')
   }
 
+  // This isn't strictly necessary and could be removed, but it lets v1.1.0
+  // data work with older versions of PDAL.
+  await backportV0Summary(dir, verbose)
+
   await Forager.write(join(dir, 'ept.json'), JSON.stringify(ept, null, 2))
 
   if (verbose) console.log('\tUpgrades complete - EPT version 1.1.0', dir)
@@ -276,19 +276,14 @@ async function getIsCurrent(dir: string, verbose = false) {
   return ept.version === '1.1.0'
 }
 
-async function maybeBackportV0Summary(dir: string, verbose = false) {
-  if (await getHasV0Sources(dir)) {
-    if (verbose) console.log('Version 1.0.0 list.json already exists')
-    return
-  }
-
+async function backportV0Summary(dir: string, verbose = false) {
   if (verbose) console.log('Backporting manifest to v1.0.0...')
 
   const manifest = await getV1Sources(dir, verbose)
   if (!manifest) throw new Error('Failed to backport - manifest not found')
 
   const list = manifest.map<Source.V0.Summary.Item>((v) => ({
-    id: v.metadataPath,
+    id: v.path,
     path: v.path,
     status: 'inserted',
     bounds: v.bounds,
