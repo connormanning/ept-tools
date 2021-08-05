@@ -1,0 +1,36 @@
+[
+	{
+		"bounds" : 
+		[
+			-8537266.23682,
+			4648829.64673,
+			-21.5100405421,
+			-8535317.83835,
+			4650752.26489,
+			1058.75995948
+		],
+		"id" : "MD_GoldenBeach_2012_000001.laz",
+		"inserts" : 3346722,
+		"path" : "s3://usgs-lidar/Projects/MD_GoldenBeach_2012/laz/MD_GoldenBeach_2012_000001.laz",
+		"points" : 3346722,
+		"status" : "inserted",
+		"url" : "0.json"
+	},
+	{
+		"bounds" : 
+		[
+			-8535350.00385,
+			4648864.82088,
+			-1.23004054371,
+			-8533403.96792,
+			4650674.81282,
+			1068.01995948
+		],
+		"id" : "MD_GoldenBeach_2012_000002.laz",
+		"inserts" : 1513936,
+		"path" : "s3://usgs-lidar/Projects/MD_GoldenBeach_2012/laz/MD_GoldenBeach_2012_000002.laz",
+		"points" : 1513936,
+		"status" : "inserted",
+		"url" : "0.json"
+	}
+]

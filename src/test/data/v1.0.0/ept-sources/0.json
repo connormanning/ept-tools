@@ -1,0 +1,198 @@
+{
+	"MD_GoldenBeach_2012_000001.laz" : 
+	{
+		"bounds" : 
+		[
+			-8537266.23682,
+			4648829.64673,
+			-21.5100405421,
+			-8535317.83835,
+			4650752.26489,
+			1058.75995948
+		],
+		"metadata" : 
+		{
+			"comp_spatialreference" : "COMPD_CS[\"unknown\",PROJCS[\"NAD83 / UTM zone 18N\",GEOGCS[\"NAD83\",DATUM[\"North_American_Datum_1983\",SPHEROID[\"GRS 1980\",6378137,298.2572221010042,AUTHORITY[\"EPSG\",\"7019\"]],AUTHORITY[\"EPSG\",\"6269\"]],PRIMEM[\"Greenwich\",0],UNIT[\"degree\",0.0174532925199433],AUTHORITY[\"EPSG\",\"4269\"]],PROJECTION[\"Transverse_Mercator\"],PARAMETER[\"latitude_of_origin\",0],PARAMETER[\"central_meridian\",-75],PARAMETER[\"scale_factor\",0.9996],PARAMETER[\"false_easting\",500000],PARAMETER[\"false_northing\",0],UNIT[\"metre\",1,AUTHORITY[\"EPSG\",\"9001\"]],AUTHORITY[\"EPSG\",\"26918\"]],VERT_CS[\"NAVD88 - Geoid09 (Meters)\",VERT_DATUM[\"unknown\",2005],UNIT[\"metre\",1.0,AUTHORITY[\"EPSG\",\"9001\"]],AXIS[\"Up\",UP]]]",
+			"compressed" : true,
+			"count" : 3346722,
+			"creation_doy" : 249,
+			"creation_year" : 2012,
+			"dataformat_id" : 1,
+			"dataoffset" : 838,
+			"filesource_id" : 0,
+			"global_encoding" : 0,
+			"global_encoding_base64" : "AAA=",
+			"header_size" : 227,
+			"major_version" : 1,
+			"maxx" : 354000,
+			"maxy" : 4262973.11,
+			"maxz" : 1058.76,
+			"minor_version" : 2,
+			"minx" : 352500,
+			"miny" : 4261500,
+			"minz" : -21.51,
+			"offset_x" : 0,
+			"offset_y" : 0,
+			"offset_z" : 0,
+			"project_id" : "8417E3C3-D802-1A4A-BBE0-5EC9CED2F2C7",
+			"scale_x" : 0.01,
+			"scale_y" : 0.01,
+			"scale_z" : 0.01,
+			"software_id" : "GeoCue LAS Updater",
+			"spatialreference" : "COMPD_CS[\"unknown\",PROJCS[\"NAD83 / UTM zone 18N\",GEOGCS[\"NAD83\",DATUM[\"North_American_Datum_1983\",SPHEROID[\"GRS 1980\",6378137,298.2572221010042,AUTHORITY[\"EPSG\",\"7019\"]],AUTHORITY[\"EPSG\",\"6269\"]],PRIMEM[\"Greenwich\",0],UNIT[\"degree\",0.0174532925199433],AUTHORITY[\"EPSG\",\"4269\"]],PROJECTION[\"Transverse_Mercator\"],PARAMETER[\"latitude_of_origin\",0],PARAMETER[\"central_meridian\",-75],PARAMETER[\"scale_factor\",0.9996],PARAMETER[\"false_easting\",500000],PARAMETER[\"false_northing\",0],UNIT[\"metre\",1,AUTHORITY[\"EPSG\",\"9001\"]],AUTHORITY[\"EPSG\",\"26918\"]],VERT_CS[\"NAVD88 - Geoid09 (Meters)\",VERT_DATUM[\"unknown\",2005],UNIT[\"metre\",1.0,AUTHORITY[\"EPSG\",\"9001\"]],AXIS[\"Up\",UP]]]",
+			"srs" : 
+			{
+				"compoundwkt" : "COMPD_CS[\"unknown\",PROJCS[\"NAD83 / UTM zone 18N\",GEOGCS[\"NAD83\",DATUM[\"North_American_Datum_1983\",SPHEROID[\"GRS 1980\",6378137,298.2572221010042,AUTHORITY[\"EPSG\",\"7019\"]],AUTHORITY[\"EPSG\",\"6269\"]],PRIMEM[\"Greenwich\",0],UNIT[\"degree\",0.0174532925199433],AUTHORITY[\"EPSG\",\"4269\"]],PROJECTION[\"Transverse_Mercator\"],PARAMETER[\"latitude_of_origin\",0],PARAMETER[\"central_meridian\",-75],PARAMETER[\"scale_factor\",0.9996],PARAMETER[\"false_easting\",500000],PARAMETER[\"false_northing\",0],UNIT[\"metre\",1,AUTHORITY[\"EPSG\",\"9001\"]],AUTHORITY[\"EPSG\",\"26918\"]],VERT_CS[\"NAVD88 - Geoid09 (Meters)\",VERT_DATUM[\"unknown\",2005],UNIT[\"metre\",1.0,AUTHORITY[\"EPSG\",\"9001\"]],AXIS[\"Up\",UP]]]",
+				"horizontal" : "PROJCS[\"NAD83 / UTM zone 18N\",GEOGCS[\"NAD83\",DATUM[\"North_American_Datum_1983\",SPHEROID[\"GRS 1980\",6378137,298.2572221010042,AUTHORITY[\"EPSG\",\"7019\"]],AUTHORITY[\"EPSG\",\"6269\"]],PRIMEM[\"Greenwich\",0],UNIT[\"degree\",0.0174532925199433],AUTHORITY[\"EPSG\",\"4269\"]],PROJECTION[\"Transverse_Mercator\"],PARAMETER[\"latitude_of_origin\",0],PARAMETER[\"central_meridian\",-75],PARAMETER[\"scale_factor\",0.9996],PARAMETER[\"false_easting\",500000],PARAMETER[\"false_northing\",0],UNIT[\"metre\",1,AUTHORITY[\"EPSG\",\"9001\"]],AUTHORITY[\"EPSG\",\"26918\"]]",
+				"isgeocentric" : false,
+				"isgeographic" : false,
+				"prettycompoundwkt" : "COMPD_CS[\"unknown\",    PROJCS[\"NAD83 / UTM zone 18N\",        GEOGCS[\"NAD83\",            DATUM[\"North_American_Datum_1983\",                SPHEROID[\"GRS 1980\",6378137,298.2572221010042,                    AUTHORITY[\"EPSG\",\"7019\"]],                AUTHORITY[\"EPSG\",\"6269\"]],            PRIMEM[\"Greenwich\",0],            UNIT[\"degree\",0.0174532925199433],            AUTHORITY[\"EPSG\",\"4269\"]],        PROJECTION[\"Transverse_Mercator\"],        PARAMETER[\"latitude_of_origin\",0],        PARAMETER[\"central_meridian\",-75],        PARAMETER[\"scale_factor\",0.9996],        PARAMETER[\"false_easting\",500000],        PARAMETER[\"false_northing\",0],        UNIT[\"metre\",1,            AUTHORITY[\"EPSG\",\"9001\"]],        AUTHORITY[\"EPSG\",\"26918\"]],    VERT_CS[\"NAVD88 - Geoid09 (Meters)\",        VERT_DATUM[\"unknown\",2005],        UNIT[\"metre\",1.0,            AUTHORITY[\"EPSG\",\"9001\"]],        AXIS[\"Up\",UP]]]",
+				"prettywkt" : "PROJCS[\"NAD83 / UTM zone 18N\",    GEOGCS[\"NAD83\",        DATUM[\"North_American_Datum_1983\",            SPHEROID[\"GRS 1980\",6378137,298.2572221010042,                AUTHORITY[\"EPSG\",\"7019\"]],            AUTHORITY[\"EPSG\",\"6269\"]],        PRIMEM[\"Greenwich\",0],        UNIT[\"degree\",0.0174532925199433],        AUTHORITY[\"EPSG\",\"4269\"]],    PROJECTION[\"Transverse_Mercator\"],    PARAMETER[\"latitude_of_origin\",0],    PARAMETER[\"central_meridian\",-75],    PARAMETER[\"scale_factor\",0.9996],    PARAMETER[\"false_easting\",500000],    PARAMETER[\"false_northing\",0],    UNIT[\"metre\",1,        AUTHORITY[\"EPSG\",\"9001\"]],    AUTHORITY[\"EPSG\",\"26918\"]]",
+				"proj4" : "+proj=utm +zone=18 +datum=NAD83 +units=m +vunits=m +no_defs",
+				"units" : 
+				{
+					"horizontal" : "metre",
+					"vertical" : "metre"
+				},
+				"vertical" : "VERT_CS[\"NAVD88 - Geoid09 (Meters)\",VERT_DATUM[\"unknown\",2005],UNIT[\"metre\",1.0,AUTHORITY[\"EPSG\",\"9001\"]],AXIS[\"Up\",UP]]",
+				"wkt" : "PROJCS[\"NAD83 / UTM zone 18N\",GEOGCS[\"NAD83\",DATUM[\"North_American_Datum_1983\",SPHEROID[\"GRS 1980\",6378137,298.2572221010042,AUTHORITY[\"EPSG\",\"7019\"]],AUTHORITY[\"EPSG\",\"6269\"]],PRIMEM[\"Greenwich\",0],UNIT[\"degree\",0.0174532925199433],AUTHORITY[\"EPSG\",\"4269\"]],PROJECTION[\"Transverse_Mercator\"],PARAMETER[\"latitude_of_origin\",0],PARAMETER[\"central_meridian\",-75],PARAMETER[\"scale_factor\",0.9996],PARAMETER[\"false_easting\",500000],PARAMETER[\"false_northing\",0],UNIT[\"metre\",1,AUTHORITY[\"EPSG\",\"9001\"]],AUTHORITY[\"EPSG\",\"26918\"]]"
+			},
+			"system_id" : "",
+			"vlr_0" : 
+			{
+				"data" : "AQABAAAAFwAABAAAAQABAAAIAAABAK0QAQixhxgAMAACCAAAAQB9GAMIAAABAMUiBggAAAEAjiMHCLCHAQAJAAgIAAABAGsbCQiwhwEABgALCLCHAQAHAA0IsIcBAAgAAAwAAAEAJmkBDLGHFgAAAAMMAAABAAEABAwAAAEAKSMFDLCHAQAFAAkMsIcBAAQACgywhwEAAAALDLCHAQABABAMsIcBAAIAFAywhwEAAwABELGHGgAWAAMQAAABACkj",
+				"description" : "GeoTiff Projection Keys",
+				"record_id" : 34735,
+				"user_id" : "LASF_Projection"
+			},
+			"vlr_1" : 
+			{
+				"data" : "AAAAAICEHkEAAAAAAAAAAAAAAAAAwFLAeJyiI7n87z8AAAAAAAAAAAAAAAAAAPA/AAAAQKZUWEGo+euUHaRyQAAAAAAAAAAAOZ1SokbfkT8=",
+				"description" : "GeoTiff double parameters",
+				"record_id" : 34736,
+				"user_id" : "LASF_Projection"
+			},
+			"vlr_2" : 
+			{
+				"data" : "TkFEXzE5ODNfVVRNX1pvbmVfMThOfE5BVkQ4OCAtIEdlb2lkMDkgKE1ldGVycyl8R0NTX05vcnRoX0FtZXJpY2FuXzE5ODN8AA==",
+				"description" : "GeoTiff ASCII parameters",
+				"record_id" : 34737,
+				"user_id" : "LASF_Projection"
+			},
+			"vlr_3" : 
+			{
+				"data" : "AgAAAAIBAAAAAAAAUMMAAP////////////////////8CAAYAFAACAAcACAACAA==",
+				"description" : "by laszip of LAStools (121030)",
+				"record_id" : 22204,
+				"user_id" : "laszip encoded"
+			}
+		},
+		"origin" : 0,
+		"path" : "s3://usgs-lidar/Projects/MD_GoldenBeach_2012/laz/MD_GoldenBeach_2012_000001.laz",
+		"points" : 3346722,
+		"srs" : 
+		{
+			"authority" : "EPSG",
+			"horizontal" : "26918",
+			"wkt" : "COMPD_CS[\"unknown\",PROJCS[\"NAD83 / UTM zone 18N\",GEOGCS[\"NAD83\",DATUM[\"North_American_Datum_1983\",SPHEROID[\"GRS 1980\",6378137,298.2572221010042,AUTHORITY[\"EPSG\",\"7019\"]],AUTHORITY[\"EPSG\",\"6269\"]],PRIMEM[\"Greenwich\",0],UNIT[\"degree\",0.0174532925199433],AUTHORITY[\"EPSG\",\"4269\"]],PROJECTION[\"Transverse_Mercator\"],PARAMETER[\"latitude_of_origin\",0],PARAMETER[\"central_meridian\",-75],PARAMETER[\"scale_factor\",0.9996],PARAMETER[\"false_easting\",500000],PARAMETER[\"false_northing\",0],UNIT[\"metre\",1,AUTHORITY[\"EPSG\",\"9001\"]],AUTHORITY[\"EPSG\",\"26918\"]],VERT_CS[\"NAVD88 - Geoid09 (Meters)\",VERT_DATUM[\"unknown\",2005],UNIT[\"metre\",1.0,AUTHORITY[\"EPSG\",\"9001\"]],AXIS[\"Up\",UP]]]"
+		}
+	},
+	"MD_GoldenBeach_2012_000002.laz" : 
+	{
+		"bounds" : 
+		[
+			-8535350.00385,
+			4648864.82088,
+			-1.23004054371,
+			-8533403.96792,
+			4650674.81282,
+			1068.01995948
+		],
+		"metadata" : 
+		{
+			"comp_spatialreference" : "COMPD_CS[\"unknown\",PROJCS[\"NAD83 / UTM zone 18N\",GEOGCS[\"NAD83\",DATUM[\"North_American_Datum_1983\",SPHEROID[\"GRS 1980\",6378137,298.2572221010042,AUTHORITY[\"EPSG\",\"7019\"]],AUTHORITY[\"EPSG\",\"6269\"]],PRIMEM[\"Greenwich\",0],UNIT[\"degree\",0.0174532925199433],AUTHORITY[\"EPSG\",\"4269\"]],PROJECTION[\"Transverse_Mercator\"],PARAMETER[\"latitude_of_origin\",0],PARAMETER[\"central_meridian\",-75],PARAMETER[\"scale_factor\",0.9996],PARAMETER[\"false_easting\",500000],PARAMETER[\"false_northing\",0],UNIT[\"metre\",1,AUTHORITY[\"EPSG\",\"9001\"]],AUTHORITY[\"EPSG\",\"26918\"]],VERT_CS[\"NAVD88 - Geoid09 (Meters)\",VERT_DATUM[\"unknown\",2005],UNIT[\"metre\",1.0,AUTHORITY[\"EPSG\",\"9001\"]],AXIS[\"Up\",UP]]]",
+			"compressed" : true,
+			"count" : 1513936,
+			"creation_doy" : 249,
+			"creation_year" : 2012,
+			"dataformat_id" : 1,
+			"dataoffset" : 838,
+			"filesource_id" : 0,
+			"global_encoding" : 0,
+			"global_encoding_base64" : "AAA=",
+			"header_size" : 227,
+			"major_version" : 1,
+			"maxx" : 355500,
+			"maxy" : 4262885.51,
+			"maxz" : 1068.02,
+			"minor_version" : 2,
+			"minx" : 354000,
+			"miny" : 4261500.03,
+			"minz" : -1.23,
+			"offset_x" : 0,
+			"offset_y" : 0,
+			"offset_z" : 0,
+			"project_id" : "8417E3C3-D802-1A4A-BBE0-5EC9CED2F2C7",
+			"scale_x" : 0.01,
+			"scale_y" : 0.01,
+			"scale_z" : 0.01,
+			"software_id" : "GeoCue LAS Updater",
+			"spatialreference" : "COMPD_CS[\"unknown\",PROJCS[\"NAD83 / UTM zone 18N\",GEOGCS[\"NAD83\",DATUM[\"North_American_Datum_1983\",SPHEROID[\"GRS 1980\",6378137,298.2572221010042,AUTHORITY[\"EPSG\",\"7019\"]],AUTHORITY[\"EPSG\",\"6269\"]],PRIMEM[\"Greenwich\",0],UNIT[\"degree\",0.0174532925199433],AUTHORITY[\"EPSG\",\"4269\"]],PROJECTION[\"Transverse_Mercator\"],PARAMETER[\"latitude_of_origin\",0],PARAMETER[\"central_meridian\",-75],PARAMETER[\"scale_factor\",0.9996],PARAMETER[\"false_easting\",500000],PARAMETER[\"false_northing\",0],UNIT[\"metre\",1,AUTHORITY[\"EPSG\",\"9001\"]],AUTHORITY[\"EPSG\",\"26918\"]],VERT_CS[\"NAVD88 - Geoid09 (Meters)\",VERT_DATUM[\"unknown\",2005],UNIT[\"metre\",1.0,AUTHORITY[\"EPSG\",\"9001\"]],AXIS[\"Up\",UP]]]",
+			"srs" : 
+			{
+				"compoundwkt" : "COMPD_CS[\"unknown\",PROJCS[\"NAD83 / UTM zone 18N\",GEOGCS[\"NAD83\",DATUM[\"North_American_Datum_1983\",SPHEROID[\"GRS 1980\",6378137,298.2572221010042,AUTHORITY[\"EPSG\",\"7019\"]],AUTHORITY[\"EPSG\",\"6269\"]],PRIMEM[\"Greenwich\",0],UNIT[\"degree\",0.0174532925199433],AUTHORITY[\"EPSG\",\"4269\"]],PROJECTION[\"Transverse_Mercator\"],PARAMETER[\"latitude_of_origin\",0],PARAMETER[\"central_meridian\",-75],PARAMETER[\"scale_factor\",0.9996],PARAMETER[\"false_easting\",500000],PARAMETER[\"false_northing\",0],UNIT[\"metre\",1,AUTHORITY[\"EPSG\",\"9001\"]],AUTHORITY[\"EPSG\",\"26918\"]],VERT_CS[\"NAVD88 - Geoid09 (Meters)\",VERT_DATUM[\"unknown\",2005],UNIT[\"metre\",1.0,AUTHORITY[\"EPSG\",\"9001\"]],AXIS[\"Up\",UP]]]",
+				"horizontal" : "PROJCS[\"NAD83 / UTM zone 18N\",GEOGCS[\"NAD83\",DATUM[\"North_American_Datum_1983\",SPHEROID[\"GRS 1980\",6378137,298.2572221010042,AUTHORITY[\"EPSG\",\"7019\"]],AUTHORITY[\"EPSG\",\"6269\"]],PRIMEM[\"Greenwich\",0],UNIT[\"degree\",0.0174532925199433],AUTHORITY[\"EPSG\",\"4269\"]],PROJECTION[\"Transverse_Mercator\"],PARAMETER[\"latitude_of_origin\",0],PARAMETER[\"central_meridian\",-75],PARAMETER[\"scale_factor\",0.9996],PARAMETER[\"false_easting\",500000],PARAMETER[\"false_northing\",0],UNIT[\"metre\",1,AUTHORITY[\"EPSG\",\"9001\"]],AUTHORITY[\"EPSG\",\"26918\"]]",
+				"isgeocentric" : false,
+				"isgeographic" : false,
+				"prettycompoundwkt" : "COMPD_CS[\"unknown\",    PROJCS[\"NAD83 / UTM zone 18N\",        GEOGCS[\"NAD83\",            DATUM[\"North_American_Datum_1983\",                SPHEROID[\"GRS 1980\",6378137,298.2572221010042,                    AUTHORITY[\"EPSG\",\"7019\"]],                AUTHORITY[\"EPSG\",\"6269\"]],            PRIMEM[\"Greenwich\",0],            UNIT[\"degree\",0.0174532925199433],            AUTHORITY[\"EPSG\",\"4269\"]],        PROJECTION[\"Transverse_Mercator\"],        PARAMETER[\"latitude_of_origin\",0],        PARAMETER[\"central_meridian\",-75],        PARAMETER[\"scale_factor\",0.9996],        PARAMETER[\"false_easting\",500000],        PARAMETER[\"false_northing\",0],        UNIT[\"metre\",1,            AUTHORITY[\"EPSG\",\"9001\"]],        AUTHORITY[\"EPSG\",\"26918\"]],    VERT_CS[\"NAVD88 - Geoid09 (Meters)\",        VERT_DATUM[\"unknown\",2005],        UNIT[\"metre\",1.0,            AUTHORITY[\"EPSG\",\"9001\"]],        AXIS[\"Up\",UP]]]",
+				"prettywkt" : "PROJCS[\"NAD83 / UTM zone 18N\",    GEOGCS[\"NAD83\",        DATUM[\"North_American_Datum_1983\",            SPHEROID[\"GRS 1980\",6378137,298.2572221010042,                AUTHORITY[\"EPSG\",\"7019\"]],            AUTHORITY[\"EPSG\",\"6269\"]],        PRIMEM[\"Greenwich\",0],        UNIT[\"degree\",0.0174532925199433],        AUTHORITY[\"EPSG\",\"4269\"]],    PROJECTION[\"Transverse_Mercator\"],    PARAMETER[\"latitude_of_origin\",0],    PARAMETER[\"central_meridian\",-75],    PARAMETER[\"scale_factor\",0.9996],    PARAMETER[\"false_easting\",500000],    PARAMETER[\"false_northing\",0],    UNIT[\"metre\",1,        AUTHORITY[\"EPSG\",\"9001\"]],    AUTHORITY[\"EPSG\",\"26918\"]]",
+				"proj4" : "+proj=utm +zone=18 +datum=NAD83 +units=m +vunits=m +no_defs",
+				"units" : 
+				{
+					"horizontal" : "metre",
+					"vertical" : "metre"
+				},
+				"vertical" : "VERT_CS[\"NAVD88 - Geoid09 (Meters)\",VERT_DATUM[\"unknown\",2005],UNIT[\"metre\",1.0,AUTHORITY[\"EPSG\",\"9001\"]],AXIS[\"Up\",UP]]",
+				"wkt" : "PROJCS[\"NAD83 / UTM zone 18N\",GEOGCS[\"NAD83\",DATUM[\"North_American_Datum_1983\",SPHEROID[\"GRS 1980\",6378137,298.2572221010042,AUTHORITY[\"EPSG\",\"7019\"]],AUTHORITY[\"EPSG\",\"6269\"]],PRIMEM[\"Greenwich\",0],UNIT[\"degree\",0.0174532925199433],AUTHORITY[\"EPSG\",\"4269\"]],PROJECTION[\"Transverse_Mercator\"],PARAMETER[\"latitude_of_origin\",0],PARAMETER[\"central_meridian\",-75],PARAMETER[\"scale_factor\",0.9996],PARAMETER[\"false_easting\",500000],PARAMETER[\"false_northing\",0],UNIT[\"metre\",1,AUTHORITY[\"EPSG\",\"9001\"]],AUTHORITY[\"EPSG\",\"26918\"]]"
+			},
+			"system_id" : "",
+			"vlr_0" : 
+			{
+				"data" : "AQABAAAAFwAABAAAAQABAAAIAAABAK0QAQixhxgAMAACCAAAAQB9GAMIAAABAMUiBggAAAEAjiMHCLCHAQAJAAgIAAABAGsbCQiwhwEABgALCLCHAQAHAA0IsIcBAAgAAAwAAAEAJmkBDLGHFgAAAAMMAAABAAEABAwAAAEAKSMFDLCHAQAFAAkMsIcBAAQACgywhwEAAAALDLCHAQABABAMsIcBAAIAFAywhwEAAwABELGHGgAWAAMQAAABACkj",
+				"description" : "GeoTiff Projection Keys",
+				"record_id" : 34735,
+				"user_id" : "LASF_Projection"
+			},
+			"vlr_1" : 
+			{
+				"data" : "AAAAAICEHkEAAAAAAAAAAAAAAAAAwFLAeJyiI7n87z8AAAAAAAAAAAAAAAAAAPA/AAAAQKZUWEGo+euUHaRyQAAAAAAAAAAAOZ1SokbfkT8=",
+				"description" : "GeoTiff double parameters",
+				"record_id" : 34736,
+				"user_id" : "LASF_Projection"
+			},
+			"vlr_2" : 
+			{
+				"data" : "TkFEXzE5ODNfVVRNX1pvbmVfMThOfE5BVkQ4OCAtIEdlb2lkMDkgKE1ldGVycyl8R0NTX05vcnRoX0FtZXJpY2FuXzE5ODN8AA==",
+				"description" : "GeoTiff ASCII parameters",
+				"record_id" : 34737,
+				"user_id" : "LASF_Projection"
+			},
+			"vlr_3" : 
+			{
+				"data" : "AgAAAAIBAAAAAAAAUMMAAP////////////////////8CAAYAFAACAAcACAACAA==",
+				"description" : "by laszip of LAStools (121030)",
+				"record_id" : 22204,
+				"user_id" : "laszip encoded"
+			}
+		},
+		"origin" : 1,
+		"path" : "s3://usgs-lidar/Projects/MD_GoldenBeach_2012/laz/MD_GoldenBeach_2012_000002.laz",
+		"points" : 1513936,
+		"srs" : 
+		{
+			"authority" : "EPSG",
+			"horizontal" : "26918",
+			"wkt" : "COMPD_CS[\"unknown\",PROJCS[\"NAD83 / UTM zone 18N\",GEOGCS[\"NAD83\",DATUM[\"North_American_Datum_1983\",SPHEROID[\"GRS 1980\",6378137,298.2572221010042,AUTHORITY[\"EPSG\",\"7019\"]],AUTHORITY[\"EPSG\",\"6269\"]],PRIMEM[\"Greenwich\",0],UNIT[\"degree\",0.0174532925199433],AUTHORITY[\"EPSG\",\"4269\"]],PROJECTION[\"Transverse_Mercator\"],PARAMETER[\"latitude_of_origin\",0],PARAMETER[\"central_meridian\",-75],PARAMETER[\"scale_factor\",0.9996],PARAMETER[\"false_easting\",500000],PARAMETER[\"false_northing\",0],UNIT[\"metre\",1,AUTHORITY[\"EPSG\",\"9001\"]],AUTHORITY[\"EPSG\",\"26918\"]],VERT_CS[\"NAVD88 - Geoid09 (Meters)\",VERT_DATUM[\"unknown\",2005],UNIT[\"metre\",1.0,AUTHORITY[\"EPSG\",\"9001\"]],AXIS[\"Up\",UP]]]"
+		}
+	}
+}

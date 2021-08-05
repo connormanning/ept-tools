@@ -5,7 +5,7 @@ import yargs from 'yargs'
 import { Server } from '3d-tiles'
 
 import { tile } from './tile'
-import { upgrade, upgradeDir } from './upgrade'
+import { upgradeDir, upgradeOne } from './upgrade'
 import { validate } from './validate'
 
 function parseOrigins(o?: string[]): Server.Origins {
@@ -57,18 +57,31 @@ function run() {
             default: 8,
             alias: 't',
           })
+          .option('force', {
+            describe: 'Force a re-upgrade from an existing backup',
+            type: 'boolean',
+            default: false,
+            alias: 'f',
+          })
+          .option('limit', {
+            describe: 'In --dir mode, limit upgrades to the specified number',
+            type: 'number',
+            default: 0,
+          })
           .option('verbose', {
             describe: 'Enable verbose logs',
             type: 'boolean',
             default: true,
             alias: 'v',
           }),
-      ({ input, dir, threads, verbose }) => {
+      ({ input, dir, threads, force, limit, verbose }) => {
         if (dir) {
-          return upgradeDir({ dir: input, threads, verbose})
+          if (force) throw new Error('Cannot force with --dir set')
+          return upgradeDir({ dir: input, threads, limit, verbose })
         }
+
         if (!input.endsWith('ept.json')) input = join(input, 'ept.json')
-        return upgrade({ filename: input, threads, verbose })
+        return upgradeOne({ filename: input, threads, force, verbose })
       }
     )
     .command(

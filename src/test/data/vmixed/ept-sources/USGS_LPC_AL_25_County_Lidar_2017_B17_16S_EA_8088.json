@@ -1,0 +1,204 @@
+{
+  "bounds": [
+    -9589481.139647068,
+    3819371.4617570043,
+    36.651,
+    -9587690.767287895,
+    3821170.428511235,
+    131.13
+  ],
+  "metadata": {
+    "readers.las": {
+      "comp_spatialreference": "COMPD_CS[\"NAD83(2011) / UTM zone 16N + NAVD88 height - Geoid12B (metre)\",\n    PROJCS[\"NAD83(2011) / UTM zone 16N\",\n        GEOGCS[\"NAD83(2011)\",\n            DATUM[\"NAD83_National_Spatial_Reference_System_2011\",\n                SPHEROID[\"GRS 1980\",6378137,298.257222101,\n                    AUTHORITY[\"EPSG\",\"7019\"]],\n                AUTHORITY[\"EPSG\",\"1116\"]],\n            PRIMEM[\"Greenwich\",0,\n                AUTHORITY[\"EPSG\",\"8901\"]],\n            UNIT[\"degree\",0.0174532925199433,\n                AUTHORITY[\"EPSG\",\"9122\"]],\n            AUTHORITY[\"EPSG\",\"6318\"]],\n        PROJECTION[\"Transverse_Mercator\"],\n        PARAMETER[\"latitude_of_origin\",0],\n        PARAMETER[\"central_meridian\",-87],\n        PARAMETER[\"scale_factor\",0.9996],\n        PARAMETER[\"false_easting\",500000],\n        PARAMETER[\"false_northing\",0],\n        UNIT[\"metre\",1,\n            AUTHORITY[\"EPSG\",\"9001\"]],\n        AXIS[\"Easting\",EAST],\n        AXIS[\"Northing\",NORTH],\n        AUTHORITY[\"EPSG\",\"6345\"]],\n    VERT_CS[\"NAVD88 height - Geoid12B (metre)\",\n        VERT_DATUM[\"North American Vertical Datum 1988\",2005,\n            AUTHORITY[\"EPSG\",\"5103\"]],\n        UNIT[\"metre\",1,\n            AUTHORITY[\"EPSG\",\"9001\"]],\n        AUTHORITY[\"EPSG\",\"5703\"]]]",
+      "compressed": true,
+      "count": 7513803,
+      "creation_doy": 10,
+      "creation_year": 2018,
+      "dataformat_id": 6,
+      "dataoffset": 1743,
+      "filesource_id": 0,
+      "global_encoding": 17,
+      "global_encoding_base64": "EQA=",
+      "header_size": 375,
+      "major_version": 1,
+      "maxx": 581999.999,
+      "maxy": 3589499.999,
+      "maxz": 131.13,
+      "minor_version": 4,
+      "minx": 580500,
+      "miny": 3588000.001,
+      "minz": 36.651,
+      "offset_x": 0,
+      "offset_y": 3588750,
+      "offset_z": 0,
+      "point_length": 30,
+      "project_id": "1DDAB5AA-A83B-8B41-812B-44F722C1E7EF",
+      "scale_x": 0.001,
+      "scale_y": 0.001,
+      "scale_z": 0.001,
+      "software_id": "GeoCue LAS Updater",
+      "spatialreference": "COMPD_CS[\"NAD83(2011) / UTM zone 16N + NAVD88 height - Geoid12B (metre)\",\n    PROJCS[\"NAD83(2011) / UTM zone 16N\",\n        GEOGCS[\"NAD83(2011)\",\n            DATUM[\"NAD83_National_Spatial_Reference_System_2011\",\n                SPHEROID[\"GRS 1980\",6378137,298.257222101,\n                    AUTHORITY[\"EPSG\",\"7019\"]],\n                AUTHORITY[\"EPSG\",\"1116\"]],\n            PRIMEM[\"Greenwich\",0,\n                AUTHORITY[\"EPSG\",\"8901\"]],\n            UNIT[\"degree\",0.0174532925199433,\n                AUTHORITY[\"EPSG\",\"9122\"]],\n            AUTHORITY[\"EPSG\",\"6318\"]],\n        PROJECTION[\"Transverse_Mercator\"],\n        PARAMETER[\"latitude_of_origin\",0],\n        PARAMETER[\"central_meridian\",-87],\n        PARAMETER[\"scale_factor\",0.9996],\n        PARAMETER[\"false_easting\",500000],\n        PARAMETER[\"false_northing\",0],\n        UNIT[\"metre\",1,\n            AUTHORITY[\"EPSG\",\"9001\"]],\n        AXIS[\"Easting\",EAST],\n        AXIS[\"Northing\",NORTH],\n        AUTHORITY[\"EPSG\",\"6345\"]],\n    VERT_CS[\"NAVD88 height - Geoid12B (metre)\",\n        VERT_DATUM[\"North American Vertical Datum 1988\",2005,\n            AUTHORITY[\"EPSG\",\"5103\"]],\n        UNIT[\"metre\",1,\n            AUTHORITY[\"EPSG\",\"9001\"]],\n        AUTHORITY[\"EPSG\",\"5703\"]]]",
+      "srs": {
+        "compoundwkt": "COMPD_CS[\"NAD83(2011) / UTM zone 16N + NAVD88 height - Geoid12B (metre)\",\n    PROJCS[\"NAD83(2011) / UTM zone 16N\",\n        GEOGCS[\"NAD83(2011)\",\n            DATUM[\"NAD83_National_Spatial_Reference_System_2011\",\n                SPHEROID[\"GRS 1980\",6378137,298.257222101,\n                    AUTHORITY[\"EPSG\",\"7019\"]],\n                AUTHORITY[\"EPSG\",\"1116\"]],\n            PRIMEM[\"Greenwich\",0,\n                AUTHORITY[\"EPSG\",\"8901\"]],\n            UNIT[\"degree\",0.0174532925199433,\n                AUTHORITY[\"EPSG\",\"9122\"]],\n            AUTHORITY[\"EPSG\",\"6318\"]],\n        PROJECTION[\"Transverse_Mercator\"],\n        PARAMETER[\"latitude_of_origin\",0],\n        PARAMETER[\"central_meridian\",-87],\n        PARAMETER[\"scale_factor\",0.9996],\n        PARAMETER[\"false_easting\",500000],\n        PARAMETER[\"false_northing\",0],\n        UNIT[\"metre\",1,\n            AUTHORITY[\"EPSG\",\"9001\"]],\n        AXIS[\"Easting\",EAST],\n        AXIS[\"Northing\",NORTH],\n        AUTHORITY[\"EPSG\",\"6345\"]],\n    VERT_CS[\"NAVD88 height - Geoid12B (metre)\",\n        VERT_DATUM[\"North American Vertical Datum 1988\",2005,\n            AUTHORITY[\"EPSG\",\"5103\"]],\n        UNIT[\"metre\",1,\n            AUTHORITY[\"EPSG\",\"9001\"]],\n        AUTHORITY[\"EPSG\",\"5703\"]]]",
+        "horizontal": "PROJCS[\"NAD83(2011) / UTM zone 16N\",GEOGCS[\"NAD83(2011)\",DATUM[\"NAD83_National_Spatial_Reference_System_2011\",SPHEROID[\"GRS 1980\",6378137,298.257222101,AUTHORITY[\"EPSG\",\"7019\"]],AUTHORITY[\"EPSG\",\"1116\"]],PRIMEM[\"Greenwich\",0,AUTHORITY[\"EPSG\",\"8901\"]],UNIT[\"degree\",0.0174532925199433,AUTHORITY[\"EPSG\",\"9122\"]],AUTHORITY[\"EPSG\",\"6318\"]],PROJECTION[\"Transverse_Mercator\"],PARAMETER[\"latitude_of_origin\",0],PARAMETER[\"central_meridian\",-87],PARAMETER[\"scale_factor\",0.9996],PARAMETER[\"false_easting\",500000],PARAMETER[\"false_northing\",0],UNIT[\"metre\",1,AUTHORITY[\"EPSG\",\"9001\"]],AXIS[\"Easting\",EAST],AXIS[\"Northing\",NORTH],AUTHORITY[\"EPSG\",\"6345\"]]",
+        "isgeocentric": false,
+        "isgeographic": false,
+        "prettycompoundwkt": "COMPD_CS[\"NAD83(2011) / UTM zone 16N + NAVD88 height - Geoid12B (metre)\",\n    PROJCS[\"NAD83(2011) / UTM zone 16N\",\n        GEOGCS[\"NAD83(2011)\",\n            DATUM[\"NAD83_National_Spatial_Reference_System_2011\",\n                SPHEROID[\"GRS 1980\",6378137,298.257222101,\n                    AUTHORITY[\"EPSG\",\"7019\"]],\n                AUTHORITY[\"EPSG\",\"1116\"]],\n            PRIMEM[\"Greenwich\",0,\n                AUTHORITY[\"EPSG\",\"8901\"]],\n            UNIT[\"degree\",0.0174532925199433,\n                AUTHORITY[\"EPSG\",\"9122\"]],\n            AUTHORITY[\"EPSG\",\"6318\"]],\n        PROJECTION[\"Transverse_Mercator\"],\n        PARAMETER[\"latitude_of_origin\",0],\n        PARAMETER[\"central_meridian\",-87],\n        PARAMETER[\"scale_factor\",0.9996],\n        PARAMETER[\"false_easting\",500000],\n        PARAMETER[\"false_northing\",0],\n        UNIT[\"metre\",1,\n            AUTHORITY[\"EPSG\",\"9001\"]],\n        AXIS[\"Easting\",EAST],\n        AXIS[\"Northing\",NORTH],\n        AUTHORITY[\"EPSG\",\"6345\"]],\n    VERT_CS[\"NAVD88 height - Geoid12B (metre)\",\n        VERT_DATUM[\"North American Vertical Datum 1988\",2005,\n            AUTHORITY[\"EPSG\",\"5103\"]],\n        UNIT[\"metre\",1,\n            AUTHORITY[\"EPSG\",\"9001\"]],\n        AUTHORITY[\"EPSG\",\"5703\"]]]",
+        "prettywkt": "PROJCS[\"NAD83(2011) / UTM zone 16N\",\n    GEOGCS[\"NAD83(2011)\",\n        DATUM[\"NAD83_National_Spatial_Reference_System_2011\",\n            SPHEROID[\"GRS 1980\",6378137,298.257222101,\n                AUTHORITY[\"EPSG\",\"7019\"]],\n            AUTHORITY[\"EPSG\",\"1116\"]],\n        PRIMEM[\"Greenwich\",0,\n            AUTHORITY[\"EPSG\",\"8901\"]],\n        UNIT[\"degree\",0.0174532925199433,\n            AUTHORITY[\"EPSG\",\"9122\"]],\n        AUTHORITY[\"EPSG\",\"6318\"]],\n    PROJECTION[\"Transverse_Mercator\"],\n    PARAMETER[\"latitude_of_origin\",0],\n    PARAMETER[\"central_meridian\",-87],\n    PARAMETER[\"scale_factor\",0.9996],\n    PARAMETER[\"false_easting\",500000],\n    PARAMETER[\"false_northing\",0],\n    UNIT[\"metre\",1,\n        AUTHORITY[\"EPSG\",\"9001\"]],\n    AXIS[\"Easting\",EAST],\n    AXIS[\"Northing\",NORTH],\n    AUTHORITY[\"EPSG\",\"6345\"]]",
+        "proj4": "+proj=utm +zone=16 +ellps=GRS80 +units=m +vunits=m +no_defs",
+        "units": {
+          "horizontal": "metre",
+          "vertical": "metre"
+        },
+        "vertical": "VERT_CS[\"NAVD88 height - Geoid12B (metre)\",VERT_DATUM[\"North American Vertical Datum 1988\",2005,AUTHORITY[\"EPSG\",\"5103\"]],UNIT[\"metre\",1,AUTHORITY[\"EPSG\",\"9001\"]],AUTHORITY[\"EPSG\",\"5703\"]]",
+        "wkt": "PROJCS[\"NAD83(2011) / UTM zone 16N\",GEOGCS[\"NAD83(2011)\",DATUM[\"NAD83_National_Spatial_Reference_System_2011\",SPHEROID[\"GRS 1980\",6378137,298.257222101,AUTHORITY[\"EPSG\",\"7019\"]],AUTHORITY[\"EPSG\",\"1116\"]],PRIMEM[\"Greenwich\",0,AUTHORITY[\"EPSG\",\"8901\"]],UNIT[\"degree\",0.0174532925199433,AUTHORITY[\"EPSG\",\"9122\"]],AUTHORITY[\"EPSG\",\"6318\"]],PROJECTION[\"Transverse_Mercator\"],PARAMETER[\"latitude_of_origin\",0],PARAMETER[\"central_meridian\",-87],PARAMETER[\"scale_factor\",0.9996],PARAMETER[\"false_easting\",500000],PARAMETER[\"false_northing\",0],UNIT[\"metre\",1,AUTHORITY[\"EPSG\",\"9001\"]],AXIS[\"Easting\",EAST],AXIS[\"Northing\",NORTH],AUTHORITY[\"EPSG\",\"6345\"]]"
+      },
+      "system_id": "ALS70",
+      "vlr_0": {
+        "data": "Q09NUERfQ1NbIk5BRDgzKDIwMTEpIC8gVVRNIHpvbmUgMTZOICsgTkFWRDg4IGhlaWdodCAtIEdlb2lkMTJCIChtZXRyZSkiLFBST0pDU1siTkFEODMoMjAxMSkgLyBVVE0gem9uZSAxNk4iLEdFT0dDU1siTkFEODMoMjAxMSkiLERBVFVNWyJOQUQ4M19OYXRpb25hbF9TcGF0aWFsX1JlZmVyZW5jZV9TeXN0ZW1fMjAxMSIsU1BIRVJPSURbIkdSUyAxOTgwIiw2Mzc4MTM3LDI5OC4yNTcyMjIxMDEsQVVUSE9SSVRZWyJFUFNHIiwiNzAxOSJdXSxBVVRIT1JJVFlbIkVQU0ciLCIxMTE2Il1dLFBSSU1FTVsiR3JlZW53aWNoIiwwLEFVVEhPUklUWVsiRVBTRyIsIjg5MDEiXV0sVU5JVFsiZGVncmVlIiwwLjAxNzQ1MzI5MjUxOTk0MzMsQVVUSE9SSVRZWyJFUFNHIiwiOTEyMiJdXSxBVVRIT1JJVFlbIkVQU0ciLCI2MzE4Il1dLFBST0pFQ1RJT05bIlRyYW5zdmVyc2VfTWVyY2F0b3IiXSxQQVJBTUVURVJbImxhdGl0dWRlX29mX29yaWdpbiIsMF0sUEFSQU1FVEVSWyJjZW50cmFsX21lcmlkaWFuIiwtODddLFBBUkFNRVRFUlsic2NhbGVfZmFjdG9yIiwwLjk5OTZdLFBBUkFNRVRFUlsiZmFsc2VfZWFzdGluZyIsNTAwMDAwXSxQQVJBTUVURVJbImZhbHNlX25vcnRoaW5nIiwwXSxVTklUWyJtZXRyZSIsMSxBVVRIT1JJVFlbIkVQU0ciLCI5MDAxIl1dLEFYSVNbIkVhc3RpbmciLEVBU1RdLEFYSVNbIk5vcnRoaW5nIixOT1JUSF0sQVVUSE9SSVRZWyJFUFNHIiwiNjM0NSJdXSxWRVJUX0NTWyJOQVZEODggaGVpZ2h0IC0gR2VvaWQxMkIgKG1ldHJlKSIsVkVSVF9EQVRVTVsiTm9ydGggQW1lcmljYW4gVmVydGljYWwgRGF0dW0gMTk4OCIsMjAwNSxBVVRIT1JJVFlbIkVQU0ciLCI1MTAzIl1dLFVOSVRbIm1ldHJlIiwxLEFVVEhPUklUWVsiRVBTRyIsIjkwMDEiXV0sQVVUSE9SSVRZWyJFUFNHIiwiNTcwMyJdXV0A",
+        "description": "OGC WKT Coordinate System",
+        "record_id": 7,
+        "user_id": "LASF_Spec"
+      },
+      "vlr_1": {
+        "data": "MQlEZWZhdWx0AAAAAAAAAAANCjIJR3JvdW5kAAAAAAAAAAAADQozCUxvdyB2ZWdldGF0aW9uAA0KNAlNZWRpdW0gdmVnZXRhdGkNCjUJSGlnaCB2ZWdldGF0aW9uDQo2CUJ1aWxkaW5nAAAAAAAAAA0KNwlMb3cgcG9pbnQAAAAAAAANCjgJTW9kZWwga2V5cG9pbnRzDQoxNwlCcmlkZ2VzAAAAAAAAAAANCjE4CUhpZ2ggTm9pc2UAAAAAAA0KMzkJQmF0aHlfVG9wb19Hcm91DQo0MAlCYXRoeSBQb2ludAAAAAANCjQxCVdhdGVyIFN1cmZhY2UAAA0KAA==",
+        "description": "Classification Lookup",
+        "record_id": 0,
+        "user_id": "LASF_Spec"
+      },
+      "vlr_2": {
+        "data": "AwAAAAMEAwAAAAAAUMMAAP////////////////////8BAAoAHgADAA==",
+        "description": "by laszip of LAStools (201228)",
+        "record_id": 22204,
+        "user_id": "laszip encoded"
+      },
+      "vlr_3": {
+        "data": "Q09NUERfQ1NbIk5BRDgzKDIwMTEpIC8gVVRNIHpvbmUgMTZOICsgTkFWRDg4IGhlaWdodCAtIEdlb2lkMTJCIChtZXRyZSkiLAogICAgUFJPSkNTWyJOQUQ4MygyMDExKSAvIFVUTSB6b25lIDE2TiIsCiAgICAgICAgR0VPR0NTWyJOQUQ4MygyMDExKSIsCiAgICAgICAgICAgIERBVFVNWyJOQUQ4M19OYXRpb25hbF9TcGF0aWFsX1JlZmVyZW5jZV9TeXN0ZW1fMjAxMSIsCiAgICAgICAgICAgICAgICBTUEhFUk9JRFsiR1JTIDE5ODAiLDYzNzgxMzcsMjk4LjI1NzIyMjEwMSwKICAgICAgICAgICAgICAgICAgICBBVVRIT1JJVFlbIkVQU0ciLCI3MDE5Il1dLAogICAgICAgICAgICAgICAgQVVUSE9SSVRZWyJFUFNHIiwiMTExNiJdXSwKICAgICAgICAgICAgUFJJTUVNWyJHcmVlbndpY2giLDAsCiAgICAgICAgICAgICAgICBBVVRIT1JJVFlbIkVQU0ciLCI4OTAxIl1dLAogICAgICAgICAgICBVTklUWyJkZWdyZWUiLDAuMDE3NDUzMjkyNTE5OTQzMywKICAgICAgICAgICAgICAgIEFVVEhPUklUWVsiRVBTRyIsIjkxMjIiXV0sCiAgICAgICAgICAgIEFVVEhPUklUWVsiRVBTRyIsIjYzMTgiXV0sCiAgICAgICAgUFJPSkVDVElPTlsiVHJhbnN2ZXJzZV9NZXJjYXRvciJdLAogICAgICAgIFBBUkFNRVRFUlsibGF0aXR1ZGVfb2Zfb3JpZ2luIiwwXSwKICAgICAgICBQQVJBTUVURVJbImNlbnRyYWxfbWVyaWRpYW4iLC04N10sCiAgICAgICAgUEFSQU1FVEVSWyJzY2FsZV9mYWN0b3IiLDAuOTk5Nl0sCiAgICAgICAgUEFSQU1FVEVSWyJmYWxzZV9lYXN0aW5nIiw1MDAwMDBdLAogICAgICAgIFBBUkFNRVRFUlsiZmFsc2Vfbm9ydGhpbmciLDBdLAogICAgICAgIFVOSVRbIm1ldHJlIiwxLAogICAgICAgICAgICBBVVRIT1JJVFlbIkVQU0ciLCI5MDAxIl1dLAogICAgICAgIEFYSVNbIkVhc3RpbmciLEVBU1RdLAogICAgICAgIEFYSVNbIk5vcnRoaW5nIixOT1JUSF0sCiAgICAgICAgQVVUSE9SSVRZWyJFUFNHIiwiNjM0NSJdXSwKICAgIFZFUlRfQ1NbIk5BVkQ4OCBoZWlnaHQgLSBHZW9pZDEyQiAobWV0cmUpIiwKICAgICAgICBWRVJUX0RBVFVNWyJOb3J0aCBBbWVyaWNhbiBWZXJ0aWNhbCBEYXR1bSAxOTg4IiwyMDA1LAogICAgICAgICAgICBBVVRIT1JJVFlbIkVQU0ciLCI1MTAzIl1dLAogICAgICAgIFVOSVRbIm1ldHJlIiwxLAogICAgICAgICAgICBBVVRIT1JJVFlbIkVQU0ciLCI5MDAxIl1dLAogICAgICAgIEFVVEhPUklUWVsiRVBTRyIsIjU3MDMiXV1d",
+        "description": "WKT Projection",
+        "record_id": 2112,
+        "user_id": "LASF_Projection"
+      },
+      "vlr_4": {
+        "data": "Q09NUERfQ1NbIk5BRDgzKDIwMTEpIC8gVVRNIHpvbmUgMTZOICsgTkFWRDg4IGhlaWdodCAtIEdlb2lkMTJCIChtZXRyZSkiLFBST0pDU1siTkFEODMoMjAxMSkgLyBVVE0gem9uZSAxNk4iLEdFT0dDU1siTkFEODMoMjAxMSkiLERBVFVNWyJOQUQ4M19OYXRpb25hbF9TcGF0aWFsX1JlZmVyZW5jZV9TeXN0ZW1fMjAxMSIsU1BIRVJPSURbIkdSUyAxOTgwIiw2Mzc4MTM3LDI5OC4yNTcyMjIxMDEsQVVUSE9SSVRZWyJFUFNHIiwiNzAxOSJdXSxBVVRIT1JJVFlbIkVQU0ciLCIxMTE2Il1dLFBSSU1FTVsiR3JlZW53aWNoIiwwLEFVVEhPUklUWVsiRVBTRyIsIjg5MDEiXV0sVU5JVFsiZGVncmVlIiwwLjAxNzQ1MzI5MjUxOTk0MzMsQVVUSE9SSVRZWyJFUFNHIiwiOTEyMiJdXSxBVVRIT1JJVFlbIkVQU0ciLCI2MzE4Il1dLFBST0pFQ1RJT05bIlRyYW5zdmVyc2VfTWVyY2F0b3IiXSxQQVJBTUVURVJbImxhdGl0dWRlX29mX29yaWdpbiIsMF0sUEFSQU1FVEVSWyJjZW50cmFsX21lcmlkaWFuIiwtODddLFBBUkFNRVRFUlsic2NhbGVfZmFjdG9yIiwwLjk5OTZdLFBBUkFNRVRFUlsiZmFsc2VfZWFzdGluZyIsNTAwMDAwXSxQQVJBTUVURVJbImZhbHNlX25vcnRoaW5nIiwwXSxVTklUWyJtZXRyZSIsMSxBVVRIT1JJVFlbIkVQU0ciLCI5MDAxIl1dLEFYSVNbIkVhc3RpbmciLEVBU1RdLEFYSVNbIk5vcnRoaW5nIixOT1JUSF0sQVVUSE9SSVRZWyJFUFNHIiwiNjM0NSJdXSxWRVJUX0NTWyJOQVZEODggaGVpZ2h0IC0gR2VvaWQxMkIgKG1ldHJlKSIsVkVSVF9EQVRVTVsiTm9ydGggQW1lcmljYW4gVmVydGljYWwgRGF0dW0gMTk4OCIsMjAwNSxBVVRIT1JJVFlbIkVQU0ciLCI1MTAzIl1dLFVOSVRbIm1ldHJlIiwxLEFVVEhPUklUWVsiRVBTRyIsIjkwMDEiXV0sQVVUSE9SSVRZWyJFUFNHIiwiNTcwMyJdXV0A",
+        "description": "OGC WKT Coordinate System",
+        "record_id": 7,
+        "user_id": "LASF_Spec"
+      },
+      "vlr_5": {
+        "data": "MQlEZWZhdWx0AAAAAAAAAAANCjIJR3JvdW5kAAAAAAAAAAAADQozCUxvdyB2ZWdldGF0aW9uAA0KNAlNZWRpdW0gdmVnZXRhdGkNCjUJSGlnaCB2ZWdldGF0aW9uDQo2CUJ1aWxkaW5nAAAAAAAAAA0KNwlMb3cgcG9pbnQAAAAAAAANCjgJTW9kZWwga2V5cG9pbnRzDQoxNwlCcmlkZ2VzAAAAAAAAAAANCjE4CUhpZ2ggTm9pc2UAAAAAAA0KMzkJQmF0aHlfVG9wb19Hcm91DQo0MAlCYXRoeSBQb2ludAAAAAANCjQxCVdhdGVyIFN1cmZhY2UAAA0KAA==",
+        "description": "Classification Lookup",
+        "record_id": 0,
+        "user_id": "LASF_Spec"
+      },
+      "vlr_6": {
+        "data": "AwAAAAMEAwAAAAAAUMMAAP////////////////////8BAAoAHgADAA==",
+        "description": "by laszip of LAStools (201228)",
+        "record_id": 22204,
+        "user_id": "laszip encoded"
+      },
+      "vlr_7": {
+        "data": "Q09NUERfQ1NbIk5BRDgzKDIwMTEpIC8gVVRNIHpvbmUgMTZOICsgTkFWRDg4IGhlaWdodCAtIEdlb2lkMTJCIChtZXRyZSkiLAogICAgUFJPSkNTWyJOQUQ4MygyMDExKSAvIFVUTSB6b25lIDE2TiIsCiAgICAgICAgR0VPR0NTWyJOQUQ4MygyMDExKSIsCiAgICAgICAgICAgIERBVFVNWyJOQUQ4M19OYXRpb25hbF9TcGF0aWFsX1JlZmVyZW5jZV9TeXN0ZW1fMjAxMSIsCiAgICAgICAgICAgICAgICBTUEhFUk9JRFsiR1JTIDE5ODAiLDYzNzgxMzcsMjk4LjI1NzIyMjEwMSwKICAgICAgICAgICAgICAgICAgICBBVVRIT1JJVFlbIkVQU0ciLCI3MDE5Il1dLAogICAgICAgICAgICAgICAgQVVUSE9SSVRZWyJFUFNHIiwiMTExNiJdXSwKICAgICAgICAgICAgUFJJTUVNWyJHcmVlbndpY2giLDAsCiAgICAgICAgICAgICAgICBBVVRIT1JJVFlbIkVQU0ciLCI4OTAxIl1dLAogICAgICAgICAgICBVTklUWyJkZWdyZWUiLDAuMDE3NDUzMjkyNTE5OTQzMywKICAgICAgICAgICAgICAgIEFVVEhPUklUWVsiRVBTRyIsIjkxMjIiXV0sCiAgICAgICAgICAgIEFVVEhPUklUWVsiRVBTRyIsIjYzMTgiXV0sCiAgICAgICAgUFJPSkVDVElPTlsiVHJhbnN2ZXJzZV9NZXJjYXRvciJdLAogICAgICAgIFBBUkFNRVRFUlsibGF0aXR1ZGVfb2Zfb3JpZ2luIiwwXSwKICAgICAgICBQQVJBTUVURVJbImNlbnRyYWxfbWVyaWRpYW4iLC04N10sCiAgICAgICAgUEFSQU1FVEVSWyJzY2FsZV9mYWN0b3IiLDAuOTk5Nl0sCiAgICAgICAgUEFSQU1FVEVSWyJmYWxzZV9lYXN0aW5nIiw1MDAwMDBdLAogICAgICAgIFBBUkFNRVRFUlsiZmFsc2Vfbm9ydGhpbmciLDBdLAogICAgICAgIFVOSVRbIm1ldHJlIiwxLAogICAgICAgICAgICBBVVRIT1JJVFlbIkVQU0ciLCI5MDAxIl1dLAogICAgICAgIEFYSVNbIkVhc3RpbmciLEVBU1RdLAogICAgICAgIEFYSVNbIk5vcnRoaW5nIixOT1JUSF0sCiAgICAgICAgQVVUSE9SSVRZWyJFUFNHIiwiNjM0NSJdXSwKICAgIFZFUlRfQ1NbIk5BVkQ4OCBoZWlnaHQgLSBHZW9pZDEyQiAobWV0cmUpIiwKICAgICAgICBWRVJUX0RBVFVNWyJOb3J0aCBBbWVyaWNhbiBWZXJ0aWNhbCBEYXR1bSAxOTg4IiwyMDA1LAogICAgICAgICAgICBBVVRIT1JJVFlbIkVQU0ciLCI1MTAzIl1dLAogICAgICAgIFVOSVRbIm1ldHJlIiwxLAogICAgICAgICAgICBBVVRIT1JJVFlbIkVQU0ciLCI5MDAxIl1dLAogICAgICAgIEFVVEhPUklUWVsiRVBTRyIsIjU3MDMiXV1d",
+        "description": "WKT Projection",
+        "record_id": 2112,
+        "user_id": "LASF_Projection"
+      }
+    }
+  },
+  "path": "s3://usgs-lidar/Projects/AL_25_County_Lidar_2017_B17/AL_25Co_TL_2017/LAZ/USGS_LPC_AL_25_County_Lidar_2017_B17_16S_EA_8088.laz",
+  "pipeline": [
+    {
+      "filename": "/tmp/18354606031702964131.laz"
+    },
+    {
+      "out_srs": "EPSG:3857",
+      "type": "filters.reprojection"
+    }
+  ],
+  "points": 7513803,
+  "schema": [
+    {
+      "name": "X",
+      "scale": 0.001,
+      "size": 4,
+      "type": "signed"
+    },
+    {
+      "name": "Y",
+      "offset": 3588750,
+      "scale": 0.001,
+      "size": 4,
+      "type": "signed"
+    },
+    {
+      "name": "Z",
+      "scale": 0.001,
+      "size": 4,
+      "type": "signed"
+    },
+    {
+      "name": "Intensity",
+      "size": 2,
+      "type": "unsigned"
+    },
+    {
+      "name": "ReturnNumber",
+      "size": 1,
+      "type": "unsigned"
+    },
+    {
+      "name": "NumberOfReturns",
+      "size": 1,
+      "type": "unsigned"
+    },
+    {
+      "name": "ScanDirectionFlag",
+      "size": 1,
+      "type": "unsigned"
+    },
+    {
+      "name": "EdgeOfFlightLine",
+      "size": 1,
+      "type": "unsigned"
+    },
+    {
+      "name": "Classification",
+      "size": 1,
+      "type": "unsigned"
+    },
+    {
+      "name": "ScanAngleRank",
+      "size": 4,
+      "type": "float"
+    },
+    {
+      "name": "UserData",
+      "size": 1,
+      "type": "unsigned"
+    },
+    {
+      "name": "PointSourceId",
+      "size": 2,
+      "type": "unsigned"
+    },
+    {
+      "name": "GpsTime",
+      "size": 8,
+      "type": "float"
+    },
+    {
+      "name": "ScanChannel",
+      "size": 1,
+      "type": "unsigned"
+    },
+    {
+      "name": "ClassFlags",
+      "size": 1,
+      "type": "unsigned"
+    }
+  ],
+  "srs": {
+    "authority": "EPSG",
+    "horizontal": "3857",
+    "wkt": "PROJCS[\"WGS 84 / Pseudo-Mercator\",GEOGCS[\"WGS 84\",DATUM[\"WGS_1984\",SPHEROID[\"WGS 84\",6378137,298.257223563,AUTHORITY[\"EPSG\",\"7030\"]],AUTHORITY[\"EPSG\",\"6326\"]],PRIMEM[\"Greenwich\",0,AUTHORITY[\"EPSG\",\"8901\"]],UNIT[\"degree\",0.0174532925199433,AUTHORITY[\"EPSG\",\"9122\"]],AUTHORITY[\"EPSG\",\"4326\"]],PROJECTION[\"Mercator_1SP\"],PARAMETER[\"central_meridian\",0],PARAMETER[\"scale_factor\",1],PARAMETER[\"false_easting\",0],PARAMETER[\"false_northing\",0],UNIT[\"metre\",1,AUTHORITY[\"EPSG\",\"9001\"]],AXIS[\"X\",EAST],AXIS[\"Y\",NORTH],EXTENSION[\"PROJ4\",\"+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0 +k=1.0 +units=m +nadgrids=@null +wktext +no_defs\"],AUTHORITY[\"EPSG\",\"3857\"]]"
+  }
+}

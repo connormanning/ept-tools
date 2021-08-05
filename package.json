@@ -19,7 +19,7 @@
     "@koa/router": "^10.0.0",
     "ajv": "^7.1.1",
     "fatproj": "^0.0.2",
-    "forager": "^0.0.4",
+    "forager": "^0.0.6",
     "fs-extra": "^9.1.0",
     "koa": "^2.13.1",
     "koa-logger": "^3.2.1",

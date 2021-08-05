@@ -1,0 +1,58 @@
+[
+  {
+    "bounds": [
+      -9734547.744911846,
+      3679489.224339797,
+      77.262,
+      -9732784.957760049,
+      3681260.6731083132,
+      144.093
+    ],
+    "inserted": true,
+    "metadataPath": "USGS_LPC_AL_25_County_Lidar_2017_B17_16R_DV_5769.json",
+    "path": "s3://usgs-lidar/Projects/AL_25_County_Lidar_2017_B17/AL_25Co_TL_2017/LAZ/USGS_LPC_AL_25_County_Lidar_2017_B17_16R_DV_5769.laz",
+    "points": 8401458
+  },
+  {
+    "bounds": [
+      -9598270.086306026,
+      3831938.523117474,
+      -20.137,
+      -9596479.071857166,
+      3833738.1180462562,
+      680.845
+    ],
+    "inserted": true,
+    "metadataPath": "USGS_LPC_AL_25_County_Lidar_2017_B17_16S_EA_7398.json",
+    "path": "s3://usgs-lidar/Projects/AL_25_County_Lidar_2017_B17/AL_25Co_TL_2017/LAZ/USGS_LPC_AL_25_County_Lidar_2017_B17_16S_EA_7398.laz",
+    "points": 8619828
+  },
+  {
+    "bounds": [
+      -9589487.068212114,
+      3818627.438515928,
+      42.342,
+      -9587705.268703448,
+      3819385.8839263823,
+      84.982
+    ],
+    "inserted": true,
+    "metadataPath": "USGS_LPC_AL_25_County_Lidar_2017_B17_16S_EA_8086.json",
+    "path": "s3://usgs-lidar/Projects/AL_25_County_Lidar_2017_B17/AL_25Co_TL_2017/LAZ/USGS_LPC_AL_25_County_Lidar_2017_B17_16S_EA_8086.laz",
+    "points": 823529
+  },
+  {
+    "bounds": [
+      -9589481.139647068,
+      3819371.4617570043,
+      36.651,
+      -9587690.767287895,
+      3821170.428511235,
+      131.13
+    ],
+    "inserted": true,
+    "metadataPath": "USGS_LPC_AL_25_County_Lidar_2017_B17_16S_EA_8088.json",
+    "path": "s3://usgs-lidar/Projects/AL_25_County_Lidar_2017_B17/AL_25Co_TL_2017/LAZ/USGS_LPC_AL_25_County_Lidar_2017_B17_16S_EA_8088.laz",
+    "points": 7513803
+  }
+]

@@ -1,4 +1,6 @@
-import { Ept, Hierarchy, JsonSchema } from 'ept'
+import { Ept, Hierarchy } from 'ept'
+import { JsonSchema } from 'utils'
+
 import { Ellipsoid } from 'test'
 
 const ept = { ...Ellipsoid.ept, dataType: 'laszip' }

@@ -15,7 +15,7 @@ export type Ept = {
   schema: Schema
   span: number
   srs?: Srs
-  version: '1.0.0' | '1.0.1'
+  version: '1.0.0' | '1.1.0'
 }
 
 export const points = {
@@ -36,7 +36,7 @@ export const version = {
   title: 'EPT version',
   description: 'EPT version',
   type: 'string',
-  enum: ['1.0.0', '1.0.1'],
+  enum: ['1.0.0', '1.0.1', '1.1.0'],
 }
 
 // SRS is not required.

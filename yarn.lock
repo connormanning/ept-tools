@@ -2062,14 +2062,15 @@ for-in@^1.0.2:
   resolved "https://registry.yarnpkg.com/for-in/-/for-in-1.0.2.tgz#81068d295a8142ec0ac726c6e2200c30fb6d5e80"
   integrity sha1-gQaNKVqBQuwKxybG4iAMMPttXoA=
 
-forager@^0.0.4:
-  version "0.0.4"
-  resolved "https://registry.yarnpkg.com/forager/-/forager-0.0.4.tgz#a1a0b682b4465d3a96c38a2d2a3ee5592b6eea56"
-  integrity sha512-0GAOxCOAflbsLF8XINUaAEz7rAgA/hT9lo3RoJAYMdTc7k1IySu3Gs0UbD9hPz+fLYo1LUPljsi4pu4BFVhi3Q==
+forager@^0.0.6:
+  version "0.0.6"
+  resolved "https://registry.yarnpkg.com/forager/-/forager-0.0.6.tgz#7771b7e8943b577401a4bd17cdba59ecd9ae20ac"
+  integrity sha512-hcYcxREcrCssZK2dOAY35IJ7U19kbj5UTtlX3Pfi3OIhFntpZTzjhKNyl8FALUjyLKyJBTtLD/X7BhN0p7LM6w==
   dependencies:
     "@google-cloud/storage" "^5.3.0"
     aws-sdk "^2.823.0"
     dropbox "^8.2.0"
+    mime-types "^2.1.32"
     node-fetch "^2.6.1"
     protopath "^0.0.0"
 
@@ -3459,6 +3460,11 @@ mime-db@1.48.0, "mime-db@>= 1.43.0 < 2":
   resolved "https://registry.yarnpkg.com/mime-db/-/mime-db-1.48.0.tgz#e35b31045dd7eada3aaad537ed88a33afbef2d1d"
   integrity sha512-FM3QwxV+TnZYQ2aRqhlKBMHxk10lTbMt3bBkMAp54ddrNeVSfcQYOOKuGuy3Ddrm38I04If834fOUSq1yzslJQ==
 
+mime-db@1.49.0:
+  version "1.49.0"
+  resolved "https://registry.yarnpkg.com/mime-db/-/mime-db-1.49.0.tgz#f3dfde60c99e9cf3bc9701d687778f537001cbed"
+  integrity sha512-CIc8j9URtOVApSFCQIF+VBkX1RwXp/oMMOrqdyXSBXq5RWNEsRfyj1kiRnQgmNXmHxPoFIxOroKA3zcU9P+nAA==
+
 mime-types@^2.0.8:
   version "2.1.31"
   resolved "https://registry.yarnpkg.com/mime-types/-/mime-types-2.1.31.tgz#a00d76b74317c61f9c2db2218b8e9f8e9c5c9e6b"
@@ -3472,6 +3478,13 @@ mime-types@^2.1.12, mime-types@^2.1.18, mime-types@~2.1.19, mime-types@~2.1.24:
   integrity sha512-Y/jMt/S5sR9OaqteJtslsFZKWOIIqMACsJSiHghlCAyhf7jfVYjKBmLiX8OgpWeW+fjJ2b+Az69aPFPkUOY6xQ==
   dependencies:
     mime-db "1.46.0"
+
+mime-types@^2.1.32:
+  version "2.1.32"
+  resolved "https://registry.yarnpkg.com/mime-types/-/mime-types-2.1.32.tgz#1d00e89e7de7fe02008db61001d9e02852670fd5"
+  integrity sha512-hJGaVS4G4c9TSMYh2n6SQAGrC4RnfU+daP8G7cSCmaqNjiOoUY0VHCMS42pxnQmVF1GWwFhbHWn3RIxCqTmZ9A==
+  dependencies:
+    mime-db "1.49.0"
 
 mime@^2.2.0:
   version "2.5.2"

@@ -4,5 +4,6 @@ module.exports = {
   moduleDirectories: ['node_modules', 'src'],
   testPathIgnorePatterns: ['lib/'],
   collectCoverageFrom: ['src/**'],
-  coveragePathIgnorePatterns: ['/test/', '.asm.']
+  coveragePathIgnorePatterns: ['/test/', '.asm.'],
+  watchPathIgnorePatterns: ['/test/data/']
 }
