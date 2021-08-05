@@ -174,6 +174,10 @@ export async function upgradeOne({
   if (await getIsCurrent(dir, verbose)) {
     if (!force) {
       if (verbose) console.log('\tDataset is up to date')
+      if (!(await getHasV0Sources(dir))) {
+        if (verbose) console.log('Backporting summary to version 1.0.0')
+        await backportV0Summary(dir, verbose)
+      }
       return false
     } else if (verbose) {
       console.log('\tDataset is up to date - but re-upgrading due to --force')
