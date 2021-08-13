@@ -1,4 +1,4 @@
-declare module 'lib/wasm/laz-perf' {
+declare module 'lib/laz-perf' {
   // Represents an offset into the HEAPU8.
   type Pointer = number
 

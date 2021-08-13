@@ -1,4 +1,4 @@
-import Module from 'lib/wasm/laz-perf'
+import Module from 'lib/laz-perf'
 
 import { Schema } from 'ept'
 
