@@ -9,7 +9,7 @@ test('read', async () => {
   const base = join(testdir, 'ellipsoid-laz')
   const buffer = await getBinary(join(base, 'ept-data/0-0-0-0.laz'))
 
-  const view = Laszip.view(buffer)
+  const view = await Laszip.view(buffer)
 
   const getx = view.getter('X')
   const gety = view.getter('Y')

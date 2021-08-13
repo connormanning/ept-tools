@@ -1,4 +1,4 @@
-import Module from 'lib/laz-perf.asm'
+import Module from 'lib/wasm/laz-perf'
 
 import { Schema } from 'ept'
 
@@ -12,9 +12,15 @@ export const extension = 'laz'
 
 export const Laszip = { view }
 
-function view(input: Buffer): View.Readable {
+let isReady = false
+
+Module.onRuntimeInitialized = () => isReady = true
+
+async function view(input: Buffer): Promise<View.Readable> {
   const header = Header.parse(input)
   const { pointCount } = header
+
+  while (!isReady) await new Promise(resolve => setTimeout(resolve, 10))
 
   const laszip = new Module.LASZip()
   const filePointer = Module._malloc(input.length)
