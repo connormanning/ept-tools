@@ -1,4 +1,6 @@
-import Module from 'lib/laz-perf'
+import { createLazPerf, LazPerf } from 'laz-perf'
+// import Module  from 'lib/laz-perf'
+// // import { createLazPerf, LazPerf } from 'lib/laz-perf'
 
 import { Schema } from 'ept'
 
@@ -12,9 +14,27 @@ export const extension = 'laz'
 
 export const Laszip = { view }
 
+// load laz-perf
 let isReady = false
+let Module: LazPerf
+createLazPerf().then((lazPerf: LazPerf) => {
+  isReady = true;
+  Module = lazPerf;
+})
 
-Module.onRuntimeInitialized = () => isReady = true
+function isDetached(ab: any) {
+  if (ab.byteLength != 0) {
+    // detached buffers will always have zero byteLength
+    return false;
+  }
+  try {
+    new Uint8Array(ab);
+    return false;
+  } catch {
+    // Uint8Array throws if using a detached buffer
+    return true;
+  }
+}
 
 async function view(input: Buffer): Promise<View.Readable> {
   const header = Header.parse(input)
@@ -38,13 +58,14 @@ async function view(input: Buffer): Promise<View.Readable> {
     const schema = Format.create(header)
     const corePointSize = Schema.pointSize(schema)
     const point = Buffer.from(Module.HEAPU8.buffer, dataPointer, corePointSize)
-
     const length = corePointSize * pointCount
     const output = Buffer.alloc(length)
     for (let pos = 0; pos < length; pos += corePointSize) {
       // Decompress each point and copy it from the Module heap to our buffer.
       laszip.getPoint(dataPointer)
-      point.copy(output, pos, 0, corePointSize)
+      if (!isDetached(point)) {
+        point.copy(output, pos, 0, corePointSize)
+      }
     }
 
     return View.Readable.create(output, schema)

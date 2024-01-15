@@ -15,6 +15,8 @@ type Translate = {
   cache?: Cache
 }
 
+const targetEpsgCode = 4978
+
 /**
  * Generates a 3D-Tiles file translation of an EPT dataset at the virtual path
  * <ept-directory>/ept-tileset/.  So the virtual "tileset.json" for an EPT
@@ -33,6 +35,15 @@ export async function translate({ filename, cache, options = {} }: Translate) {
     JsonSchema.validate<Ept>(Ept.schema, await getJson(eptfilename))[0]
 
   const { bounds, dataType, schema, srs } = ept
+
+  // If source is already projected to 4978 and does
+  // not include horizontal epsg code assign the missing
+  // srs properties to support downstream actions
+  if (srs?.wkt?.includes(`"EPSG","${targetEpsgCode}"`) && !srs.horizontal) {
+    srs.authority = 'EPSG'
+    srs.horizontal = targetEpsgCode.toString()
+  }
+
   const codeString = Srs.horizontalCodeString(srs)
   if (!codeString) {
     throw new EptToolsError('Cannot translate to 3D Tiles without an SRS code')
@@ -67,6 +78,6 @@ export async function translate({ filename, cache, options = {} }: Translate) {
 
   const view = await DataType.view(dataType, buffer, schema)
   const tileBounds = Bounds.stepTo(bounds, key)
-  const toEcef = Reproject.create(codeString, 'EPSG:4978')
+  const toEcef = Reproject.create(codeString, `EPSG:${targetEpsgCode}`)
   return Pnts.translate({ view, tileBounds, toEcef, options })
 }
