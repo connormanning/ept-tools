@@ -8,7 +8,7 @@ EPT and COPC data no longer need a live server to be transformed to 3D Tiles.  I
 
 # EPT Tools
 
-A suite of tools for working with [Entwine Point Tile](entwine.io) data.
+A suite of tools for working with [Entwine Point Tile](https://entwine.io) data.
 
 # Installation
 
