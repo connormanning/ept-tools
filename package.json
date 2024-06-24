@@ -1,6 +1,6 @@
 {
   "name": "ept-tools",
-  "version": "0.0.13",
+  "version": "0.0.14",
   "description": "Entwine Point Tiles utility library",
   "repository": "github:connormanning/ept-tools",
   "main": "lib/index.js",
@@ -12,7 +12,7 @@
     "dev": "ts-node -r tsconfig-paths/register src/app/index.ts",
     "lambda": "ncc build src/app/lambda.ts -o ./lambda && copyfiles -f src/lib/* lambda/lib/",
     "lambda-zip": "(cd lambda && zip -r ../ept-tools.zip .)",
-    "prepublish": "$npm_execpath build",
+    "prepublish": "$npm_execpath run build",
     "test": "jest"
   },
   "dependencies": {
@@ -23,6 +23,7 @@
     "fs-extra": "^9.1.0",
     "koa": "^2.13.1",
     "koa-logger": "^3.2.1",
+    "laz-perf": "^0.0.6",
     "log-symbols": "^4.0.0",
     "node-fetch": "^2.6.1",
     "protopath": "^0.0.0",
@@ -52,7 +53,7 @@
     "ts-jest": "^26.5.2",
     "ts-node": "^9.1.1",
     "tsconfig-paths": "^3.9.0",
-    "ttypescript": "^1.5.12",
+    "ttypescript": "^1.5.13",
     "typescript": "^4.2.2"
   },
   "husky": {
